@@ -50,7 +50,6 @@
         fi; \
         git checkout -b $topic_branch $base_branch && git push -u origin $topic_branch; \
         };f"
-
 ; }}}
 ; {{{ topic-new-local <topic-branch> [base-branch] 只在本地开启一个topic
     topic-new-local = "!f(){ \
@@ -87,6 +86,7 @@
         };f"
 ; }}}
     tmg = "!git topic-merge"
+
 ; {{{ topic-delete [topic-branch] 删除远程(如果存在)和本地的topic分支
     topic-delete = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
@@ -189,6 +189,7 @@
 ; }}}
 
 ; }}}
+
 ; {{{ ### git-extras 常用命令备注 ###
 ;
 ;   ==== 实用功能 ====
