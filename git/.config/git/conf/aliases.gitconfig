@@ -617,11 +617,18 @@
     # Get the current branch name
     current-branch = rev-parse --abbrev-ref HEAD
     # 获取当前分支的远程分支名字
-    # HACK: 在awk里拼接字符串用了两对单引号 awk -F '/' '{if($2~/'$current_branch'/)print $2}'
+    # HACK: awk -v t="$current_branch" '{sub(/^[^/]*\//, "", $1); if ($1 == t) print $1}'
+    # 解释：
+    # - awk -v t="$current_branch"：把分支名作为 awk 变量 传进去，不做单引号拼接；
+    # - $1 默认按空格切，对   origin/feature/topic1 来说 $1 就是 origin/feature/topic1；
+    # - sub(/^[^/]*\//, "", $1)：去掉最前面的 origin/，得到 feature/topic1；
+    # - $1 == t：字面量精确比较，不经过正则，所以 .、[、* 等特殊字符都不会捣乱。
+    # 注意：
+    # - .gitconfig 的 "!f() {...}; f" 里，内层 " 要写成 \"，awk 正则里的 \ 要写成 \\。
     # remote-branch [local-branch]
     remote-branch = "!f() { \
         current_branch=${1:-$(git current-branch)}; \
-        git branch -r | awk '{print $1}' | awk -F '/' '{if($2~/'$current_branch'/)print $2}'; \
+        git branch -r | awk -v t=\"$current_branch\" '{sub(/^[^/]*\\//, \"\", $1); if ($1 == t) print $1}'; \
     }; f"
 
     # TODO: 用于检查delete
