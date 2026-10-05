@@ -78,3 +78,5 @@ __pycache__/
 # Rust
 **/*.rs.bk
 **/*.rl.bk
+
+**/.claude/settings.local.json
