@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Git Aliases · Topic 工作流 — 阶段小结</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #fb923c;
+        --accent-2: #f43f5e;
+        --accent-gradient: linear-gradient(
+          135deg,
+          var(--accent-1),
+          var(--accent-2)
+        );
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans:
+          -apple-system, "Inter", "Noto Sans SC", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+      .bg-mesh {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+          radial-gradient(
+            600px circle at 15% 10%,
+            rgba(251, 146, 60, 0.07),
+            transparent 60%
+          ),
+          radial-gradient(
+            500px circle at 85% 30%,
+            rgba(244, 63, 94, 0.06),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px circle at 50% 95%,
+            rgba(251, 146, 60, 0.04),
+            transparent 60%
+          );
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 48px 24px 64px;
+      }
+
+      header {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+        margin-bottom: 36px;
+      }
+      .title-block {
+        flex: 1;
+      }
+      h1 {
+        font-size: clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .subtitle {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin-top: 6px;
+      }
+      .badge-pause {
+        font-size: 0.78rem;
+        font-family: var(--font-mono);
+        color: var(--amber);
+        background: rgba(251, 191, 36, 0.1);
+        border: 1px solid rgba(251, 191, 36, 0.3);
+        border-radius: 999px;
+        padding: 4px 14px;
+        white-space: nowrap;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        backdrop-filter: blur(12px);
+        transition: background 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .stat:hover {
+        background: var(--surface-hover);
+      }
+      .stat-num {
+        display: block;
+        font-size: 1.7rem;
+        font-weight: 700;
+        font-family: var(--font-mono);
+        line-height: 1.1;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .stat-num i {
+        font-style: normal;
+        font-size: 1rem;
+        color: var(--text-tertiary);
+        -webkit-text-fill-color: var(--text-tertiary);
+      }
+      .stat-label {
+        display: block;
+        font-size: 0.85rem;
+        margin-top: 6px;
+      }
+      .stat-sub {
+        display: block;
+        font-size: 0.72rem;
+        font-family: var(--font-mono);
+        color: var(--text-tertiary);
+        margin-top: 2px;
+      }
+
+      section {
+        margin-top: 32px;
+      }
+      h2 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.78rem;
+        font-family: var(--font-mono);
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        margin-bottom: 14px;
+      }
+      h2::before {
+        content: "";
+        width: 18px;
+        height: 2px;
+        background: var(--accent-gradient);
+        border-radius: 2px;
+      }
+
+      .bar-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 8px;
+        backdrop-filter: blur(12px);
+      }
+      .bar-name {
+        width: 200px;
+        font-size: 0.86rem;
+        flex-shrink: 0;
+      }
+      .bar-name small {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        color: var(--text-tertiary);
+      }
+      .bar-track {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+      .bar-fill {
+        display: block;
+        height: 100%;
+        border-radius: 3px;
+        background: var(--accent-gradient);
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .bar-fill.done {
+        background: var(--green);
+      }
+      .bar-fill.idle {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .bar-pct {
+        width: 44px;
+        text-align: right;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        flex-shrink: 0;
+      }
+
+      .insight {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent-1);
+        border-radius: var(--radius);
+        padding: 14px 18px;
+        margin-bottom: 10px;
+        backdrop-filter: blur(12px);
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+      .insight strong {
+        color: var(--text);
+      }
+
+      .mc-row {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        padding: 10px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 8px;
+        font-size: 0.86rem;
+        backdrop-filter: blur(12px);
+      }
+      .mc-wrong {
+        color: var(--red);
+        text-decoration: line-through;
+        text-decoration-color: rgba(248, 113, 113, 0.5);
+      }
+      .mc-arrow {
+        color: var(--text-tertiary);
+        font-family: var(--font-mono);
+      }
+      .mc-right {
+        color: var(--green);
+      }
+      .mc-check {
+        margin-left: auto;
+        color: var(--green);
+        font-family: var(--font-mono);
+        flex-shrink: 0;
+      }
+
+      .next-row {
+        display: flex;
+        gap: 14px;
+        padding: 12px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        backdrop-filter: blur(12px);
+      }
+      .next-num {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--accent-1);
+        padding-top: 2px;
+        flex-shrink: 0;
+      }
+      .next-row strong {
+        color: var(--text);
+      }
+
+      footer {
+        margin-top: 36px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        font-size: 0.8rem;
+        font-family: var(--font-mono);
+        color: var(--text-tertiary);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      footer .review {
+        color: var(--amber);
+      }
+
+      @media (max-width: 480px) {
+        header {
+          flex-direction: column;
+          text-align: center;
+        }
+        .bar-name {
+          width: 120px;
+        }
+        .mc-row {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-mesh"></div>
+    <main class="wrap">
+      <header>
+        <div class="title-block">
+          <h1>阶段小结</h1>
+          <div class="subtitle">
+            Git Aliases · Topic 工作流 — 2026-10-05 全部完成
+          </div>
+        </div>
+        <span class="badge-pause">已完成 6/6</span>
+      </header>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-num">6<i>/6</i></span>
+          <span class="stat-label">已掌握概念</span>
+          <span class="stat-sub">base · helper · save · tn/tnr · tmg · td</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">5<i>/5</i></span>
+          <span class="stat-label">误解击破</span>
+          <span class="stat-sub">全部解决</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">60+</span>
+          <span class="stat-label">问答轮次</span>
+          <span class="stat-sub">09-07 · 10-02 · 10-03 · 10-04 · 10-05</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">3<i>/3</i></span>
+          <span class="stat-label">实践任务</span>
+          <span class="stat-sub">save/pop · tn 流程 · td 实测通过</span>
+        </div>
+      </div>
+
+      <section>
+        <h2>概念进度</h2>
+        <div class="bar-row">
+          <div class="bar-name">
+            base branch
+            <small>01 · 基线分支</small>
+          </div>
+          <div class="bar-track">
+            <i class="bar-fill done" style="width: 85%"></i>
+          </div>
+          <span class="bar-pct">85%</span>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">
+            helper 探测命令
+            <small>02 · 五个探针</small>
+          </div>
+          <div class="bar-track">
+            <i class="bar-fill done" style="width: 85%"></i>
+          </div>
+          <span class="bar-pct">85%</span>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">
+            save
+            <small>03 · 工作区保护</small>
+          </div>
+          <div class="bar-track">
+            <i class="bar-fill done" style="width: 85%"></i>
+          </div>
+          <span class="bar-pct">85%</span>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">
+            tn / tnr
+            <small>04 · 开启 topic 分支</small>
+          </div>
+          <div class="bar-track">
+            <i class="bar-fill done" style="width: 85%"></i>
+          </div>
+          <span class="bar-pct">85%</span>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">
+            tmg
+            <small>05 · 合并并删除</small>
+          </div>
+          <div class="bar-track">
+            <i class="bar-fill done" style="width: 85%"></i>
+          </div>
+          <span class="bar-pct">85%</span>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">
+            td
+            <small>06 · 删除 topic 分支</small>
+          </div>
+          <div class="bar-track">
+            <i class="bar-fill done" style="width: 85%"></i>
+          </div>
+          <span class="bar-pct">85%</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>你自己推出来的规则</h2>
+        <div class="insight">
+          <strong>两态规则</strong>：版本相同 → 修改随行；版本不同且冲突 → git
+          拒绝切换。git 永不静默丢修改。
+        </div>
+        <div class="insight">
+          <strong>桌子模型</strong>：分支 = 贴在 commit 上的便利贴；工作目录 =
+          所有分支共用的桌子。换便利贴不动桌子。
+        </div>
+        <div class="insight">
+          <strong>tnr 自动存的两个作用</strong>：防止切换被卡住 +
+          给新分支一个干净的起点。
+        </div>
+        <div class="insight">
+          <strong>小抄模型</strong>：stash 存的是改动本身（小抄），不绑分支；pop
+          往当前桌面誊——成功扔小抄、失败保留。冲突时能誊的先誊，誊不动的标记出来。
+        </div>
+        <div class="insight">
+          <strong>盲区规则</strong>：git s 和 stash
+          默认都只管已追踪文件，新文件要 -u 才带上。
+        </div>
+        <div class="insight">
+          <strong>地址标签</strong>：push -u = 这次指定完整地址 + 存进配置；以后
+          ps/pl 自动查表。裸 push 没地址会报错。
+        </div>
+        <div class="insight">
+          <strong>删除的两道安全网</strong>：td 删前先同步（push =
+          给内容做远程备份，丢的只是标签）；branch -d 拒绝删未合并分支。后悔了用
+          reflog + 新分支找回。
+        </div>
+        <div class="insight">
+          <strong>tmg vs td 的删除</strong>：tmg 合并已把成果存进 base
+          分支所以不怕丢；td 的成果可能没保存，所以先同步再删。
+        </div>
+      </section>
+
+      <section>
+        <h2>误解档案 · 5/5 已解决</h2>
+        <div class="mc-row">
+          <span class="mc-wrong">「\| 是管道符」</span>
+          <span class="mc-arrow">→</span>
+          <span class="mc-right">逻辑或：失败才执行右边</span>
+          <span class="mc-check">✓</span>
+        </div>
+        <div class="mc-row">
+          <span class="mc-wrong">「set-bb 缺参数也能完成」</span>
+          <span class="mc-arrow">→</span>
+          <span class="mc-right">写 config 需要 键 + 值</span>
+          <span class="mc-check">✓</span>
+        </div>
+        <div class="mc-row">
+          <span class="mc-wrong">「输出 0，-n 测不了」</span>
+          <span class="mc-arrow">→</span>
+          <span class="mc-right">0 也是非空字符串</span>
+          <span class="mc-check">✓</span>
+        </div>
+        <div class="mc-row">
+          <span class="mc-wrong">「切分支 = 覆盖工作区」</span>
+          <span class="mc-arrow">→</span>
+          <span class="mc-right">修改随行；冲突时 git 拒绝</span>
+          <span class="mc-check">✓</span>
+        </div>
+        <div class="mc-row">
+          <span class="mc-wrong">「td 直接删本地，成果会丢」</span>
+          <span class="mc-arrow">→</span>
+          <span class="mc-right">branch -d 拒绝删未合并分支</span>
+          <span class="mc-check">✓</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>下次从哪里继续</h2>
+        <div class="next-row">
+          <span class="next-num">01</span>
+          <span>
+            <strong>复习债</strong>：概念 1、2、4、5 于 10-05
+            到期（下次上课先还）· 概念 6 于 10-06 到期
+          </span>
+        </div>
+        <div class="next-row">
+          <span class="next-num">02</span>
+          <span>
+            <strong>概念 3 补讲</strong>：snapshot 只备份不清空 · stash-history
+            找回丢失的进度
+          </span>
+        </div>
+      </section>
+
+      <footer>
+        <span class="review"
+          >复习提醒：概念 1、2、4、5 于 10-05 · 概念 6 于 10-06 到期</span
+        >
+        <span>下次直接说「继续上课」即可恢复</span>
+      </footer>
+    </main>
+  </body>
+</html>
