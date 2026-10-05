@@ -48,6 +48,8 @@ export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file s
 export HISTCONTROL=$HISTCONTROL:ignorespace
 # no duplicate entries
 export HISTCONTROL=$HISTCONTROL:ignoredups
+
+export HISTIGNORE="history:man:ls:ll:la:l:ls *:cd:cd -:pwd;exit:date:* --help"
 #}}
 
 #{{ XDG Base Directory 规范
