@@ -1,7 +1,9 @@
 {
   "env": {
     "API_TIMEOUT_MS": "600000",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "60",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet[1m]",
     "MAX_THINKING_TOKENS": "32000",
     "MCP_TIMEOUT": "60000"
   },
@@ -30,75 +32,41 @@
   },
   "model": "sonnet",
   "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo \"🚀 Code is cheap, show me your talk (spec).\";"
-          },
-          {
-            "type": "command",
-            "command": "node ~/projects/ai-coding/claude-code-hooks/hook-scripts/session/session-logger.js"
-          }
-        ]
-      }
-    ],
     "Notification": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/Long-task_notifier.sh"
-          },
+            "command": "python ~/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
           {
             "type": "command",
-            "command": "python ~/projects/ai-coding/claude-code-hooks/hook-scripts/utils/event-logger.py"
+            "command": "/usr/share/code-notify/lib/core/notifier.sh notification claude"
+          }
+        ]
+      },
+      {
+        "matcher": "permission_prompt|idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); if [ \"$cur\" = working ] || [ -z \"$cur\" ]; then printf waiting > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; fi; :"
           }
         ]
       }
     ],
-    "PreToolUse": [
+    "PostCompact": [
       {
+        "matcher": "manual|auto",
         "hooks": [
           {
             "type": "command",
-            "command": "python ~/projects/ai-coding/claude-code-hooks/hook-scripts/utils/event-logger.py"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "rtk hook claude"
-          },
-          {
-            "type": "command",
-            "command": "node ~/projects/ai-coding/claude-code-hooks/hook-scripts/pre-tool-use/block-dangerous-commands.js"
-          },
-          {
-            "type": "command",
-            "command": "node ~/projects/ai-coding/claude-code-hooks/hook-scripts/pre-tool-use/git-safety.js"
-          }
-        ]
-      },
-      {
-        "matcher": "Read|Edit|Write|Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node ~/projects/ai-coding/claude-code-hooks/hook-scripts/pre-tool-use/protect-secrets.js"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash|Edit|MultiEdit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node ~/projects/ai-coding/claude-code-hooks/hook-scripts/pre-tool-use/protect-tests.js"
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != review ] && { printf review > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
           }
         ]
       }
@@ -109,62 +77,101 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python ~/projects/ai-coding/claude-code-hooks/hook-scripts/utils/event-logger.py"
+            "command": "python ~/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
           }
         ]
       },
       {
-        "matcher": "Read|Edit|Write|Bash",
+        "matcher": "^AskUserQuestion$",
         "hooks": [
           {
             "type": "command",
-            "command": "node ~/projects/ai-coding/claude-code-hooks/hook-scripts/session/session-logger.js",
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/Auto-add_to_TODO_file.sh"
-          },
-          {
-            "type": "command",
-            "command": "node ~/projects/ai-coding/claude-code-hooks/hook-scripts/post-tool-use/format-code.js"
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/Lint-on-save.sh"
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/Auto-test_after_code_changes.sh"
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != working ] && { printf working > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
           }
         ]
       }
     ],
-    "Stop": [
+    "PreToolUse": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/Auto-commit_on_Stop.sh"
-          },
+            "command": "python ~/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/Cost-tracker.sh"
+            "command": "rtk hook claude"
+          }
+        ]
+      },
+      {
+        "matcher": "^(?!AskUserQuestion$).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); if [ \"$cur\" = working ]; then touch -c \"$f\"; elif [ -z \"$cur\" ]; then printf working > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; fi; :"
+          }
+        ]
+      },
+      {
+        "matcher": "^AskUserQuestion$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != waiting ] && { printf waiting > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
           }
         ]
       }
     ],
     "SessionEnd": [
       {
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "node ~/projects/ai-coding/claude-code-hooks/hook-scripts/session/session-logger.js"
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; rm -f \"$HOME/.config/tws/agents/$TMUX_PANE\"; touch \"$HOME/.config/tws/agent.trigger\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": []
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/share/code-notify/lib/core/notifier.sh stop claude"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != review ] && { printf review > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != review ] && { printf review > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
           }
         ]
       }
@@ -174,7 +181,22 @@
         "hooks": [
           {
             "type": "command",
+            "command": "/usr/share/code-notify/lib/core/notifier.sh SubagentStop claude"
+          },
+          {
+            "type": "command",
             "command": "~/.claude/hooks/Sub-agent_ROI_tracker.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != working ] && { printf working > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
           }
         ]
       }
@@ -186,16 +208,79 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "code-documentation@claude-code-workflows": true,
-    "debugging-toolkit@claude-code-workflows": true,
-    "debugging-tools@claudekit-skills": true,
-    "platform-tools@claudekit-skills": true,
-    "problem-solving-tools@claudekit-skills": true,
-    "specialized-tools@claudekit-skills": true,
-    "superpowers-chrome@superpowers-marketplace": false
+    "auto-stage@claude-code-hooks": true,
+    "bounty-board@claude-code-hooks": true,
+    "claude-code-wakatime@wakatime": true,
+    "config-watch@claude-code-hooks": true,
+    "context-hogs@claude-code-hooks": true,
+    "dead-end-registry@claude-code-hooks": true,
+    "dead-rules-audit@claude-code-hooks": true,
+    "ecc@ecc": false,
+    "format-code@claude-code-hooks": true,
+    "guard-pack@claude-code-hooks": true,
+    "nerf-receipts@claude-code-hooks": true,
+    "session-logger@claude-code-hooks": true,
+    "standup-autopilot@claude-code-hooks": true,
+    "mattpocock-skills@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-code-hooks": {
+      "source": {
+        "source": "github",
+        "repo": "karanb192/claude-code-hooks"
+      }
+    },
+    "ecc": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/affaan-m/ECC.git"
+      }
+    },
+    "wakatime": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/wakatime/claude-code-wakatime.git"
+      }
+    }
   },
   "outputStyle": "engineer-professional",
   "language": "Simplified Chinese",
   "alwaysThinkingEnabled": true,
-  "editorMode": "vim"
+  "editorMode": "vim",
+  "disabledMcpServers": [
+    "chrome-devtools",
+    "nexus",
+    "ito-compute",
+    "jira",
+    "github",
+    "firecrawl",
+    "supabase",
+    "ecc-memory-vault",
+    "omega-memory",
+    "longhand",
+    "vercel",
+    "railway",
+    "cloudflare-docs",
+    "cloudflare-workers-builds",
+    "cloudflare-workers-bindings",
+    "cloudflare-observability",
+    "clickhouse",
+    "exa-web-search",
+    "parallel-search",
+    "context7",
+    "codescene",
+    "magic",
+    "memxus",
+    "filesystem",
+    "playwright",
+    "fal-ai",
+    "browserbase",
+    "browser-use",
+    "devfleet",
+    "token-optimizer",
+    "laraplugins",
+    "confluence",
+    "evalview",
+    "squish"
+  ]
 }
