@@ -128,5 +128,7 @@
     "todo-tree.ripgrep.ripgrep": "/usr/bin/rg",
     "python.analysis.typeCheckingMode": "strict",
     "chat.disableAIFeatures": true,
-    "workbench.editor.wrapTabs": true
+    "workbench.editor.wrapTabs": true,
+    "wakatime.apiKey": "e2bb6ca2-cb6f-4e4d-8d17-d01562aa43af",
+    "wakatime.apiUrl": "https://wakapi.einverne.info/api"
 }
