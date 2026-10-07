@@ -1,6 +1,6 @@
 # Learner Profile
 
-Updated: 2026-10-05
+Updated: 2026-10-07
 
 ## Learning Style
 
@@ -19,9 +19,9 @@ Updated: 2026-10-05
 
 ## Mastered Topics
 
-| Topic                       | Concepts Mastered | Date       | Key Strengths                                                                                | Persistent Gaps              |
-| --------------------------- | ----------------- | ---------- | -------------------------------------------------------------------------------------------- | ---------------------------- |
-| git aliases（topic 工作流） | 6/6（全部完成）   | 2026-10-05 | 探针语义、两态 checkout 规则（自推导）、小抄模型（自走通）、td vs tmg 删除辨析、实测纠错意识 | snapshot、stash-history 未讲 |
+| Topic                       | Concepts Mastered | Date       | Key Strengths                                                                                | Persistent Gaps |
+| --------------------------- | ----------------- | ---------- | -------------------------------------------------------------------------------------------- | --------------- |
+| git aliases（topic 工作流） | 6/6（全部完成）   | 2026-10-05 | 探针语义、两态 checkout 规则（自推导）、小抄模型（自走通）、td vs tmg 删除辨析、实测纠错意识 | 无              |
 
 ## Metacognition
 
