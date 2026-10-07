@@ -1,0 +1,59 @@
+workspaces:
+
+  #使用前需要修改 root 为具体的 project dir.
+  claude-code-setting:
+    name: claude-code-setting
+    root: ~/projects/private/dotfiles
+    startup_window: HarnessKit_Web_UI
+    windows:
+      - name: Claude_Code
+        cmd: # fcc-claude
+      # FCC的模型代理
+      # http://127.0.0.1:8082/admin
+      - name: FCC-Server
+        cmd: fcc-server
+      - name: HarnessKit_Web_UI
+        cmd: ~/.config/tmux-workspace.d/HarnessKit_Web_UI.sh
+
+  dotfiles:
+    root: ~/projects/private/dotfiles
+    startup_window: Claude_Code
+    windows:
+      - name: editor
+        cmd: nvim .
+      - name: GitU
+        cmd: gitu
+      - name: Claude_Code
+        cmd: # fcc-claude
+      - name: FCC-Server
+        cmd: fcc-server
+      - name: Claude-Code-Agent-Monitor
+        cmd: ~/.config/tmux-workspace.d/Claude-Code-Agent-Monitor.sh
+
+  my-notes:
+    root: ~/projects/private/org-notes
+    windows:
+      - name: editor
+        cmd: nvim .
+      - name: GitU
+        cmd: gitu
+
+  opc-notes:
+    root: ~/projects/private/OPC-Notes
+    windows:
+      - name: editor
+        cmd: nvim .
+      - name: GitU
+        cmd: gitu
+
+  web-nav:
+    name: next-web-nav
+    root: ~/projects/private/next-web-nav
+    startup_window: editor
+    windows:
+      - name: editor
+        cmd: nvim .
+      - name: dev
+        cmd: pnpm run dev
+      - name: GitU
+        cmd: gitu
