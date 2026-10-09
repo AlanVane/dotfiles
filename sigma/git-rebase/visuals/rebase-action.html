@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rebase 的动作：前后对比</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.08);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #06b6d4;
+        --accent-2: #34d399;
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        padding: 40px 24px;
+        background-image:
+          radial-gradient(
+            ellipse 800px 400px at 15% -5%,
+            rgba(6, 182, 212, 0.07),
+            transparent
+          ),
+          radial-gradient(
+            ellipse 600px 400px at 90% 105%,
+            rgba(52, 211, 153, 0.05),
+            transparent
+          );
+      }
+      .container {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 26px;
+        margin-bottom: 8px;
+      }
+      h1 .hl {
+        color: var(--accent-1);
+      }
+      .subtitle {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 32px;
+      }
+      .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      @media (max-width: 680px) {
+        .compare {
+          grid-template-columns: 1fr;
+        }
+      }
+      .panel {
+        background: var(--surface);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 24px;
+      }
+      .panel.before {
+        border-color: rgba(251, 191, 36, 0.25);
+      }
+      .panel.after {
+        border-color: rgba(52, 211, 153, 0.25);
+      }
+      .panel-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .before .panel-title {
+        color: var(--amber);
+      }
+      .after .panel-title {
+        color: var(--green);
+      }
+      .panel-sub {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        margin-bottom: 20px;
+      }
+      .chain {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .diagram svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-top: 2px;
+      }
+      .branch-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        padding: 3px 12px;
+        border-radius: 999px;
+        margin-bottom: 6px;
+        width: fit-content;
+      }
+      .label-base {
+        background: rgba(6, 182, 212, 0.15);
+        color: var(--accent-1);
+      }
+      .label-topic {
+        background: rgba(52, 211, 153, 0.15);
+        color: var(--accent-2);
+      }
+      .label-dead {
+        background: rgba(248, 113, 113, 0.12);
+        color: var(--red);
+        text-decoration: line-through;
+      }
+      .commit {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 0 7px 14px;
+        border-left: 2px solid var(--border);
+        margin-left: 6px;
+      }
+      .commit:last-child {
+        border-left-color: transparent;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--border);
+        flex-shrink: 0;
+      }
+      .dot.base {
+        background: var(--accent-1);
+      }
+      .dot.topic {
+        background: var(--accent-2);
+      }
+      .dot.old {
+        background: var(--red);
+        opacity: 0.55;
+      }
+      .commit-name {
+        font-family: var(--font-mono);
+        font-size: 13px;
+      }
+      .commit-note {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        margin-left: auto;
+      }
+      .commit.old .commit-name {
+        color: var(--red);
+        opacity: 0.75;
+        text-decoration: line-through;
+      }
+      .commit .you-tag {
+        font-size: 10px;
+        color: var(--text);
+        background: var(--surface-hover);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 1px 8px;
+        margin-left: 8px;
+      }
+      .gap-note {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-tertiary);
+        font-size: 12px;
+        padding: 6px 0 6px 14px;
+        border-left: 2px dashed rgba(251, 191, 36, 0.4);
+        margin-left: 6px;
+      }
+      .steps {
+        margin-top: 28px;
+      }
+      .steps h2 {
+        font-size: 17px;
+        margin-bottom: 16px;
+        color: var(--accent-1);
+      }
+      .step {
+        display: flex;
+        gap: 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent-1);
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin-bottom: 12px;
+      }
+      .step-num {
+        font-family: var(--font-mono);
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--accent-1);
+        flex-shrink: 0;
+      }
+      .step-body {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .step-body strong {
+        color: var(--accent-2);
+        font-weight: 600;
+      }
+      .step-body .no {
+        color: var(--red);
+      }
+      .step-body code {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        background: var(--surface-hover);
+        padding: 1px 6px;
+        border-radius: 4px;
+      }
+      .truth {
+        margin-top: 24px;
+        background: rgba(52, 211, 153, 0.06);
+        border: 1px solid rgba(52, 211, 153, 0.25);
+        border-radius: 12px;
+        padding: 18px 20px;
+      }
+      .truth-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--green);
+        margin-bottom: 10px;
+      }
+      .truth ul {
+        list-style: none;
+      }
+      .truth li {
+        font-size: 13.5px;
+        line-height: 1.8;
+        padding-left: 20px;
+        position: relative;
+      }
+      .truth li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+      }
+      .truth li .x::before {
+        content: "✗";
+        position: absolute;
+        left: 0;
+        color: var(--red);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>rebase 的动作：<span class="hl">前后对比</span></h1>
+      <p class="subtitle">
+        场景：base 上有 A → B，topic 从 B 分出来，你在 topic 上拍了 C → D
+        两张照片。之后 base 上来了新照片 E。你站在 topic 上跑 rebase。
+      </p>
+
+      <div class="compare">
+        <div class="panel before">
+          <div class="panel-title">rebase 之前</div>
+          <div class="panel-sub">两条线，C/D 的父链经过 B（旧的起点）</div>
+          <div class="diagram">
+            <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="rebase 之前：base 是 A→B→E，topic 从 B 分出 C→D">
+              <defs>
+                <marker id="a-cyan-b" markerWidth="7" markerHeight="7" refX="5.5" refY="2.5" orient="auto">
+                  <path d="M0,0 L5.5,2.5 L0,5 Z" fill="#06b6d4" />
+                </marker>
+                <marker id="a-green-b" markerWidth="7" markerHeight="7" refX="5.5" refY="2.5" orient="auto">
+                  <path d="M0,0 L5.5,2.5 L0,5 Z" fill="#34d399" />
+                </marker>
+              </defs>
+              <line x1="54" y1="60" x2="94" y2="60" stroke="#06b6d4" stroke-width="2" marker-end="url(#a-cyan-b)" />
+              <line x1="134" y1="60" x2="194" y2="60" stroke="#06b6d4" stroke-width="2" marker-end="url(#a-cyan-b)" />
+              <line x1="124" y1="76" x2="154" y2="133" stroke="#34d399" stroke-width="2" marker-end="url(#a-green-b)" />
+              <line x1="184" y1="150" x2="234" y2="150" stroke="#34d399" stroke-width="2" marker-end="url(#a-green-b)" />
+              <circle cx="35" cy="60" r="15" fill="#06b6d4" />
+              <text x="35" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">A</text>
+              <circle cx="115" cy="60" r="15" fill="#06b6d4" />
+              <text x="115" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">B</text>
+              <circle cx="215" cy="60" r="15" fill="#06b6d4" />
+              <text x="215" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">E</text>
+              <circle cx="165" cy="150" r="15" fill="#34d399" />
+              <text x="165" y="155" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">C</text>
+              <circle cx="255" cy="150" r="15" fill="#34d399" />
+              <text x="255" y="155" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">D</text>
+              <text x="277" y="154" font-size="10" fill="#ededef">你</text>
+              <rect x="170" y="12" width="90" height="20" rx="10" fill="rgba(6,182,212,0.15)" />
+              <text x="215" y="26" text-anchor="middle" font-size="11" fill="#06b6d4">base 便利贴</text>
+              <rect x="205" y="172" width="105" height="20" rx="10" fill="rgba(52,211,153,0.15)" />
+              <text x="257" y="186" text-anchor="middle" font-size="11" fill="#34d399">topic · 你站这里</text>
+              <text x="85" y="93" text-anchor="middle" font-size="10" fill="#fbbf24">分叉点</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="panel after">
+          <div class="panel-title">rebase 之后</div>
+          <div class="panel-sub">一条线，C'/D' 是重新拍的新照片</div>
+          <div class="diagram">
+            <svg viewBox="0 0 400 195" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="rebase 之后：一条线 A→B→E→C′→D′，C′/D′ 是重新拍的照片">
+              <defs>
+                <marker id="a-cyan-a" markerWidth="7" markerHeight="7" refX="5.5" refY="2.5" orient="auto">
+                  <path d="M0,0 L5.5,2.5 L0,5 Z" fill="#06b6d4" />
+                </marker>
+                <marker id="a-green-a" markerWidth="7" markerHeight="7" refX="5.5" refY="2.5" orient="auto">
+                  <path d="M0,0 L5.5,2.5 L0,5 Z" fill="#34d399" />
+                </marker>
+              </defs>
+              <line x1="50" y1="60" x2="90" y2="60" stroke="#06b6d4" stroke-width="2" marker-end="url(#a-cyan-a)" />
+              <line x1="125" y1="60" x2="165" y2="60" stroke="#06b6d4" stroke-width="2" marker-end="url(#a-cyan-a)" />
+              <line x1="200" y1="60" x2="240" y2="60" stroke="#34d399" stroke-width="2" marker-end="url(#a-green-a)" />
+              <line x1="275" y1="60" x2="315" y2="60" stroke="#34d399" stroke-width="2" marker-end="url(#a-green-a)" />
+              <circle cx="35" cy="60" r="15" fill="#06b6d4" />
+              <text x="35" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">A</text>
+              <circle cx="110" cy="60" r="15" fill="#06b6d4" />
+              <text x="110" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">B</text>
+              <circle cx="185" cy="60" r="15" fill="#06b6d4" />
+              <text x="185" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">E</text>
+              <circle cx="260" cy="60" r="15" fill="#34d399" />
+              <text x="260" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">C′</text>
+              <circle cx="335" cy="60" r="15" fill="#34d399" />
+              <text x="335" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#08080c" font-family="monospace">D′</text>
+              <text x="357" y="64" font-size="10" fill="#ededef">你</text>
+              <rect x="140" y="12" width="90" height="20" rx="10" fill="rgba(6,182,212,0.15)" />
+              <text x="185" y="26" text-anchor="middle" font-size="11" fill="#06b6d4">base 便利贴</text>
+              <rect x="283" y="12" width="105" height="20" rx="10" fill="rgba(52,211,153,0.15)" />
+              <text x="335" y="26" text-anchor="middle" font-size="11" fill="#34d399">topic · 你站这里</text>
+              <g opacity="0.5">
+                <circle cx="260" cy="140" r="13" fill="#f87171" />
+                <text x="260" y="145" text-anchor="middle" font-size="12" font-weight="700" fill="#08080c" font-family="monospace">C</text>
+                <line x1="250" y1="131" x2="270" y2="149" stroke="#08080c" stroke-width="2" />
+                <circle cx="335" cy="140" r="13" fill="#f87171" />
+                <text x="335" y="145" text-anchor="middle" font-size="12" font-weight="700" fill="#08080c" font-family="monospace">D</text>
+                <line x1="325" y1="131" x2="345" y2="149" stroke="#08080c" stroke-width="2" />
+              </g>
+              <text x="297" y="176" text-anchor="middle" font-size="10" fill="#f87171">旧照片 C、D 丢弃（改动都在 C′、D′ 里）</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <h2>rebase 做了三步，你始终没挪脚</h2>
+        <div class="step">
+          <span class="step-num">1</span>
+          <div class="step-body">
+            把 topic 上 C、D 的<strong>改动</strong>拿出来（C 改了什么、D
+            改了什么）
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div class="step-body">
+            在 E 的基础上<strong>重新拍</strong>两张照片 C' →
+            D'——内容一样，但照片全新（编号/SHA 变了），父链接在 E 后面
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div class="step-body">
+            把 topic 便利贴贴到 D' 上——<span class="no"
+              >你不挪脚、topic 分支不被删除</span
+            >。切换到别的分支是 merge/tmg 才做的事
+          </div>
+        </div>
+      </div>
+
+      <div class="truth">
+        <div class="truth-title">对照检查你的两个猜测</div>
+        <ul>
+          <li>
+            <span class="x"></span>「rebase 后没有 topic 分支了」——错：topic
+            便利贴只是换到新照片上，分支还在
+          </li>
+          <li>
+            <span class="x"></span>「rebase 后切到基线分支」——错：rebase
+            不挪脚；<strong>切分支</strong>是 tmg（merge）才做的
+          </li>
+          <li>
+            你站在 topic 上跑 rebase，跑完还在 topic 上，git log 看到一条线：A →
+            B → E → C' → D'
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

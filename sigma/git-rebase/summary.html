@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Rebase 课程完结总结</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #06b6d4;
+        --accent-2: #34d399;
+        --accent-gradient: linear-gradient(
+          135deg,
+          var(--accent-1),
+          var(--accent-2)
+        );
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 24px;
+        background-image:
+          radial-gradient(
+            ellipse 800px 500px at 20% -10%,
+            rgba(6, 182, 212, 0.08),
+            transparent
+          ),
+          radial-gradient(
+            ellipse 700px 400px at 85% 110%,
+            rgba(52, 211, 153, 0.06),
+            transparent
+          );
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 30px;
+        font-weight: 700;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+      }
+      .subtitle {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 36px;
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 36px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px 20px;
+      }
+      .stat-num {
+        font-family: var(--font-mono);
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--accent-1);
+      }
+      .stat-num.green {
+        color: var(--green);
+      }
+      .stat-label {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        margin-top: 4px;
+      }
+      h2 {
+        font-size: 17px;
+        margin-bottom: 14px;
+        color: var(--accent-1);
+      }
+      .list {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px 20px;
+        margin-bottom: 28px;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+      }
+      .row:last-child {
+        border-bottom: none;
+      }
+      .row .name {
+        color: var(--text);
+      }
+      .row .tag {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        padding: 2px 10px;
+        border-radius: 999px;
+      }
+      .tag.done {
+        background: rgba(52, 211, 153, 0.12);
+        color: var(--green);
+      }
+      .section {
+        margin-bottom: 28px;
+      }
+      .wins li {
+        font-size: 14px;
+        line-height: 1.9;
+        color: var(--text);
+        list-style: none;
+        padding-left: 24px;
+        position: relative;
+      }
+      .wins li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+      }
+      .fixed li::before {
+        content: "🔧";
+      }
+      .next {
+        background: rgba(251, 191, 36, 0.06);
+        border: 1px solid rgba(251, 191, 36, 0.25);
+        border-radius: 12px;
+        padding: 18px 20px;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .next strong {
+        color: var(--amber);
+        font-weight: 600;
+      }
+      @media (max-width: 480px) {
+        .stat-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Git Rebase 课程完结 🎉</h1>
+      <p class="subtitle">2026-10-08 开课 · 2026-10-09 完结 · 7/7 概念全部掌握</p>
+
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-num green">7/7</div>
+          <div class="stat-label">概念已掌握</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">总进度</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4/4</div>
+          <div class="stat-label">误解已拆除</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2 天</div>
+          <div class="stat-label">课程时长</div>
+        </div>
+      </div>
+
+      <h2>概念进度</h2>
+      <div class="list">
+        <div class="row">
+          <span class="name">1. rebase 的目的（第二条整合路线）</span
+          ><span class="tag done">85%</span>
+        </div>
+        <div class="row">
+          <span class="name">2. rebase 的动作（复制重放）</span
+          ><span class="tag done">90%</span>
+        </div>
+        <div class="row">
+          <span class="name">3. rebase vs merge 的历史形状</span
+          ><span class="tag done">85%</span>
+        </div>
+        <div class="row">
+          <span class="name">4. rebase 的两态规则（冲突处理）</span
+          ><span class="tag done">88%</span>
+        </div>
+        <div class="row">
+          <span class="name">5. 交互式 rebase（整理历史）</span
+          ><span class="tag done">88%</span>
+        </div>
+        <div class="row">
+          <span class="name">6. rebase 的危险面（改写历史）</span
+          ><span class="tag done">88%</span>
+        </div>
+        <div class="row">
+          <span class="name">7. topic 工作流中的 rebase</span
+          ><span class="tag done">86%</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>关键成果</h2>
+        <ul class="wins">
+          <li>核心模型：rebase = 复制重放（重新拍照片），commit 不可变、SHA 必变</li>
+          <li>
+            merge vs rebase 两把尺子：merge
+            加照片（历史只增、永不静默丢）、rebase 换照片（改写历史）
+          </li>
+          <li>冲突两态规则实战走通：逐张撞 → 标记 → add + --continue → 一条线</li>
+          <li>交互式 rebase 实操：squash 整理历史，3 张变 2 张</li>
+          <li>
+            危险面物理模型：远程照片墙——push=复印上墙、rebase 后 push
+            被拒、--force=撕墙换照片
+          </li>
+          <li>黄金法则落地：别人可能拉取的分支不要 rebase；topic 只你一人用 = 敢 rebase</li>
+          <li>工作流集成：rebase 两个插入口——①开发中跟上最新 base（隐患前置）②tmg 前整理历史</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>拆除的误解（4 个，全部解决）</h2>
+        <ul class="wins fixed">
+          <li>「rebase 把 commit 原样搬运」→ 不可变 + 父指针 → 只能重新拍</li>
+          <li>「rebase 后 topic 分支没了」→ 分支便利贴还在，只是换了贴的位置</li>
+          <li>「main 历史里也能看到 C'/D'」→ log 从便利贴往回走，没合并就看不到</li>
+          <li>
+            「已 push = git 接受过，所以可以 rebase」→ 因果反了：已 push =
+            远程有旧副本 → 撕墙需 --force、有受害者就不能动
+          </li>
+        </ul>
+      </div>
+
+      <div class="next">
+        <strong>复习债提醒：</strong>概念 2-7 间隔 1d（2026-10-10
+        到期）、概念 1 间隔 2d（2026-10-11 到期）——下次上课会先做间隔复习，再开新主题。想看路线图打开
+        roadmap.html。
+      </div>
+    </div>
+  </body>
+</html>
