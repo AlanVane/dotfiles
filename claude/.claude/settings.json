@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python ~/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
+            "command": "python $HOME/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
           }
         ]
       },
@@ -51,22 +51,11 @@
         ]
       },
       {
-        "matcher": "permission_prompt|idle_prompt",
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); if [ \"$cur\" = working ] || [ -z \"$cur\" ]; then printf waiting > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; fi; :"
-          }
-        ]
-      }
-    ],
-    "PostCompact": [
-      {
-        "matcher": "manual|auto",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != review ] && { printf review > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
+            "command": "node \"$HOME/projects/ai-coding/Claude-Code-Agent-Monitor/scripts/hook-handler.js\" Notification"
           }
         ]
       }
@@ -77,16 +66,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python ~/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
+            "command": "python $HOME/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
           }
         ]
       },
       {
-        "matcher": "^AskUserQuestion$",
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != working ] && { printf working > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
+            "command": "node \"$HOME/projects/ai-coding/Claude-Code-Agent-Monitor/scripts/hook-handler.js\" PostToolUse"
           }
         ]
       }
@@ -96,7 +85,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python ~/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
+            "command": "python $HOME/projects/ai-coding/claude-code-hooks/utils/event-logger.py"
           }
         ]
       },
@@ -110,39 +99,33 @@
         ]
       },
       {
-        "matcher": "^(?!AskUserQuestion$).*",
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); if [ \"$cur\" = working ]; then touch -c \"$f\"; elif [ -z \"$cur\" ]; then printf working > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; fi; :"
-          }
-        ]
-      },
-      {
-        "matcher": "^AskUserQuestion$",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != waiting ] && { printf waiting > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
+            "command": "node \"$HOME/projects/ai-coding/Claude-Code-Agent-Monitor/scripts/hook-handler.js\" PreToolUse"
           }
         ]
       }
     ],
     "SessionEnd": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; rm -f \"$HOME/.config/tws/agents/$TMUX_PANE\"; touch \"$HOME/.config/tws/agent.trigger\""
+            "command": "node \"$HOME/projects/ai-coding/Claude-Code-Agent-Monitor/scripts/hook-handler.js\" SessionEnd"
           }
         ]
       }
     ],
     "SessionStart": [
       {
-        "matcher": "",
-        "hooks": []
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$HOME/projects/ai-coding/Claude-Code-Agent-Monitor/scripts/hook-handler.js\" SessionStart"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -156,22 +139,11 @@
         ]
       },
       {
-        "matcher": "",
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != review ] && { printf review > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
-          }
-        ]
-      }
-    ],
-    "StopFailure": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != review ] && { printf review > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
+            "command": "node \"$HOME/projects/ai-coding/Claude-Code-Agent-Monitor/scripts/hook-handler.js\" Stop"
           }
         ]
       }
@@ -182,21 +154,25 @@
           {
             "type": "command",
             "command": "/usr/share/code-notify/lib/core/notifier.sh SubagentStop claude"
-          },
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/Sub-agent_ROI_tracker.sh"
+            "command": "node \"$HOME/projects/ai-coding/Claude-Code-Agent-Monitor/scripts/hook-handler.js\" SubagentStop"
           }
         ]
       }
     ],
     "UserPromptSubmit": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "[ -n \"${TMUX_PANE:-}\" ] || exit 0; f=\"$HOME/.config/tws/agents/$TMUX_PANE\"; mkdir -p \"$HOME/.config/tws/agents\"; cur=$(cat \"$f\" 2>/dev/null); [ \"$cur\" != working ] && { printf working > \"$f\"; touch \"$HOME/.config/tws/agent.trigger\"; }; :"
+            "command": "node \"$HOME/projects/ai-coding/Claude-Code-Agent-Monitor/scripts/hook-handler.js\" UserPromptSubmit"
           }
         ]
       }
@@ -204,7 +180,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash ~/.claude/statusline.sh",
+    "command": "bash $HOME/.claude/statusline.sh",
     "padding": 0
   },
   "enabledPlugins": {
