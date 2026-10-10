@@ -1,6 +1,6 @@
 # Learner Profile
 
-Updated: 2026-10-09
+Updated: 2026-10-10
 
 ## Learning Style
 
@@ -12,11 +12,11 @@ Updated: 2026-10-09
 
 ## Misconception Patterns
 
-- 未验证时倾向凭直觉猜 git 的结果，且偏向「危险/否定」方向（「会覆盖」「会丢失」「看不到」）（seen in: git-aliases 误解 #4/#5，git-rebase 概念 6/7——两次均被实测推翻）
+- 未验证时倾向凭直觉猜 git 的结果，且偏向「危险/否定」方向（「会覆盖」「会丢失」「看不到」「会提示输入」）（seen in: git-aliases 误解 #4/#5，git-rebase 概念 6/7，10-10 复习 tn/tnr 误记实测——三次均被实测/追问推翻）
 - shell 符号/术语易混：`\|` vs `\|\|`（seen in: git-aliases）
 - 把工具输出当有类型的值而非字符串：`0` 是数字不是字符串（seen in: git-aliases）
-- 模型复述正确 ≠ 已内化：正确复述后新场景仍会触发旧误解，需实验 + 应用双重确认才算解决（seen in: git-aliases 误解 #4，git-rebase 误解 #4）
-- 表述混淆：机制说对但措辞/归因错位（「push 之后才有 commit 历史」；「push 被拒」答成 force 安全性）——反问澄清即可，不需反例实验（seen in: git-aliases 概念 6，git-rebase 概念 6 实践）
+- 模型复述正确 ≠ 已内化：正确复述后新场景仍会触发旧误解，需实验 + 应用双重确认才算解决（seen in: git-aliases 误解 #4，git-rebase 误解 #4；10-10 复习再证：「3 个 commit 都在」混淆「内容在 vs 原件在」）
+- 表述混淆：机制说对但措辞/归因错位，或把另一命令的习惯混入（「push 之后才有历史」；merge 的 git commit 混入 rebase 收尾）——反问澄清即可，通常能自查修正（seen in: git-aliases 概念 6，git-rebase 概念 6/4）
 
 ## Mastered Topics
 
@@ -29,3 +29,4 @@ Updated: 2026-10-09
 
 - Self-assessment accuracy: well-calibrated（git-aliases 两次 + git-rebase「扎实」均与 rubric 一致）
 - Fluency illusion frequency: occasional — 复述正确后新场景仍触发旧误解；解决靠双实验 + 应用检验
+- 间隔复习健康：10-10 清 12 项复习债全过，仅 3 处轻度 decay（均经追问/实测校准），无误解复发
