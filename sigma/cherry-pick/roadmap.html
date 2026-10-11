@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cherry-pick 学习路线图</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #f43f5e;
+        --accent-gradient: linear-gradient(
+          135deg,
+          var(--accent-1),
+          var(--accent-2)
+        );
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        background-image:
+          radial-gradient(
+            ellipse 800px 500px at 20% -10%,
+            rgba(245, 158, 11, 0.08),
+            transparent
+          ),
+          radial-gradient(
+            ellipse 700px 400px at 85% 110%,
+            rgba(244, 63, 94, 0.06),
+            transparent
+          );
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 48px 24px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 48px;
+      }
+      .title-group h1 {
+        font-size: 32px;
+        font-weight: 700;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 12px;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+      }
+      .chip.accent {
+        color: var(--accent-1);
+        border-color: rgba(245, 158, 11, 0.3);
+      }
+      .progress-ring {
+        flex-shrink: 0;
+      }
+      .progress-ring svg {
+        transform: rotate(-90deg);
+      }
+      .ring-bg {
+        fill: none;
+        stroke: var(--border);
+        stroke-width: 6;
+      }
+      .ring-fg {
+        fill: none;
+        stroke: url(#gradient);
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-dasharray: 283;
+        stroke-dashoffset: 283;
+        transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .ring-label {
+        fill: var(--text);
+        font-size: 20px;
+        font-weight: 600;
+        transform: rotate(90deg);
+        transform-origin: center;
+      }
+      .timeline {
+        position: relative;
+        padding-left: 32px;
+        --mastered-pct: 0%;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--accent-1) 0%,
+          var(--accent-1) var(--mastered-pct),
+          var(--border) var(--mastered-pct)
+        );
+      }
+      .node {
+        position: relative;
+        background: var(--surface);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px 24px;
+        margin-bottom: 16px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .node:hover {
+        background: var(--surface-hover);
+        transform: translateX(4px);
+      }
+      .node::before {
+        content: "";
+        position: absolute;
+        left: -31px;
+        top: 28px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--border);
+      }
+      .node.mastered::before {
+        background: var(--green);
+        box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+      }
+      .node.active::before {
+        background: var(--accent-1);
+        box-shadow: 0 0 16px rgba(245, 158, 11, 0.7);
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 16px rgba(245, 158, 11, 0.7);
+        }
+        50% {
+          box-shadow: 0 0 28px rgba(245, 158, 11, 1);
+        }
+      }
+      .node.dimmed {
+        opacity: 0.45;
+      }
+      .node.mastered {
+        border-color: rgba(52, 211, 153, 0.25);
+      }
+      .node.active {
+        border-color: rgba(245, 158, 11, 0.35);
+      }
+      .node-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .node-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .badge {
+        font-size: 11px;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .badge.mastered {
+        background: rgba(52, 211, 153, 0.12);
+        color: var(--green);
+      }
+      .badge.active {
+        background: rgba(245, 158, 11, 0.12);
+        color: var(--accent-1);
+      }
+      .badge.pending {
+        background: var(--surface);
+        color: var(--text-tertiary);
+        border: 1px solid var(--border);
+      }
+      .node-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .mini-bar {
+        flex: 1;
+        height: 4px;
+        border-radius: 999px;
+        background: var(--border);
+        overflow: hidden;
+      }
+      .mini-bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: var(--accent-gradient);
+        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .score {
+        font-size: 12px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+        min-width: 34px;
+        text-align: right;
+      }
+      .footer {
+        margin-top: 48px;
+      }
+      .footer-label {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .overall-bar {
+        height: 8px;
+        border-radius: 999px;
+        background: var(--border);
+        overflow: hidden;
+      }
+      .overall-fill {
+        height: 100%;
+        background: var(--accent-gradient);
+        border-radius: 999px;
+        transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @media (max-width: 480px) {
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .title-group h1 {
+          font-size: 26px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg style="position: absolute; width: 0; height: 0">
+      <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f59e0b" />
+          <stop offset="100%" stop-color="#f43f5e" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="container">
+      <div class="header">
+        <div class="title-group">
+          <h1>Cherry-pick 学习路线图</h1>
+          <div class="chips">
+            <span class="chip accent">已完成 7/7 ✓</span>
+            <span class="chip">7 个概念</span>
+            <span class="chip">2026-10-11 开课</span>
+            <span class="chip">前置：git-rebase ✓</span>
+          </div>
+        </div>
+        <div class="progress-ring">
+          <svg width="96" height="96" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="45" />
+            <circle
+              class="ring-fg"
+              cx="50"
+              cy="50"
+              r="45"
+              style="stroke-dashoffset: 0"
+            />
+            <text
+              class="ring-label"
+              x="50"
+              y="50"
+              text-anchor="middle"
+              dominant-baseline="central"
+            >
+              100%
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="timeline" style="--mastered-pct: 100%">
+        <div class="node mastered">
+          <div class="node-head">
+            <span class="node-title">1. 目的（选择性搬运的空白）</span>
+            <span class="badge mastered">已掌握 85%</span>
+          </div>
+          <div class="node-meta">
+            <div class="mini-bar">
+              <div class="mini-bar-fill" style="width: 85%"></div>
+            </div>
+            <span class="score">85%</span>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="node-head">
+            <span class="node-title">2. 动作（重放单个：新 SHA、源不动）</span>
+            <span class="badge mastered">已掌握 90%</span>
+          </div>
+          <div class="node-meta">
+            <div class="mini-bar">
+              <div class="mini-bar-fill" style="width: 90%"></div>
+            </div>
+            <span class="score">90%</span>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="node-head">
+            <span class="node-title">3. 基本用法（目标分支=你站的地方）</span>
+            <span class="badge mastered">已掌握 88%</span>
+          </div>
+          <div class="node-meta">
+            <div class="mini-bar">
+              <div class="mini-bar-fill" style="width: 88%"></div>
+            </div>
+            <span class="score">88%</span>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="node-head">
+            <span class="node-title">4. 多 commit 与范围语法</span>
+            <span class="badge mastered">已掌握 90%</span>
+          </div>
+          <div class="node-meta">
+            <div class="mini-bar">
+              <div class="mini-bar-fill" style="width: 90%"></div>
+            </div>
+            <span class="score">90%</span>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="node-head">
+            <span class="node-title">5. 冲突处理（两态规则迁移）</span>
+            <span class="badge mastered">已掌握 90%</span>
+          </div>
+          <div class="node-meta">
+            <div class="mini-bar">
+              <div class="mini-bar-fill" style="width: 90%"></div>
+            </div>
+            <span class="score">90%</span>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="node-head">
+            <span class="node-title">6. 三条路辨析（merge/rebase/pick）</span>
+            <span class="badge mastered">已掌握 88%</span>
+          </div>
+          <div class="node-meta">
+            <div class="mini-bar">
+              <div class="mini-bar-fill" style="width: 88%"></div>
+            </div>
+            <span class="score">88%</span>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="node-head">
+            <span class="node-title">7. 危险面与工作流（重复摘、典型场景）</span>
+            <span class="badge mastered">已掌握 85%</span>
+          </div>
+          <div class="node-meta">
+            <div class="mini-bar">
+              <div class="mini-bar-fill" style="width: 85%"></div>
+            </div>
+            <span class="score">85%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-label">
+          <span>总进度</span>
+          <span>7 / 7 概念 · 课程完结 🎉</span>
+        </div>
+        <div class="overall-bar">
+          <div class="overall-fill" style="width: 100%"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

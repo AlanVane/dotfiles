@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cherry-pick 课程完结总结</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #f43f5e;
+        --accent-gradient: linear-gradient(
+          135deg,
+          var(--accent-1),
+          var(--accent-2)
+        );
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 24px;
+        background-image:
+          radial-gradient(
+            ellipse 800px 500px at 20% -10%,
+            rgba(245, 158, 11, 0.08),
+            transparent
+          ),
+          radial-gradient(
+            ellipse 700px 400px at 85% 110%,
+            rgba(244, 63, 94, 0.06),
+            transparent
+          );
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 30px;
+        font-weight: 700;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+      }
+      .subtitle {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 36px;
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 36px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px 20px;
+      }
+      .stat-num {
+        font-family: var(--font-mono);
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--accent-1);
+      }
+      .stat-num.green {
+        color: var(--green);
+      }
+      .stat-label {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        margin-top: 4px;
+      }
+      h2 {
+        font-size: 17px;
+        margin-bottom: 14px;
+        color: var(--accent-1);
+      }
+      .list {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px 20px;
+        margin-bottom: 28px;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+      }
+      .row:last-child {
+        border-bottom: none;
+      }
+      .row .tag {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        padding: 2px 10px;
+        border-radius: 999px;
+      }
+      .tag.done {
+        background: rgba(52, 211, 153, 0.12);
+        color: var(--green);
+      }
+      .section {
+        margin-bottom: 28px;
+      }
+      .wins li {
+        font-size: 14px;
+        line-height: 1.9;
+        color: var(--text);
+        list-style: none;
+        padding-left: 24px;
+        position: relative;
+      }
+      .wins li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+      }
+      .fixed li::before {
+        content: "🔧";
+      }
+      .next {
+        background: rgba(251, 191, 36, 0.06);
+        border: 1px solid rgba(251, 191, 36, 0.25);
+        border-radius: 12px;
+        padding: 18px 20px;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .next strong {
+        color: var(--amber);
+        font-weight: 600;
+      }
+      @media (max-width: 480px) {
+        .stat-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cherry-pick 课程完结 🎉</h1>
+      <p class="subtitle">
+        2026-10-11 开课 · 当日完结 · 7/7 概念 · 前置 git-rebase 7/7
+      </p>
+
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-num green">7/7</div>
+          <div class="stat-label">概念已掌握</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">总进度</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">6</div>
+          <div class="stat-label">scratch 实验</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">1 天</div>
+          <div class="stat-label">课程时长</div>
+        </div>
+      </div>
+
+      <h2>概念进度</h2>
+      <div class="list">
+        <div class="row">
+          <span>1. 目的（选择性搬运的空白）</span
+          ><span class="tag done">85%</span>
+        </div>
+        <div class="row">
+          <span>2. 动作（重放单个：新 SHA、源不动）</span
+          ><span class="tag done">90%</span>
+        </div>
+        <div class="row">
+          <span>3. 基本用法（目标分支=你站的地方）</span
+          ><span class="tag done">88%</span>
+        </div>
+        <div class="row">
+          <span>4. 多 commit 与范围语法</span
+          ><span class="tag done">90%</span>
+        </div>
+        <div class="row">
+          <span>5. 冲突处理（两态规则迁移）</span
+          ><span class="tag done">90%</span>
+        </div>
+        <div class="row">
+          <span>6. 三条路辨析（merge/rebase/pick）</span
+          ><span class="tag done">88%</span>
+        </div>
+        <div class="row">
+          <span>7. 危险面与工作流（重复摘、典型场景）</span
+          ><span class="tag done">85%</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>关键成果</h2>
+        <ul class="wins">
+          <li>粒度尺子：merge/rebase = 整支，cherry-pick = 单个/少数</li>
+          <li>
+            配方模型：改动 = 源侧（commit − 父）比出，盖章在目标顶端（新父）
+          </li>
+          <li>空提交网：改动已在 → 拒绝拍；两个洞（被 revert / 周围代码变了）</li>
+          <li>范围语法：A..B = 减法、天生不含左端；左端要包含就退一格 A^..B</li>
+          <li>两态流程实测走通：撞 → 编辑删标记 → add → --continue</li>
+          <li>
+            三路本质表：merge 加法整支 / rebase 改写整支 / cherry-pick 加法单个
+          </li>
+          <li>cherry-pick 安全因只做加法（不改写不删已有），团队拉取无碍</li>
+          <li>防重复靠摘前查账：git log --grep 搜目标分支的消息</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>教法更正（1 处，如实记录）</h2>
+        <ul class="wins fixed">
+          <li>
+            「cherry-pick 必出新编号」不准确：SHA 是 tree+parent+author+committer+message
+            五要素哈希——父相同 + 同秒提交时会复现原 SHA（受控实验 sleep 2s 才变）；更正为「几乎总是新编号，因为父/时间通常不同」
+          </li>
+        </ul>
+      </div>
+
+      <div class="next">
+        <strong>复习债提醒：</strong>本课 7 概念均 1d 间隔，2026-10-12
+        到期。另有 git-rebase 概念 2-7（10-12）。下次开课先还债再开新主题。想看路线图打开
+        roadmap.html。
+      </div>
+    </div>
+  </body>
+</html>

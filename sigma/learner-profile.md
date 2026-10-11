@@ -1,6 +1,6 @@
 # Learner Profile
 
-Updated: 2026-10-10
+Updated: 2026-10-11
 
 ## Learning Style
 
@@ -17,6 +17,8 @@ Updated: 2026-10-10
 - 把工具输出当有类型的值而非字符串：`0` 是数字不是字符串（seen in: git-aliases）
 - 模型复述正确 ≠ 已内化：正确复述后新场景仍会触发旧误解，需实验 + 应用双重确认才算解决（seen in: git-aliases 误解 #4，git-rebase 误解 #4；10-10 复习再证：「3 个 commit 都在」混淆「内容在 vs 原件在」）
 - 表述混淆：机制说对但措辞/归因错位，或把另一命令的习惯混入（「push 之后才有历史」；merge 的 git commit 混入 rebase 收尾）——反问澄清即可，通常能自查修正（seen in: git-aliases 概念 6，git-rebase 概念 6/4）
+- 「想不出来」后由讲解填入的机制，若未复述会停在听懂层（seen in: cherry-pick 概念 7 的 SHA 哈希、空提交网两个洞；10-11 复习再证「想不出来」×2）——对策：讲完必须留一格让他填，或交回他写命令（本轮 Q2 命令自写即通过）
+- 课堂结论若以「必/绝不」表述，他会长期当硬规则记——**教法侧风险**（10-11「必出新编号」被实测推翻，他原直觉反而是对的）——讲机制时默认留例外
 
 ## Mastered Topics
 
@@ -24,9 +26,10 @@ Updated: 2026-10-10
 | --------------------------- | ----------------- | ---------- | -------------------------------------------------------------------------------------------- | --------------- |
 | git aliases（topic 工作流） | 6/6（全部完成）   | 2026-10-05 | 探针语义、两态 checkout 规则（自推导）、小抄模型（自走通）、td vs tmg 删除辨析、实测纠错意识 | 无              |
 | git rebase                  | 7/7（全部完成）   | 2026-10-09 | 重放模型迁移到位（squash 自推导）、照片墙模型落地、log 实测纠错、工作流两插入口整合          | merge 三方对比机制为讲解所得（非自推导），后续可加深 |
+| git cherry-pick             | 7/7（全部完成）   | 2026-10-11 | 单日完结；重放/两态/粒度三模型全部迁移成功；revert 反向检验自破矛盾；查账命令自写一次过      | 空提交网两洞 + SHA 哈希机制为讲解所得（复述待复习固化） |
 
 ## Metacognition
 
-- Self-assessment accuracy: well-calibrated（git-aliases 两次 + git-rebase「扎实」均与 rubric 一致）
+- Self-assessment accuracy: well-calibrated 为主（git-aliases + git-rebase 多次一致）；occasional 偏高（cherry-pick 概念 6/7 自评「扎实」均高于 rubric 半档——应用对、机制需推导）
 - Fluency illusion frequency: occasional — 复述正确后新场景仍触发旧误解；解决靠双实验 + 应用检验
 - 间隔复习健康：10-10 清 12 项复习债全过，仅 3 处轻度 decay（均经追问/实测校准），无误解复发
