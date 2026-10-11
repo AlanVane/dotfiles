@@ -1,34 +1,43 @@
 workspaces:
 
   #使用前需要修改 root 为具体的 project dir.
-  claude-code-setting:
-    name: claude-code-setting
+  claudecode-setting:
+    name: claudecode-setting
+    root: ~/projects/private/dotfiles
+    startup_window: Claude-Code
+    windows:
+      - name: FCC-Server
+        cmd: fcc-server
+      - name: Claude-Code
+        cmd: fcc-claude
+      - name: GitU
+        cmd: gitu
+      - name: HarnessKit_Web_UI
+        cmd: ~/.config/tmux-workspace.d/HarnessKit_Web_UI.sh
+    # Claude Code & Codex 才有用
+      - name: Claude-Code-Agent-Monitor
+        cmd: ~/.config/tmux-workspace.d/Claude-Code-Agent-Monitor.sh
+
+  #使用前需要修改 root 为具体的 project dir.
+  opencode-setting:
+    name: opencode-setting
     root: ~/projects/private/dotfiles
     startup_window: HarnessKit_Web_UI
     windows:
-      - name: Claude_Code
-        cmd: # fcc-claude
-      # FCC的模型代理
-      # http://127.0.0.1:8082/admin
-      - name: FCC-Server
-        cmd: fcc-server
+      - name: OpenCode
+        cmd: # fcc-opencode
+      - name: GitU
+        cmd: gitu
       - name: HarnessKit_Web_UI
         cmd: ~/.config/tmux-workspace.d/HarnessKit_Web_UI.sh
 
   dotfiles:
     root: ~/projects/private/dotfiles
-    startup_window: Claude_Code
     windows:
       - name: editor
         cmd: nvim .
       - name: GitU
         cmd: gitu
-      - name: Claude_Code
-        cmd: # fcc-claude
-      - name: FCC-Server
-        cmd: fcc-server
-      - name: Claude-Code-Agent-Monitor
-        cmd: ~/.config/tmux-workspace.d/Claude-Code-Agent-Monitor.sh
 
   my-notes:
     root: ~/projects/private/org-notes
@@ -55,5 +64,16 @@ workspaces:
         cmd: nvim .
       - name: dev
         cmd: pnpm run dev
+      - name: GitU
+        cmd: gitu
+
+  opencode-demo:
+    root: ~/projects/private/dotfiles
+    startup_window: OpenCode
+    windows:
+      - name: FCC-Server
+        cmd: fcc-server
+      - name: OpenCode
+        cmd: fcc-opencode
       - name: GitU
         cmd: gitu
