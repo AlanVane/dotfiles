@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Telegram Desktop
 Comment=New era of messaging
-Exec=/usr/local/bin/telegram-desktop
+Exec=env QT_IM_MODULE=fcitx /usr/bin/Telegram -- %U
 Icon=org.telegram.desktop
 Terminal=false
 StartupWMClass=TelegramDesktop

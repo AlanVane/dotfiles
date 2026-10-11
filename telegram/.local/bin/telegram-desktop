@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 # 在 Telegram 中使用 fcitx 输入法
-env GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx /usr/bin/Telegram
+env QT_IM_MODULE=fcitx /usr/bin/Telegram -- "$@"
