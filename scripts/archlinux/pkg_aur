@@ -1,36 +1,43 @@
-abook
-anydesk-bin
-arc-gtk-theme
-cc-switch-bin
-claude-code
-cockpit-navigator
-code-notify
-github520-git
-go-chroma-bin
-google-chrome
-has
-intel-hybrid-codec-driver-git
-lazyworktree-bin
-localsend-bin
-logviewer-bin
-package-query
-pam-gnupg
-pa-notify
-podman-tui
-powerkit
-pwvucontrol
-qpdfview
-qview
-sampler
-sddm-conf
-sddm-theme-greenleaf
-siji-ttf
-sourcetrail
-sublime-text-4
-systemd-manager-tui
-ttf-twemoji
-ttf-unifont
-urlview
-ventoy-bin
-visual-studio-code-bin
-xbanish
+abook 0.6.2+r8+gb5e4a4daec1c-1
+adspower-global 8.7.23-1
+arc-gtk-theme 20221218-2
+binance 2.4.1-1
+cc-switch-bin 4.0.6-1
+cherry-studio-bin 2.1.4-1
+claude-code 2.1.296-1
+cockpit-navigator 0.6.0-1
+dbx-bin 0.6.38-1
+github520-git r8-1
+go-chroma-bin 2.27.0-1
+google-chrome 155.0.8059.39-1
+has 1.6.0-1
+intel-hybrid-codec-driver-git 2.0.0.r6.gb0c7970d-1
+lazyworktree-bin 1.50.1-1
+logviewer-bin 0.1.21-1
+mic-indicator 0.1.1-1
+nexttrace-bin 1.7.3-1
+package-query 1.12-2
+pam-gnupg 0.4-1
+pa-notify 1.5.0-1
+perl-file-next 1.18-7
+piper-tts-bin 2023.11.14-1
+podman-tui 2.0.0-1
+powerkit 1.0.0-8
+pwvucontrol 0.5.3-2
+qpdfview 0.5.0-3
+qview 7.1-2
+sampler 1.1.0-1
+scc 4.0.0-1
+sddm-conf 0.4.1-1
+sddm-theme-greenleaf 1.1-2
+siji-ttf r22.14e7da9-1
+sublime-text-4 4.4215-1
+systemd-manager-tui 1.2.5-1
+throne-bin 1.3.2-1
+ttf-joypixels 11.0.0-1
+ttf-twemoji 17.0.2-3
+ttf-unifont 17.0.03-1
+urlview 1e-1
+ventoy-bin 1.1.18-1
+visual-studio-code-bin 1.141.0-1
+xbanish 1.8-1
