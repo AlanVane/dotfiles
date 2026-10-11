@@ -246,17 +246,6 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=($HOME/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 
-#################
-# bun           #
-#################
-
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 # ripgrep
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/.ripgreprc
 
