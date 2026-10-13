@@ -239,12 +239,12 @@ set $ws0 "10"
 
 # => switch to workspace
 ## 转到工作区 // Workspace // <Super> 1...0 ##
-# 工作区切换 & 智能启动（添加智能启动脚本 ~/.local/bin/st 自动且不重复打开工作区相应程序）
-bindsym $super+1  workspace $ws1, exec --no-startup-id ~/.local/bin/st alacritty
-bindsym $super+2  workspace $ws2, exec --no-startup-id ~/.local/bin/st telegram-desktop
-bindsym $super+3  workspace $ws3, exec --no-startup-id ~/.local/bin/st google-chrome-stable
+# 工作区切换 & 智能启动（添加智能启动脚本 ~/.local/bin/startup-app 自动且不重复打开工作区相应程序）
+bindsym $super+1  workspace $ws1, exec --no-startup-id ~/.local/bin/startup-app alacritty
+bindsym $super+2  workspace $ws2, exec --no-startup-id ~/.local/bin/startup-app telegram-desktop
+bindsym $super+3  workspace $ws3, exec --no-startup-id ~/.local/bin/startup-app google-chrome-stable
 bindsym $super+4  workspace $ws4
-bindsym $super+5  workspace $ws5, exec --no-startup-id ~/.local/bin/st thunar
+bindsym $super+5  workspace $ws5, exec --no-startup-id ~/.local/bin/startup-app thunar
 bindsym $super+6  workspace $ws6
 bindsym $super+7  workspace $ws7
 bindsym $super+8  workspace $ws8

@@ -20,4 +20,4 @@ if [ -d "$HOME/.local/bin" ] ; then
     appendpath "$HOME/.local/bin"
 fi
 
-ps -ef | grep -v "grep\|st $1" | grep "$st" > /dev/null || nohup $1 > /dev/null 2>&1
+ps -ef | grep -v "grep\|startup-app $1" | grep "$st" > /dev/null || nohup $1 > /dev/null 2>&1
