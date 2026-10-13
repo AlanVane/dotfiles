@@ -119,7 +119,7 @@ bindsym --release $super+Ctrl+x  exec  xkill; exec notify-send 'Run xkill...'
 ###############################################################################
 
 # Rofi show window
-bindsym $super+Tab  exec --no-startup-id  rofi -show window
+bindsym Mod1+Tab  exec --no-startup-id  rofi -show window
 
 # 当切换当前工作区时自动来回切换
 workspace_auto_back_and_forth yes
@@ -128,14 +128,11 @@ bindsym $super+comma  workspace back_and_forth
 
 # change focus(switch window in workspace)
 ## 在窗口之间导航焦点 // Window // <Super> ↑ ↓ ← → ##
-bindsym $super+Left   focus left
-bindsym $super+Down   focus down
-bindsym $super+Up     focus up
-bindsym $super+Right  focus right
-
-# 绑定了 Redo 按键，它实际对应的是原右 ALT 按键
-bindsym Mod1+Tab exec ~/.config/metaesc/restore_fullscreen.sh \
-        && exec ~/.config/metaesc/focus_next_win.sh
+#bindsym $super+Left   focus left
+#bindsym $super+Down   focus down
+#bindsym $super+Up     focus up
+#bindsym $super+Right  focus right
+# focus --> i3viswiz
 
 # 移动窗口
 # move focused window with cursor keys
@@ -159,8 +156,8 @@ bindsym $super+Ctrl+shift+Down   resize grow   height 10 px or 10 ppt
 
 # Navigate workspaces next / previous
 ## 导航下一个/上一个工作区 // Window // <Super><Ctrl> ← → ##
-bindsym $super+Ctrl+Left   workspace prev
-bindsym $super+Ctrl+Right  workspace next
+#bindsym $super+Ctrl+Left   workspace prev
+#bindsym $super+Ctrl+Right  workspace next
 
 # => 布局切换 (change container layout <stacked, tabbed, toggle split>)
 
@@ -179,6 +176,8 @@ bindsym $super+Ctrl+Right  workspace next
 # Switch back and forth in all layouts <stacked, tabbed, toggle split>
 ## 在所有布局中轮回切换 // Window // <Super> x ##
 bindsym $super+x  layout toggle all
+# bindsym $super+x layout toggle splith splitv tabbed stacking
+# combine all layout in $mod+x , frees up $mod+w (used for: i3flip --move next)
 
 # => fullscreen
 # enter fullscreen mode for the focused container
@@ -190,7 +189,9 @@ bindsym $super+f  fullscreen toggle
 floating_modifier $super
 # toggle tiling / floating
 ## 窗口切换到浮动 // Window // <Super><Shift><space> ##
-bindsym $super+Shift+space  floating toggle
+#bindsym $super+space  floating toggle
+# floating toggle --> i3fyra --float
+# -----------------------------------
 # floating_maximum_size 1200 x 900
 floating_maximum_size -1 x -1
 
@@ -207,7 +208,7 @@ focus_follows_mouse yes
 # bindsym $super+z focus child
 # 焦点切换到浮动窗口 (change focus between tiling / floating windows)
 ## 焦点切换到浮动窗口 // Window // <Super><space> ##
-bindsym $super+space  focus mode_toggle
+bindsym $super+Shift+space  focus mode_toggle
 
 # => 新建窗口的分割方向
 # Split window horizontally
@@ -278,6 +279,68 @@ bindsym $super+Shift+7  move container to workspace $ws7; workspace $ws7
 bindsym $super+Shift+8  move container to workspace $ws8; workspace $ws8
 bindsym $super+Shift+9  move container to workspace $ws9; workspace $ws9
 bindsym $super+Shift+0  move container to workspace $ws0; workspace $ws0
+
+# default/starting workspace (without this line,
+# "zen" will be the default workspace).
+# primary is the name of the output.
+workspace $ws1 output primary
+
+# toggle floating state            | i3fyra
+# -----------------------------------------------
+bindsym $super+space  exec --no-startup-id i3fyra --float
+# making a floating window tiled with the keybinding
+# above will automatically enable the i3fyra layout
+# on the active workspace.
+
+# splitsizes in the i3fyra layout
+# -----------------------------------------------
+set $layout 'AB=-350 AC=220 BD=252'
+
+# by executing below command with i3 the layout
+# will be configured before it is created
+exec --no-startup-id i3fyra --layout $layout
+
+# use this keybinding to restore the layout
+bindsym $super+p exec --no-startup-id i3fyra --layout $layout
+
+# change focus                     | i3viswiz
+# -----------------------------------------------
+bindsym $super+Left   exec --no-startup-id i3viswiz left
+bindsym $super+Down   exec --no-startup-id i3viswiz down
+bindsym $super+Up     exec --no-startup-id i3viswiz up
+bindsym $super+Right  exec --no-startup-id i3viswiz right
+
+# focus within a group (flip tabs) | i3flip
+# -----------------------------------------------
+bindsym $super+Tab              exec --no-startup-id i3flip next
+bindsym $super+Shift+Tab        exec --no-startup-id i3flip prev
+
+# move within a group              | i3flip --move
+# -----------------------------------------------
+bindsym $super+w                exec --no-startup-id i3flip --move next
+bindsym $super+q                exec --no-startup-id i3flip --move prev
+
+# zentered container and workspace | i3zen
+# if the window is already there, move it back to
+# where it came from.
+bindsym $super+z exec --no-startup-id i3zen --workspace zen
+
+# focus the zen workspace
+bindsym $super+Shift+z workspace zen
+
+# move a window                   | i3Kornhe move
+# -----------------------------------------------
+bindsym $super+Shift+Left      exec --no-startup-id i3Kornhe move --speed 0 left
+bindsym $super+Shift+Down      exec --no-startup-id i3Kornhe move --speed 0 down
+bindsym $super+Shift+Up        exec --no-startup-id i3Kornhe move --speed 0 up
+bindsym $super+Shift+Right     exec --no-startup-id i3Kornhe move --speed 0 right
+
+# resize a window                 | i3Kornhe size
+# -----------------------------------------------
+bindsym $super+Ctrl+Left    exec --no-startup-id i3Kornhe size --speed 30 left
+bindsym $super+Ctrl+Down    exec --no-startup-id i3Kornhe size --speed 30 down
+bindsym $super+Ctrl+Up      exec --no-startup-id i3Kornhe size --speed 30 up
+bindsym $super+Ctrl+Right   exec --no-startup-id i3Kornhe size --speed 30 right
 
 # => 自动将窗口放到指定工作区（支持定义边框类型，窗口布局，大小调整，自动归类工作区等等，多个定义用,隔开）
 # title 需要通过在终端执行 xprop，然后点击对应的 window, 
@@ -379,32 +442,46 @@ mode $close {
     bindsym n mode default
     bindsym Escape mode default
 }
-bindsym $super+q mode $close
+bindsym $super+Shift+q mode $close
 
 # => 调整窗口大小 (resize window with hjkl)
-set $resize " resize h=shrink_5 j=grow_5 k=shrink_5 l=grow_5"
-mode $resize {
-    # these bindings trigger as soon as you enter the resize mode
+#set $resize " resize h=shrink_5 j=grow_5 k=shrink_5 l=grow_5"
+#mode $resize {
+#    # these bindings trigger as soon as you enter the resize mode
+#
+#    # pressing 'LEFT' or 'H' will shrink the window’s width.
+#    # pressing 'RIGHT' or 'L' will grow the window’s width.
+#    # pressing 'UP' or 'K' will shrink the window’s height.
+#    # pressing 'DOWN' or 'J' will grow the window’s height.
+#    bindsym Down   resize grow height 5 px or 5 ppt
+#    bindsym Up     resize shrink height 5 px or 5 ppt
+#    bindsym Right  resize grow width 5 px or 5 ppt
+#    bindsym Left   resize shrink width 5 px or 5 ppt
+#    bindsym j      resize grow height 5 px or 5 ppt
+#    bindsym k      resize shrink height 5 px or 5 ppt
+#    bindsym l      resize grow width 5 px or 5 ppt
+#    bindsym h      resize shrink width 5 px or 5 ppt
+#
+#    # back to normal: Escape
+#    bindsym Escape mode default
+#}
 
-    # pressing 'LEFT' or 'H' will shrink the window’s width.
-    # pressing 'RIGHT' or 'L' will grow the window’s width.
-    # pressing 'UP' or 'K' will shrink the window’s height.
-    # pressing 'DOWN' or 'J' will grow the window’s height.
-    bindsym Down   resize grow height 5 px or 5 ppt
-    bindsym Up     resize shrink height 5 px or 5 ppt
-    bindsym Right  resize grow width 5 px or 5 ppt
-    bindsym Left   resize shrink width 5 px or 5 ppt
-    bindsym j      resize grow height 5 px or 5 ppt
-    bindsym k      resize shrink height 5 px or 5 ppt
-    bindsym l      resize grow width 5 px or 5 ppt
-    bindsym h      resize shrink width 5 px or 5 ppt
+# "sizemode" is needed for i3Kornhe to work. It is
+# entered automatically if the window is floating
+# and i3Kornhe move/size is executed
+set $sizemode " resize ← ↓ ↑ →"
+mode $sizemode {
+    bindsym Left         exec --no-startup-id i3Kornhe size --speed 30 left
+    bindsym Down         exec --no-startup-id i3Kornhe size --speed 30 down
+    bindsym Up           exec --no-startup-id i3Kornhe size --speed 30 up
+    bindsym Right        exec --no-startup-id i3Kornhe size --speed 30 right
 
-    bindsym 7 resize set 50 ppt 50 ppt
-    bindsym 8 resize set 53 ppt 47 ppt
-    bindsym 9 resize set 62 ppt 38 ppt
+    bindsym Shift+Left   exec --no-startup-id i3Kornhe size --speed 5 left
+    bindsym Shift+Down   exec --no-startup-id i3Kornhe size --speed 5 down
+    bindsym Shift+Up     exec --no-startup-id i3Kornhe size --speed 5 up
+    bindsym Shift+Right  exec --no-startup-id i3Kornhe size --speed 5 right
 
-    # back to normal: Escape
-    bindsym Escape mode default
+    bindsym Escape  exec --no-startup-id i3Kornhe x
 }
 
 # => 交换窗口 (swap window with shift hjkl)
@@ -473,13 +550,13 @@ mode $keymap-switch-mode {
     bindsym Escape mode default
 }
 
-set $main-mode "Menu swap/resize[hjkl,7,8,9] gaps[g] keymaps[k] layout[l] monitor[m] volume[v]"
+set $main-mode "Menu swap/resize[←↓↑→] gaps[g] keymaps[k] layout[l] monitor[m] volume[v]"
 mode $main-mode {
     bindsym g  mode $mode-gaps
     bindsym k  mode $keymap-switch-mode
     bindsym l  mode $layout-mode
     bindsym m  mode $monitorMode
-    bindsym r  mode $resize
+    bindsym r  mode $sizemode
     bindsym s  mode $swap-window
     bindsym v  mode $volume-mode
 
