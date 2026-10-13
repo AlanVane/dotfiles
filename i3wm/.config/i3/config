@@ -45,6 +45,7 @@ font pango: DejaVu Sans Mono, FontAwesome 12
 
 # => Super key ==  ⊞ Windows logo key  ==  Apple ⌘ Command key
 set $super  Mod4
+set $exec  exec --no-startup-id
 
 # Set default container layout for i3 (<default|stacking|tabbed>)
 workspace_layout tabbed
@@ -68,22 +69,22 @@ new_float normal
 ###############################################################################
 
 # Open terminal (i3-sensible-terminal)
-bindsym $super+Return  exec --no-startup-id  i3-sensible-terminal
+bindsym $super+Return  $exec  i3-sensible-terminal
 
 # Start file manager (ranger、pcmanfm or thunar)
-bindsym $super+F5  exec --no-startup-id  thunar
+bindsym $super+F5  $exec  thunar
 
 # Open web browser
-bindsym $super+F3  exec --no-startup-id  google-chrome-stable
+bindsym $super+F3  $exec  google-chrome-stable
 
 # flameshot 屏幕截图
-bindsym Print  exec --no-startup-id  flameshot gui --delay 200
+bindsym Print  $exec  flameshot gui --delay 200
 
 # flameshot config
-bindsym $super+shift+Print  exec --no-startup-id  flameshot config
+bindsym $super+shift+Print  $exec  flameshot config
 
 # soundcard mixer
-bindsym $super+shift+Ctrl+m  exec --no-startup-id  alacritty -e 'alsamixer'
+bindsym $super+shift+Ctrl+m  $exec  alacritty -e 'alsamixer'
 
 
 ###############################################################################
@@ -91,15 +92,15 @@ bindsym $super+shift+Ctrl+m  exec --no-startup-id  alacritty -e 'alsamixer'
 ###############################################################################
 
 # Rofi show applications
-bindsym $super+d  exec --no-startup-id  rofi -show drun -columns 3
+bindsym $super+d  $exec  rofi -show drun -columns 3
 
 # Power Menu
 # Repo: https://github.com/jluttine/rofi-power-menu
 # No icons: https://github.com/jluttine/rofi-power-menu/issues/8#issuecomment-1440149437
-bindsym $super+shift+p  exec --no-startup-id  $HOME/.config/rofi/scripts/rofi-power-menu/rofi-power-menu.sh
+bindsym $super+shift+p  $exec  $HOME/.config/rofi/scripts/rofi-power-menu/rofi-power-menu.sh
 
 # 多媒体播放
-bindsym $super+Ctrl+m  exec --no-startup-id  $HOME/.config/rofi/scripts/rofi-media/media.sh
+bindsym $super+Ctrl+m  $exec  $HOME/.config/rofi/scripts/rofi-media/media.sh
 
 
 ###############################################################################
@@ -107,7 +108,7 @@ bindsym $super+Ctrl+m  exec --no-startup-id  $HOME/.config/rofi/scripts/rofi-med
 ###############################################################################
 
 # Use rofi to search book on 'ebook' dir
-bindsym $super+shift+b  exec --no-startup-id  $HOME/.config/rofi/scripts/rofi-book-selector/rofi-book-selector.sh
+bindsym $super+shift+b  $exec  $HOME/.config/rofi/scripts/rofi-book-selector/rofi-book-selector.sh
 
 # xkill
 # https://unix.stackexchange.com/questions/383065/execute-xkill-in-i3
@@ -119,7 +120,7 @@ bindsym --release $super+Ctrl+x  exec  xkill; exec notify-send 'Run xkill...'
 ###############################################################################
 
 # Rofi show window
-bindsym Mod1+Tab  exec --no-startup-id  rofi -show window
+bindsym Mod1+Tab  $exec  rofi -show window
 
 # 当切换当前工作区时自动来回切换
 workspace_auto_back_and_forth yes
@@ -241,11 +242,11 @@ set $ws0 "10"
 # => switch to workspace
 ## 转到工作区 // Workspace // <Super> 1...0 ##
 # 工作区切换 & 智能启动（添加智能启动脚本 ~/.local/bin/startup-app 自动且不重复打开工作区相应程序）
-bindsym $super+1  workspace $ws1, exec --no-startup-id ~/.local/bin/startup-app alacritty
-bindsym $super+2  workspace $ws2, exec --no-startup-id ~/.local/bin/startup-app telegram-desktop
-bindsym $super+3  workspace $ws3, exec --no-startup-id ~/.local/bin/startup-app google-chrome-stable
+bindsym $super+1  workspace $ws1, $exec ~/.local/bin/startup-app alacritty
+bindsym $super+2  workspace $ws2, $exec ~/.local/bin/startup-app telegram-desktop
+bindsym $super+3  workspace $ws3, $exec ~/.local/bin/startup-app google-chrome-stable
 bindsym $super+4  workspace $ws4
-bindsym $super+5  workspace $ws5, exec --no-startup-id ~/.local/bin/startup-app thunar
+bindsym $super+5  workspace $ws5, $exec ~/.local/bin/startup-app thunar
 bindsym $super+6  workspace $ws6
 bindsym $super+7  workspace $ws7
 bindsym $super+8  workspace $ws8
@@ -287,7 +288,7 @@ workspace $ws1 output primary
 
 # toggle floating state            | i3fyra
 # -----------------------------------------------
-bindsym $super+space  exec --no-startup-id i3fyra --float
+bindsym $super+space  $exec i3fyra --float
 # making a floating window tiled with the keybinding
 # above will automatically enable the i3fyra layout
 # on the active workspace.
@@ -298,49 +299,49 @@ set $layout 'AB=-350 AC=220 BD=252'
 
 # by executing below command with i3 the layout
 # will be configured before it is created
-exec --no-startup-id i3fyra --layout $layout
+$exec i3fyra --layout $layout
 
 # use this keybinding to restore the layout
-bindsym $super+p exec --no-startup-id i3fyra --layout $layout
+bindsym $super+p  $exec i3fyra --layout $layout
 
 # change focus                     | i3viswiz
 # -----------------------------------------------
-bindsym $super+Left   exec --no-startup-id i3viswiz left
-bindsym $super+Down   exec --no-startup-id i3viswiz down
-bindsym $super+Up     exec --no-startup-id i3viswiz up
-bindsym $super+Right  exec --no-startup-id i3viswiz right
+bindsym $super+Left   $exec i3viswiz left
+bindsym $super+Down   $exec i3viswiz down
+bindsym $super+Up     $exec i3viswiz up
+bindsym $super+Right  $exec i3viswiz right
 
 # focus within a group (flip tabs) | i3flip
 # -----------------------------------------------
-bindsym $super+Tab              exec --no-startup-id i3flip next
-bindsym $super+Shift+Tab        exec --no-startup-id i3flip prev
+bindsym $super+Tab        $exec i3flip next
+bindsym $super+Shift+Tab  $exec i3flip prev
 
 # move within a group              | i3flip --move
 # -----------------------------------------------
-bindsym $super+w                exec --no-startup-id i3flip --move next
-bindsym $super+q                exec --no-startup-id i3flip --move prev
+bindsym $super+w  $exec i3flip --move next
+bindsym $super+q  $exec i3flip --move prev
 
 # zentered container and workspace | i3zen
 # if the window is already there, move it back to
 # where it came from.
-bindsym $super+z exec --no-startup-id i3zen --workspace zen
+bindsym $super+z  $exec i3zen --workspace zen
 
 # focus the zen workspace
 bindsym $super+Shift+z workspace zen
 
 # move a window                   | i3Kornhe move
 # -----------------------------------------------
-bindsym $super+Shift+Left      exec --no-startup-id i3Kornhe move --speed 0 left
-bindsym $super+Shift+Down      exec --no-startup-id i3Kornhe move --speed 0 down
-bindsym $super+Shift+Up        exec --no-startup-id i3Kornhe move --speed 0 up
-bindsym $super+Shift+Right     exec --no-startup-id i3Kornhe move --speed 0 right
+bindsym $super+Shift+Left   $exec i3Kornhe move --speed 0 left
+bindsym $super+Shift+Down   $exec i3Kornhe move --speed 0 down
+bindsym $super+Shift+Up     $exec i3Kornhe move --speed 0 up
+bindsym $super+Shift+Right  $exec i3Kornhe move --speed 0 right
 
 # resize a window                 | i3Kornhe size
 # -----------------------------------------------
-bindsym $super+Ctrl+Left    exec --no-startup-id i3Kornhe size --speed 30 left
-bindsym $super+Ctrl+Down    exec --no-startup-id i3Kornhe size --speed 30 down
-bindsym $super+Ctrl+Up      exec --no-startup-id i3Kornhe size --speed 30 up
-bindsym $super+Ctrl+Right   exec --no-startup-id i3Kornhe size --speed 30 right
+bindsym $super+Ctrl+Left    $exec i3Kornhe size --speed 30 left
+bindsym $super+Ctrl+Down    $exec i3Kornhe size --speed 30 down
+bindsym $super+Ctrl+Up      $exec i3Kornhe size --speed 30 up
+bindsym $super+Ctrl+Right   $exec i3Kornhe size --speed 30 right
 
 # => 自动将窗口放到指定工作区（支持定义边框类型，窗口布局，大小调整，自动归类工作区等等，多个定义用,隔开）
 # title 需要通过在终端执行 xprop，然后点击对应的 window, 
@@ -398,8 +399,8 @@ mode $mode-gaps {
     bindsym o      mode $mode-gaps-outer
     bindsym i      mode $mode-gaps-inner
 
-    bindsym 0      mode "default", exec --no-startup-id i3-msg "gaps inner current set 0" && i3-msg "gaps outer current set 0"
-    bindsym d      mode "default", exec --no-startup-id i3-msg "gaps inner current set $default-gaps-inner" && i3-msg "gaps outer current set $default-gaps-outer"
+    bindsym 0      mode "default", $exec i3-msg "gaps inner current set 0" && i3-msg "gaps outer current set 0"
+    bindsym d      mode "default", $exec i3-msg "gaps inner current set $default-gaps-inner" && i3-msg "gaps outer current set $default-gaps-outer"
 
     bindsym Escape mode default
 }
@@ -471,17 +472,17 @@ bindsym $super+Shift+q mode $close
 # and i3Kornhe move/size is executed
 set $sizemode " resize ← ↓ ↑ →"
 mode $sizemode {
-    bindsym Left         exec --no-startup-id i3Kornhe size --speed 30 left
-    bindsym Down         exec --no-startup-id i3Kornhe size --speed 30 down
-    bindsym Up           exec --no-startup-id i3Kornhe size --speed 30 up
-    bindsym Right        exec --no-startup-id i3Kornhe size --speed 30 right
+    bindsym Left         $exec i3Kornhe size --speed 30 left
+    bindsym Down         $exec i3Kornhe size --speed 30 down
+    bindsym Up           $exec i3Kornhe size --speed 30 up
+    bindsym Right        $exec i3Kornhe size --speed 30 right
 
-    bindsym Shift+Left   exec --no-startup-id i3Kornhe size --speed 5 left
-    bindsym Shift+Down   exec --no-startup-id i3Kornhe size --speed 5 down
-    bindsym Shift+Up     exec --no-startup-id i3Kornhe size --speed 5 up
-    bindsym Shift+Right  exec --no-startup-id i3Kornhe size --speed 5 right
+    bindsym Shift+Left   $exec i3Kornhe size --speed 5 left
+    bindsym Shift+Down   $exec i3Kornhe size --speed 5 down
+    bindsym Shift+Up     $exec i3Kornhe size --speed 5 up
+    bindsym Shift+Right  $exec i3Kornhe size --speed 5 right
 
-    bindsym Escape  exec --no-startup-id i3Kornhe x
+    bindsym Escape  $exec i3Kornhe x
 }
 
 # => 交换窗口 (swap window with shift hjkl)
@@ -530,10 +531,10 @@ mode $monitorMode {
 
 set $volume-mode "Volume: Mute(F1), V-2(F2), V+2(F3), MicMute(F4)"
 mode $volume-mode {
-    bindsym F1 exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-    bindsym F2 exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-
-    bindsym F3 exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+
-    bindsym F4 exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+    bindsym F1  $exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    bindsym F2  $exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-
+    bindsym F3  $exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+
+    bindsym F4  $exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 
     # back to normal: Escape
     bindsym Escape mode default
@@ -595,12 +596,12 @@ bindsym F9 --release exec ~/.config/metaesc/paste.sh v
 
 # => piper-speak
 # https://github.com/appleshan/piper-speak
-bindsym $super+Shift+s  exec --no-startup-id  speak-selection
+bindsym $super+Shift+s  $exec  speak-selection
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+
-bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-
-bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86AudioRaiseVolume  $exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+
+bindsym XF86AudioLowerVolume  $exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-
+bindsym XF86AudioMute         $exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute      $exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 
 set $bright-note ~/.config/metaesc/brightness_code01.sh
 bindsym XF86MonBrightnessUp exec $bright-note 20
