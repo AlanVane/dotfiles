@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>学习路线图 · git 急救箱</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #ef4444;
+        --accent-gradient: linear-gradient(
+          135deg,
+          var(--accent-1),
+          var(--accent-2)
+        );
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+        position: relative;
+        overflow-x: hidden;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(
+            600px 400px at 15% 10%,
+            rgba(245, 158, 11, 0.08),
+            transparent 60%
+          ),
+          radial-gradient(
+            500px 400px at 85% 85%,
+            rgba(239, 68, 68, 0.06),
+            transparent 60%
+          );
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 44px;
+      }
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 14px;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .chip {
+        font-size: 0.72rem;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        backdrop-filter: blur(12px);
+      }
+      .ring-wrap {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        justify-content: center;
+      }
+      .ring {
+        position: relative;
+        width: 74px;
+        height: 74px;
+      }
+      .ring svg {
+        transform: rotate(-90deg);
+      }
+      .ring .track {
+        stroke: rgba(255, 255, 255, 0.07);
+      }
+      .ring .bar {
+        stroke: url(#gradient);
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .ring .pct {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      .ring-label {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        text-align: left;
+        line-height: 1.5;
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 34px;
+        --mastered-pct: 0%;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 9px;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--accent-1) 0%,
+          var(--accent-2) var(--mastered-pct),
+          var(--border) var(--mastered-pct),
+          var(--border) 100%
+        );
+      }
+      .node {
+        position: relative;
+        margin-bottom: 18px;
+        opacity: 0.45;
+        transition: opacity 0.4s;
+      }
+      .node.mastered,
+      .node.active {
+        opacity: 1;
+      }
+      .node::before {
+        content: "";
+        position: absolute;
+        left: -34px;
+        top: 20px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 2px solid var(--border);
+      }
+      .node.mastered::before {
+        border-color: var(--green);
+        background: var(--green);
+        box-shadow: 0 0 12px rgba(52, 211, 153, 0.4);
+      }
+      .node.active::before {
+        border-color: var(--accent-1);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
+        }
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        backdrop-filter: blur(12px);
+        transition:
+          transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          background 0.3s,
+          border-color 0.3s;
+      }
+      .node.active .card {
+        border-color: rgba(245, 158, 11, 0.45);
+      }
+      .node.mastered .card {
+        border-color: rgba(52, 211, 153, 0.35);
+      }
+      .node:not(.upcoming):hover .card {
+        transform: translateY(-2px);
+        background: var(--surface-hover);
+      }
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .card h3 {
+        font-size: 0.98rem;
+        font-weight: 600;
+      }
+      .card h3 .num {
+        font-family: var(--font-mono);
+        color: var(--text-tertiary);
+        margin-right: 8px;
+        font-size: 0.82rem;
+      }
+      .badge {
+        font-size: 0.66rem;
+        padding: 3px 9px;
+        border-radius: 999px;
+        white-space: nowrap;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-tertiary);
+        border: 1px solid var(--border);
+      }
+      .node.mastered .badge {
+        background: rgba(52, 211, 153, 0.12);
+        color: var(--green);
+        border-color: rgba(52, 211, 153, 0.3);
+      }
+      .node.active .badge {
+        background: rgba(245, 158, 11, 0.12);
+        color: var(--accent-1);
+        border-color: rgba(245, 158, 11, 0.3);
+      }
+      .card p {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        line-height: 1.55;
+        margin-bottom: 10px;
+      }
+      .meta {
+        display: flex;
+        gap: 14px;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--text-tertiary);
+      }
+      .mini-bar {
+        flex: 1;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .mini-bar span {
+        display: block;
+        height: 100%;
+        background: var(--accent-gradient);
+        border-radius: 2px;
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .node.mastered .mini-bar span {
+        background: var(--green);
+      }
+
+      footer {
+        margin-top: 34px;
+      }
+      .footer-bar {
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+      .footer-bar span {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: var(--accent-gradient);
+        border-radius: 3px;
+        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .footer-text {
+        font-size: 0.75rem;
+        color: var(--text-tertiary);
+        text-align: center;
+        font-family: var(--font-mono);
+      }
+      footer .hint {
+        text-align: center;
+        margin-top: 16px;
+        font-size: 0.72rem;
+        color: var(--text-tertiary);
+      }
+      @media (max-width: 480px) {
+        body {
+          padding: 32px 14px;
+        }
+        h1 {
+          font-size: 1.55rem;
+        }
+        .ring-label {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg style="position: absolute; width: 0; height: 0">
+      <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f59e0b" />
+          <stop offset="100%" stop-color="#ef4444" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="container">
+      <header>
+        <h1>🧰 git 急救箱</h1>
+        <div class="chips">
+          <span class="chip">reset · stash · reflog</span>
+          <span class="chip">开课 2026-10-14</span>
+          <span class="chip">7 个概念</span>
+        </div>
+        <div class="ring-wrap">
+          <div class="ring">
+            <svg width="74" height="74">
+              <circle
+                class="track"
+                cx="37"
+                cy="37"
+                r="32"
+                fill="none"
+                stroke-width="6"
+              />
+              <circle
+                class="bar"
+                cx="37"
+                cy="37"
+                r="32"
+                fill="none"
+                stroke-width="6"
+                stroke-dasharray="201"
+                stroke-dashoffset="0"
+              />
+            </svg>
+            <div class="pct">100%</div>
+          </div>
+          <div class="ring-label">
+            <strong>7 / 7</strong> 概念掌握<br />🎓 全课完结（10-15）
+          </div>
+        </div>
+      </header>
+
+      <div class="timeline" style="--mastered-pct: 100%">
+        <div class="node mastered">
+          <div class="card">
+            <div class="card-top">
+              <h3><span class="num">01</span>目的与分诊（急救的三条路）</h3>
+              <span class="badge">✓ 85%</span>
+            </div>
+            <p>
+              误操作发生时先问「哪条路」：reset 挪指针、stash 藏 WIP、revert
+              造反向——急救前先分诊，避免用错刀。
+            </p>
+            <div class="meta">
+              <span>10-14</span>
+              <div class="mini-bar"><span style="width: 85%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="card">
+            <div class="card-top">
+              <h3>
+                <span class="num">02</span>reset 三态（指针 + 暂存区 +
+                工作目录）
+              </h3>
+              <span class="badge">✓ 85%</span>
+            </div>
+            <p>
+              --soft / --mixed / --hard：三态 = 动几层现场。「没」=
+              没名字指着，不是没对象。
+            </p>
+            <div class="meta">
+              <span>10-14</span>
+              <div class="mini-bar"><span style="width: 85%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="card">
+            <div class="card-top">
+              <h3><span class="num">03</span>reflog（操作日志 = 安全网）</h3>
+              <span class="badge">✓ 85%</span>
+            </div>
+            <p>
+              HEAD 的移动流水账：左边 SHA = 落点，动词 = 凶手，@{n} =
+              行号。本地私有，clone 不抄。
+            </p>
+            <div class="meta">
+              <span>10-14</span>
+              <div class="mini-bar"><span style="width: 85%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="card">
+            <div class="card-top">
+              <h3>
+                <span class="num">04</span>reflog 急救实操（找回丢失 commit）
+              </h3>
+              <span class="badge">✓ 90%</span>
+            </div>
+            <p>
+              事故条的上一条 = 事故前最后位置。reflog 找 SHA → reset / branch
+              接回三层现场。
+            </p>
+            <div class="meta">
+              <span>10-14</span>
+              <div class="mini-bar"><span style="width: 90%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="card">
+            <div class="card-top">
+              <h3><span class="num">05</span>stash 解剖（WIP 的真实形态）</h3>
+              <span class="badge">✓ 90%</span>
+            </div>
+            <p>
+              stash = 双父 commit（基线 + 暂存区快照 + 工作目录 tree）挂
+              refs/stash；apply 留账、pop 删账、掉落靠 fsck 翻尸。
+            </p>
+            <div class="meta">
+              <span>10-14</span>
+              <div class="mini-bar"><span style="width: 90%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="card">
+            <div class="card-top">
+              <h3>
+                <span class="num">06</span>stash 的坑（pop 冲突 / 未跟踪 /
+                栈序）
+              </h3>
+              <span class="badge">✓ 90%</span>
+            </div>
+            <p>
+              pop 先施用成功才删账；-u 一锅端，精确制导靠先 add；stash 不跟 push
+              走，上分支就能共享。
+            </p>
+            <div class="meta">
+              <span>10-15</span>
+              <div class="mini-bar"><span style="width: 90%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="node mastered">
+          <div class="card">
+            <div class="card-top">
+              <h3><span class="num">07</span>综合分诊演练（四件工具选路）</h3>
+              <span class="badge">✓ 90%</span>
+            </div>
+            <p>
+              已推用 revert / WIP 用 stash / 丢 commit 用 reflog+reset / 漏 add
+              用 amend——四现场全过。
+            </p>
+            <div class="meta">
+              <span>10-15</span>
+              <div class="mini-bar"><span style="width: 90%"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="footer-bar"><span style="width: 100%"></span></div>
+        <div class="footer-text">
+          7 / 7 掌握 · 🎓 全课完结 · 复习债 10-16 起可清
+        </div>
+        <div class="hint">每轮问答后此页面自动更新 · 想看进度时让我打开它</div>
+      </footer>
+    </div>
+    <script>
+      // 填充进度后取消注释即可生效：设 --pct 与 dashoffset
+    </script>
+  </body>
+</html>

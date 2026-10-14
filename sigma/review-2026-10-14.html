@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>复习日总结 · 2026-10-14</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #06b6d4;
+        --accent-2: #34d399;
+        --accent-gradient: linear-gradient(
+          135deg,
+          var(--accent-1),
+          var(--accent-2)
+        );
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 48px 20px;
+        position: relative;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(
+            600px 400px at 15% 10%,
+            rgba(6, 182, 212, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            500px 400px at 85% 80%,
+            rgba(52, 211, 153, 0.08),
+            transparent 60%
+          );
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 36px;
+      }
+      h1 {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .subtitle {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-top: 8px;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        color: var(--text-secondary);
+        backdrop-filter: blur(12px);
+      }
+      .chip.green {
+        color: var(--green);
+        border-color: rgba(52, 211, 153, 0.3);
+      }
+      .chip.red {
+        color: var(--red);
+        border-color: rgba(248, 113, 113, 0.3);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 12px;
+        text-align: center;
+        backdrop-filter: blur(12px);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .stat:hover {
+        background: var(--surface-hover);
+        transform: translateY(-2px);
+      }
+      .stat .num {
+        font-size: 28px;
+        font-weight: 700;
+        font-family: var(--font-mono);
+      }
+      .stat .num.g {
+        color: var(--green);
+      }
+      .stat .num.r {
+        color: var(--red);
+      }
+      .stat .num.a {
+        color: var(--amber);
+      }
+      .stat .label {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        margin-top: 4px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        margin-bottom: 20px;
+        backdrop-filter: blur(12px);
+      }
+      .card h2 {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card h2::before {
+        content: "";
+        width: 4px;
+        height: 16px;
+        border-radius: 2px;
+        background: var(--accent-gradient);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th {
+        text-align: left;
+        color: var(--text-tertiary);
+        font-weight: 500;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border);
+        font-size: 12px;
+      }
+      td {
+        padding: 9px 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: var(--surface-hover);
+      }
+      .pass {
+        color: var(--green);
+        font-family: var(--font-mono);
+      }
+      .fail {
+        color: var(--red);
+        font-family: var(--font-mono);
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: rgba(251, 191, 36, 0.12);
+        color: var(--amber);
+        border: 1px solid rgba(251, 191, 36, 0.25);
+      }
+      .tag.red {
+        background: rgba(248, 113, 113, 0.12);
+        color: var(--red);
+        border-color: rgba(248, 113, 113, 0.25);
+      }
+      .topic {
+        color: var(--text-tertiary);
+        font-size: 12px;
+        font-family: var(--font-mono);
+      }
+
+      ul.insights {
+        list-style: none;
+      }
+      ul.insights li {
+        padding: 10px 0 10px 26px;
+        position: relative;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      ul.insights li:last-child {
+        border-bottom: none;
+      }
+      ul.insights li::before {
+        content: "▸";
+        position: absolute;
+        left: 6px;
+        color: var(--accent-1);
+      }
+      ul.insights li strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .warn {
+        color: var(--amber);
+      }
+      .bad {
+        color: var(--red);
+      }
+
+      .schedule {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .day {
+        display: flex;
+        gap: 14px;
+        align-items: baseline;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 13px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .day:hover {
+        background: var(--surface-hover);
+      }
+      .day .date {
+        font-family: var(--font-mono);
+        color: var(--accent-1);
+        min-width: 64px;
+        font-weight: 600;
+      }
+      .day .what {
+        color: var(--text-secondary);
+      }
+      .day.alert {
+        border-color: rgba(251, 191, 36, 0.35);
+      }
+      .day.alert .date {
+        color: var(--amber);
+      }
+
+      footer {
+        text-align: center;
+        color: var(--text-tertiary);
+        font-size: 12px;
+        margin-top: 32px;
+      }
+
+      @media (max-width: 480px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        h1 {
+          font-size: 26px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>复习日总结</h1>
+        <div class="subtitle">
+          2026-10-13 夜 ~ 2026-10-14 · git 三课交叉复习
+        </div>
+        <div class="chips">
+          <span class="chip">git-rebase</span>
+          <span class="chip">git-cherry-pick</span>
+          <span class="chip green">到期账全清</span>
+          <span class="chip red">1 项未过</span>
+        </div>
+      </header>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num">12</div>
+          <div class="label">复习项</div>
+        </div>
+        <div class="stat">
+          <div class="num g">11</div>
+          <div class="label">通过</div>
+        </div>
+        <div class="stat">
+          <div class="num r">1</div>
+          <div class="label">未过（维持 1d）</div>
+        </div>
+        <div class="stat">
+          <div class="num a">3</div>
+          <div class="label">现场实测实验</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>复习明细</h2>
+        <table>
+          <tr>
+            <th>课程 · 概念</th>
+            <th>结果</th>
+            <th>新间隔</th>
+          </tr>
+          <tr>
+            <td><span class="topic">rebase</span> 3 历史形状</td>
+            <td class="pass">✓ 菱形 + 两父 B/D</td>
+            <td>4d</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="topic">rebase</span> 4 冲突收尾
+              <span class="tag red">merge 混入复发</span>
+            </td>
+            <td class="fail">✗ 初答错 → 梯子+双实测</td>
+            <td>1d 重置</td>
+          </tr>
+          <tr>
+            <td><span class="topic">rebase</span> 5 交互式</td>
+            <td class="pass">✓ 清单对，命令补基线格</td>
+            <td>4d</td>
+          </tr>
+          <tr>
+            <td><span class="topic">rebase</span> 7 两插入口</td>
+            <td class="pass">✓ 两步全对，代价自纠</td>
+            <td>4d</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="topic">rebase</span> 2 复制重放
+              <span class="tag red">误解 #1 二次复发</span>
+            </td>
+            <td class="fail">✗ 押注「挂 E 后面」→ 实测翻案</td>
+            <td>1d 维持</td>
+          </tr>
+          <tr>
+            <td><span class="topic">cherry-pick</span> 1 目的</td>
+            <td class="pass">✓ 粒度辨析一步对</td>
+            <td>2d</td>
+          </tr>
+          <tr>
+            <td><span class="topic">cherry-pick</span> 2 新 SHA 源不动</td>
+            <td class="pass">✓ 五要素例外自答</td>
+            <td>4d</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="topic">cherry-pick</span> 4 范围语法
+              <span class="tag">教法错</span>
+            </td>
+            <td class="pass">✓（我题面有错，已记账）</td>
+            <td>2d</td>
+          </tr>
+          <tr>
+            <td><span class="topic">cherry-pick</span> 5 冲突收尾</td>
+            <td class="pass">✓ 没插 git commit</td>
+            <td>2d</td>
+          </tr>
+          <tr>
+            <td><span class="topic">cherry-pick</span> 6 三条路</td>
+            <td class="pass">✓ 两场景选路+排他</td>
+            <td>2d</td>
+          </tr>
+          <tr>
+            <td><span class="topic">cherry-pick</span> 3 空提交机制</td>
+            <td class="pass">✓ 判据 + skip/abort</td>
+            <td>4d</td>
+          </tr>
+          <tr>
+            <td><span class="topic">cherry-pick</span> 7 两个洞</td>
+            <td class="pass">✓ grep 查证 + 两洞复述</td>
+            <td>4d</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>本日关键发现</h2>
+        <ul class="insights">
+          <li>
+            <strong>误解 #1（原件搬家）二次复发</strong> ——
+            押注题在看图<strong>之前</strong>又押「原照片挂 E
+            后面」；自称「看错图」被反驳（是模型不是眼力）。<span class="bad"
+              >升级：连续两次押对才销账。</span
+            >
+          </li>
+          <li>
+            <strong>收尾命令混入两连发</strong> —— rebase 冲突收尾初答又写
+            <code>git commit</code>；实测双组对照：手动 commit
+            组消息被覆盖（manual fix vs T1），且根本不会拍第二张。
+          </li>
+          <li>
+            <strong>范围语法跨命令误迁移</strong> —— cherry-pick 的
+            <code>A..B</code> 搬给 rebase
+            被拒（无效的上游）；根子是参数角色：cherry-pick
+            收<b>名单</b>、rebase 收<b>基线</b>——学习者自己说清了。
+          </li>
+          <li>
+            <strong>我的教法错 1 个</strong> —— cherry-pick 概念 4 题面「不能写
+            f1..f3」不成立，双写法实测均只摘 F2/F3。
+          </li>
+          <li>
+            <strong>亮点</strong> ——
+            交互式清单改动一步全对；三条路辨析两场景零提示通过；squash
+            首行报错预测精准。
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>接下来</h2>
+        <div class="schedule">
+          <div class="day alert">
+            <span class="date">10-15</span
+            ><span class="what"
+              >⚠ 重点：rebase 概念 4 冲突收尾（重置 1d）+ 误解 #1
+              第三次押注（实测预测题）</span
+            >
+          </div>
+          <div class="day">
+            <span class="date">10-16</span
+            ><span class="what">cherry-pick 概念 1 / 4 / 5 / 6</span>
+          </div>
+          <div class="day">
+            <span class="date">10-17</span
+            ><span class="what">rebase 概念 3</span>
+          </div>
+          <div class="day">
+            <span class="date">10-18</span
+            ><span class="what"
+              >rebase 概念 5 / 7 + cherry-pick 概念 2 / 3 / 7</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <footer>sigma tutor · 复习日 · 所有判断均以 scratch repo 实测为准</footer>
+    </div>
+  </body>
+</html>

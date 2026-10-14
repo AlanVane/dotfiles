@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>结业总结 · git 急救箱</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #ef4444;
+        --green: #34d399;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.7rem;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 6px;
+      }
+      .sub {
+        color: var(--text-tertiary);
+        font-size: 0.8rem;
+        margin-bottom: 30px;
+      }
+      h2 {
+        font-size: 1.05rem;
+        margin: 30px 0 12px;
+        color: var(--accent-1);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        text-align: center;
+      }
+      .stat .n {
+        font-family: var(--font-mono);
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+      .stat .l {
+        font-size: 0.68rem;
+        color: var(--text-tertiary);
+        margin-top: 4px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 9px 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        color: var(--text-tertiary);
+        font-weight: 500;
+        font-size: 0.72rem;
+      }
+      td.mono {
+        font-family: var(--font-mono);
+      }
+      .ok {
+        color: var(--green);
+      }
+      .bad {
+        color: var(--red);
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        margin-bottom: 10px;
+        font-size: 0.84rem;
+        line-height: 1.6;
+        color: var(--text-secondary);
+      }
+      .card strong {
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🧰 git 急救箱 · 结业总结</h1>
+      <div class="sub">2026-10-14 开课 · 10-15 结业 · 7 / 7 概念掌握 · 🎓</div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="n ok">7/7</div>
+          <div class="l">概念掌握</div>
+        </div>
+        <div class="stat">
+          <div class="n">3</div>
+          <div class="l">误解实测翻案</div>
+        </div>
+        <div class="stat">
+          <div class="n">10+</div>
+          <div class="l">实测实验</div>
+        </div>
+        <div class="stat">
+          <div class="n ok">100%</div>
+          <div class="l">押注题校准</div>
+        </div>
+      </div>
+
+      <h2>📋 概念清单</h2>
+      <table>
+        <tr>
+          <th>#</th>
+          <th>概念</th>
+          <th>得分</th>
+          <th>一句话收获</th>
+        </tr>
+        <tr>
+          <td class="mono">01</td>
+          <td>目的与分诊</td>
+          <td class="ok mono">✓ 85%</td>
+          <td>reset 挪指针 / stash 藏 WIP / revert 造反向——急救前先分诊</td>
+        </tr>
+        <tr>
+          <td class="mono">02</td>
+          <td>reset 三态</td>
+          <td class="ok mono">✓ 85%</td>
+          <td>soft/mixed/hard = 动 1/2/3 层现场；「没」= 没名字，不是没对象</td>
+        </tr>
+        <tr>
+          <td class="mono">03</td>
+          <td>reflog 安全网</td>
+          <td class="ok mono">✓ 85%</td>
+          <td>
+            HEAD 流水账：SHA=落点，动词=凶手，@{n}=行号；本地私有不随 clone
+          </td>
+        </tr>
+        <tr>
+          <td class="mono">04</td>
+          <td>reflog 急救实操</td>
+          <td class="ok mono">✓ 90%</td>
+          <td>事故条的上一条 = 事故前最后位置；reflog 找 SHA → 接回三层</td>
+        </tr>
+        <tr>
+          <td class="mono">05</td>
+          <td>stash 解剖</td>
+          <td class="ok mono">✓ 90%</td>
+          <td>
+            stash = 双父 commit（基线 + 暂存区快照 + 工作目录 tree）挂
+            refs/stash
+          </td>
+        </tr>
+        <tr>
+          <td class="mono">06</td>
+          <td>stash 的坑</td>
+          <td class="ok mono">✓ 90%</td>
+          <td>
+            pop 先施用成功才删账；-u 一锅端，精确制导靠先 add；push 不带 stash
+          </td>
+        </tr>
+        <tr>
+          <td class="mono">07</td>
+          <td>综合分诊演练</td>
+          <td class="ok mono">✓ 90%</td>
+          <td>
+            已推用 revert / WIP 用 stash / 丢 commit 用 reflog+reset / 漏 add 用
+            amend
+          </td>
+        </tr>
+      </table>
+
+      <h2>🏆 高光时刻</h2>
+      <div class="card">
+        <strong>自推导链：</strong>拆词面推 --no-ff（禁快进 = 必造新 commit）→
+        三态命名自悟「动几层」→ stash 双父结构自主填格 → amend 课外工具自判「没
+        push 所以能用」的边界
+      </div>
+      <div class="card">
+        <strong>抓错能力：</strong>老师手写账本两行同 SHA
+        矛盾被当场抓出——急救医生不轻信任何输出，包括老师的
+      </div>
+      <div class="card">
+        <strong>三次翻案全部由押注驱动：</strong
+        >「彻底消失」×2、「先删账」×1——每次都是先亮直觉、再被实测打脸、然后自己讲出正确机制。直觉并不可耻，不验证才可耻
+      </div>
+
+      <h2>🔍 误解战报（3 战 3 胜）</h2>
+      <table>
+        <tr>
+          <th>误解</th>
+          <th>翻案实验</th>
+          <th>状态</th>
+        </tr>
+        <tr>
+          <td>hard reset 后内容「彻底消失」</td>
+          <td class="mono">cat-file -t → commit</td>
+          <td class="ok">✓ 销账</td>
+        </tr>
+        <tr>
+          <td>reflog 随 clone 共享</td>
+          <td class="mono">clone → 只有 1 条</td>
+          <td class="ok">✓ 销账</td>
+        </tr>
+        <tr>
+          <td>pop 先删账再施用（冲突 = WIP 危险）</td>
+          <td class="mono">制造冲突 →「储藏条目被保留」</td>
+          <td class="ok">✓ 销账</td>
+        </tr>
+      </table>
+
+      <h2>⏭️ 下一步</h2>
+      <div class="card">
+        <strong>间隔复习：</strong>7 项复习债，10-16 起可清（说「复习 git
+        急救箱」）。
+        重点防的是那个三连犯的「危险/否定」直觉——押注题还会回来验它的。
+      </div>
+    </div>
+  </body>
+</html>
