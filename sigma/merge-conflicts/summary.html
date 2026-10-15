@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>结业总结 · merge 与冲突解决</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #ef4444;
+        --green: #34d399;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.7rem;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 6px;
+      }
+      .sub {
+        color: var(--text-tertiary);
+        font-size: 0.8rem;
+        margin-bottom: 30px;
+      }
+      h2 {
+        font-size: 1.05rem;
+        margin: 30px 0 12px;
+        color: var(--accent-1);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        text-align: center;
+      }
+      .stat .n {
+        font-family: var(--font-mono);
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+      .stat .l {
+        font-size: 0.68rem;
+        color: var(--text-tertiary);
+        margin-top: 4px;
+      }
+      .ok {
+        color: var(--green);
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        margin-bottom: 10px;
+        font-size: 0.84rem;
+        line-height: 1.6;
+        color: var(--text-secondary);
+      }
+      .card strong {
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔀 merge 与冲突解决 · 结业总结</h1>
+      <div class="sub">2026-10-15 开课同日结业 · 5 / 5 概念掌握 · 🎓</div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="n ok">5/5</div>
+          <div class="l">概念掌握</div>
+        </div>
+        <div class="stat">
+          <div class="n ok">0</div>
+          <div class="l">误解（史上最低）</div>
+        </div>
+        <div class="stat">
+          <div class="n">6</div>
+          <div class="l">实测实验</div>
+        </div>
+        <div class="stat">
+          <div class="n">9/9</div>
+          <div class="l">押注命中率</div>
+        </div>
+      </div>
+
+      <h2>🏆 本课最大亮点</h2>
+      <div class="card">
+        <strong>档案挂账当场清偿：</strong>git-rebase 课留下的「merge
+        三方对比机制为讲解所得」——诊断第一题就自愈了。三方 = 共同祖先 + ours +
+        theirs，由重放模型的「基线」概念直接推导而出。**补课变成了查账**。
+      </div>
+      <div class="card">
+        <strong>押注 9 连中：</strong>FF 直线 / 分叉双父 / 冲突停车 / diff3 三段
+        / 最终三合一 3/3——本课你的直觉和 git 的行为零冲突（对比急救课 3
+        次翻案）。基线模型在 merge 领域的迁移是完整的。
+      </div>
+      <div class="card">
+        <strong>工具自写率：</strong>git diff
+        --diff-filter=U（找冲突名单）、merge --continue /
+        --abort（构词法推导）——未教先会或一点通。
+      </div>
+
+      <h2>⚠️ 唯一记档弱点</h2>
+      <div class="card">
+        <strong>裁决手误：</strong
+        >编辑冲突文件时顺手删掉了无争议行（v1）——「裁决只动打架段」已入教训。真实场景里这类手误无人复核，比冲突本身危险。
+      </div>
+
+      <h2>📖 带走的口诀</h2>
+      <div class="card">
+        快进 = 目标是源的祖先，只挪指针<br />
+        冲突三段：ours / base / theirs<br />
+        裁决只动打架段 → add → merge --continue<br />
+        独占未推 → rebase 整理；共享已推 → merge（只加不改）
+      </div>
+
+      <h2>⏭️ 下一步</h2>
+      <div class="card">
+        复习债：merge 课 5 项 + 急救箱 7 项，均 10-16 起可清（说「复习」即可）。
+      </div>
+    </div>
+  </body>
+</html>

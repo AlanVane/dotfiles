@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>学习路线图 · merge 与冲突解决</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #ef4444;
+        --green: #34d399;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 2rem;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 14px;
+        text-align: center;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .chip {
+        font-size: 0.72rem;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+      }
+      .center {
+        text-align: center;
+        margin-bottom: 34px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+      .center strong {
+        color: var(--green);
+      }
+      .node {
+        position: relative;
+        margin-bottom: 16px;
+        padding-left: 34px;
+      }
+      .node::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 14px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+      }
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 5px;
+      }
+      .card h3 {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+      .card h3 .num {
+        font-family: var(--font-mono);
+        color: var(--text-tertiary);
+        margin-right: 8px;
+        font-size: 0.8rem;
+      }
+      .badge {
+        font-size: 0.66rem;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: rgba(52, 211, 153, 0.12);
+        color: var(--green);
+        border: 1px solid rgba(52, 211, 153, 0.3);
+        white-space: nowrap;
+      }
+      .card p {
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        line-height: 1.55;
+      }
+      footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--text-tertiary);
+        font-family: var(--font-mono);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔀 merge 与冲突解决</h1>
+      <div class="chips">
+        <span class="chip">开课 2026-10-15</span>
+        <span class="chip">同日结课</span>
+        <span class="chip">5 个概念</span>
+        <span class="chip">0 误解</span>
+      </div>
+      <div class="center">
+        <strong>5 / 5</strong> 概念掌握 · 🎓 全课完结（10-15）
+      </div>
+
+      <div class="node">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">01</span>快进 vs 三方（merge 触发条件）</h3>
+            <span class="badge">✓ 90%</span>
+          </div>
+          <p>
+            目标是源的祖先 → 快进只挪指针；分叉 →
+            三方对比造双父节点。自推导完成。
+          </p>
+        </div>
+      </div>
+      <div class="node">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">02</span>冲突现场与标记阅读（diff3 三段）</h3>
+            <span class="badge">✓ 90%</span>
+          </div>
+          <p>
+            ours / base / theirs 三段 = 三方模型印在屏幕上；UU =
+            双方修改未裁决。
+          </p>
+        </div>
+      </div>
+      <div class="node">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">03</span>裁决流程</h3>
+            <span class="badge">✓ 85%</span>
+          </div>
+          <p>
+            git diff --diff-filter=U 找名单 → 只编辑打架段 → add → merge
+            --continue；反悔用 --abort。
+          </p>
+        </div>
+      </div>
+      <div class="node">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">04</span>merge vs rebase 辨析</h3>
+            <span class="badge">✓ 90%</span>
+          </div>
+          <p>
+            独占未推 → rebase 整理（commit 粒度判安全）；共享已推 →
+            merge（只加不改）。
+          </p>
+        </div>
+      </div>
+      <div class="node">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">05</span>综合实操（三合一现场全程指挥）</h3>
+            <span class="badge">✓ 95%</span>
+          </div>
+          <p>edit/edit + add/add 双冲突现场：押注 3/3 全中，裁决执行零卡壳。</p>
+        </div>
+      </div>
+
+      <footer>5 / 5 掌握 · 复习债 10-16 起可清</footer>
+    </div>
+  </body>
+</html>
