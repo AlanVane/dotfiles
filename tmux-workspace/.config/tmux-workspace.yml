@@ -22,14 +22,18 @@ workspaces:
   opencode-setting:
     name: opencode-setting
     root: ~/projects/private/dotfiles
-    startup_window: HarnessKit_Web_UI
+    startup_window: Agent-Dashboard
     windows:
       - name: OpenCode
-        cmd: # fcc-opencode
+        cmd: opencode
       - name: GitU
         cmd: gitu
+      - name: Agent-Dashboard
+        cmd: agentglass
       - name: HarnessKit_Web_UI
         cmd: ~/.config/tmux-workspace.d/HarnessKit_Web_UI.sh
+      - name: OpenCode Token Dashboard
+        cmd: ~/.config/tmux-workspace.d/OpenCode-Token-Dashboard.sh
 
   dotfiles:
     root: ~/projects/private/dotfiles
@@ -67,13 +71,25 @@ workspaces:
       - name: GitU
         cmd: gitu
 
-  opencode-demo:
-    root: ~/projects/private/dotfiles
-    startup_window: OpenCode
+  opencode-hooks:
+    name: opencode-hooks
+    root: ~/projects/ai-coding/opencode-hooks/
+    startup_window: Agent-Dashboard
     windows:
-      - name: FCC-Server
-        cmd: fcc-server
       - name: OpenCode
-        cmd: fcc-opencode
+        cmd: opencode
       - name: GitU
         cmd: gitu
+      - name: Agent-Dashboard
+        cmd: agentglass
+
+  apex-iq-tester:
+    root: ~/projects/ai-coding/apex-iq-tester
+    startup_window: OpenCode
+    windows:
+      - name: OpenCode
+        cmd: opencode
+      - name: GitU
+        cmd: gitu
+      - name: Agent-Dashboard
+        cmd: agentglass
