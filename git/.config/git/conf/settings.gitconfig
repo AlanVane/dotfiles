@@ -26,11 +26,11 @@
     # 解决中文文件名称在这些Git命令输出中的显示问题
     quotepath = false
 
-    pager = "{                                                           \
-    COLUMNS=$(tput cols);                                            \
+    pager = "{                                                       \
+    COLUMNS=$(tput cols 2>/dev/null || echo 80)                      \
     if [ $COLUMNS -ge 80 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then      \
-        pager_width=$(($COLUMNS-4)); \
-        delta --side-by-side -w $pager_width;                            \
+        pager_width=$(($COLUMNS-4));                                 \
+        delta --side-by-side -w $pager_width;                        \
     elif [ $COLUMNS -ge 160 ] && [ ! -z $FZF_PREVIEW_COLUMNS ]; then \
         delta --side-by-side -w $FZF_PREVIEW_COLUMNS;                \
     else                                                             \
@@ -42,8 +42,6 @@
 [delta]
     # colors/styles
     dark = true      # or light = true, or omit for auto-detection
-    plus-color = "#0e3c15"
-    minus-color = "#5a0c0f"
     syntax-theme = "TwoDark"
     # 35% green 65% base
     plus-emph-style = bold syntax "#51655a"
@@ -53,7 +51,6 @@
     plus-style = syntax "#3e4b4c"
     # 20% red 80% base
     minus-style = syntax "#4c3a4c"
-    inspect-raw-lines = false
     navigate = true  # use n and N to move between diff sections
     # Line numbers
     line-numbers = true
@@ -133,7 +130,7 @@
 [merge]
     # set "nvim" as tool for merging
     tool = nvim
-    conflictStyle = diff3
+    conflictStyle = zdiff3
 
 [rebase]
     # 在rebase -i 里自动将 之前commit --fixup A 产生的commit 放在 A 之后
@@ -164,5 +161,6 @@
 # 自动解决重复冲突(比如reset后再次合并)
 [rerere]
     enabled = true
+    autoupdate = true
 
 # }}}
