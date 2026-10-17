@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>学习路线图 · 远程协作</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #ef4444;
+        --green: #34d399;
+        --blue: #60a5fa;
+        --gray: rgba(255, 255, 255, 0.35);
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 2rem;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 14px;
+        text-align: center;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .chip {
+        font-size: 0.72rem;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+      }
+      .center {
+        text-align: center;
+        margin-bottom: 34px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+      .center strong {
+        color: var(--blue);
+      }
+      .node {
+        position: relative;
+        margin-bottom: 16px;
+        padding-left: 34px;
+      }
+      .node::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 14px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--gray);
+        border: 2px solid var(--bg);
+        box-shadow: 0 0 0 2px var(--gray);
+      }
+      .node.current::before {
+        background: var(--blue);
+        box-shadow: 0 0 12px rgba(96, 165, 250, 0.6);
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      .node.mastered::before {
+        background: var(--green);
+        box-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 8px rgba(96, 165, 250, 0);
+        }
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+      }
+      .node.current .card {
+        border-color: rgba(96, 165, 250, 0.5);
+      }
+      .node.mastered .card {
+        border-color: rgba(52, 211, 153, 0.35);
+      }
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 5px;
+      }
+      .card h3 {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+      .card h3 .num {
+        font-family: var(--font-mono);
+        color: var(--text-tertiary);
+        margin-right: 8px;
+        font-size: 0.8rem;
+      }
+      .badge {
+        font-size: 0.66rem;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        white-space: nowrap;
+      }
+      .badge.todo {
+        color: var(--gray);
+      }
+      .card p {
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        line-height: 1.55;
+      }
+      footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--text-tertiary);
+        font-family: var(--font-mono);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🌐 远程协作</h1>
+      <div class="chips">
+        <span class="chip">开课 2026-10-17</span>
+        <span class="chip">7 个概念</span>
+        <span class="chip">前置：merge 5/5 · rebase 7/7</span>
+      </div>
+      <div class="center"><strong>7 / 7</strong> 概念掌握 · 🎓 同日结课（综合实操带导通过，10-18 独立补考）</div>
+
+      <div class="node mastered">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">01</span>远程库模型（origin、两本账）</h3>
+            <span class="badge">✓ 85%</span>
+          </div>
+          <p>
+            clone / remote add 之后，本地同时对着两个库：自己的 +
+            远程的副本账本。
+          </p>
+        </div>
+      </div>
+      <div class="node mastered">
+        <div class="card">
+          <div class="card-top">
+            <h3>
+              <span class="num">02</span>远程跟踪分支（origin/main 快照便签）
+            </h3>
+            <span class="badge">✓ 90%</span>
+          </div>
+          <p>origin/main 是「上次通讯时远程的样子」，不随你本地 commit 动。</p>
+        </div>
+      </div>
+      <div class="node mastered">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">03</span>fetch vs pull</h3>
+            <span class="badge">✓ 90%</span>
+          </div>
+          <p>fetch = 只抄账不动手；pull = fetch + 合并到当前分支。</p>
+        </div>
+      </div>
+      <div class="node mastered">
+        <div class="card">
+          <div class="card-top">
+            <h3>
+              <span class="num">04</span>push 与追踪关系（-u、branch -vv）
+            </h3>
+            <span class="badge">✓ 90%</span>
+          </div>
+          <p>本地分支 ↔ 远程分支的连线：谁跟谁、落后多少、默认推去哪。</p>
+        </div>
+      </div>
+      <div class="node mastered">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">05</span>同步中的冲突（pull 撞冲突）</h3>
+            <span class="badge">✓ 85%</span>
+          </div>
+          <p>pull 也会停车——现场和收尾全是你已会的 merge 那套。</p>
+        </div>
+      </div>
+      <div class="node mastered">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">06</span>push 被拒与落后处理</h3>
+            <span class="badge">✓ 85%</span>
+          </div>
+          <p>
+            fetch → 整合 → 再 push 的正路；--force 的边界（接 rebase 危险面）。
+          </p>
+        </div>
+      </div>
+      <div class="node mastered">
+        <div class="card">
+          <div class="card-top">
+            <h3><span class="num">07</span>多人协作流整合</h3>
+            <span class="badge">✓ 90%</span>
+          </div>
+          <p>「独占未推 → rebase 整理；共享已推 → merge」口诀的实战落地。</p>
+        </div>
+      </div>
+
+      <footer>7 / 7 掌握 · 2026-10-17 同日结课 🎓</footer>
+    </div>
+  </body>
+</html>

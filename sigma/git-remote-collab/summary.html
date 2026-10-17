@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>结业总结 · 远程协作</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --text-tertiary: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #ef4444;
+        --green: #34d399;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.7rem;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 6px;
+      }
+      .sub {
+        color: var(--text-tertiary);
+        font-size: 0.8rem;
+        margin-bottom: 30px;
+      }
+      h2 {
+        font-size: 1.05rem;
+        margin: 30px 0 12px;
+        color: var(--accent-1);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        text-align: center;
+      }
+      .stat .n {
+        font-family: var(--font-mono);
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+      .stat .l {
+        font-size: 0.68rem;
+        color: var(--text-tertiary);
+        margin-top: 4px;
+      }
+      .ok {
+        color: var(--green);
+      }
+      .warn {
+        color: var(--red);
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        margin-bottom: 10px;
+        font-size: 0.84rem;
+        line-height: 1.6;
+        color: var(--text-secondary);
+      }
+      .card strong {
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🌐 远程协作 · 结业总结</h1>
+      <div class="sub">
+        2026-10-17 开课同日结业 · 7 / 7 概念掌握 · 🎓（第 6 门结课）
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="n ok">7/7</div>
+          <div class="l">概念掌握</div>
+        </div>
+        <div class="stat">
+          <div class="n ok">2</div>
+          <div class="l">新误解 · 当日双结案</div>
+        </div>
+        <div class="stat">
+          <div class="n">7</div>
+          <div class="l">实测实验</div>
+        </div>
+        <div class="stat">
+          <div class="n warn">11/14</div>
+          <div class="l">押注（3 跳·疲劳段）</div>
+        </div>
+      </div>
+
+      <h2>🏆 本课最大亮点</h2>
+      <div class="card">
+        <strong>复习先行，旧账三清：</strong>开课前 5 组复习债全清——复发三次的
+        「rebase 原样搬运」误解**连胜 2/2 正式销账**；急救箱「对象库彻底消失」
+        resolved；「收尾混入」低载首过；merge 快进条件实测翻案自纠。
+      </div>
+      <div class="card">
+        <strong>误解双破案：</strong>「pull = 更新工作目录」（文件拷贝模型）与
+        「push 被拒 = 裁决现场」（两类故障混淆）——均由**他自己的押注**
+        与现场实测当场击穿，当日立案当日结案。
+      </div>
+      <div class="card">
+        <strong>彩蛋自发现：</strong>pull.rebase=true 是自己 dotfiles 的配置——
+        「收尾跟整合方式走，不是写死 merge」由现场倒逼推导而出，
+        当天上午刚复习的 rebase 两态规则原地兑现。
+      </div>
+
+      <h2>⚠️ 记档弱点</h2>
+      <div class="card">
+        <strong>收尾混入第 4 次复发：</strong>综合现场、提示原文就在屏上，
+        仍写出 <em>merge --continue</em>（对照原文自纠后，又过度纠正成 rebase
+        完成后继续 continue）。→ 对策升级：<strong
+          >停车第一件事 = 逐字读 git 提示</strong
+        >，命令以提示为准，不调记忆。
+      </div>
+      <div class="card">
+        <strong>疲劳效应：</strong>押注纪律在长会话尾段崩塌（整段跳过 ×3、
+        标签代答）。教法侧同步记档：一次只问一步。
+      </div>
+
+      <h2>📖 带走的口诀</h2>
+      <div class="card">
+        origin/main = 上次通讯的**快照**，只有你 fetch/pull/push 才刷新<br />
+        pull = fetch + 整合（方式跟 pull.rebase 配置走）<br />
+        被拒 = 账不齐（快进校验），不是文件冲突 → pull 整合 → push<br />
+        -u 记两格：哪个远程（origin）+ 哪条分支（refs/heads/xxx）<br />
+        整理历史只在 push 之前；已推共享 → merge 只加不改，绝不 force
+      </div>
+
+      <h2>⏭️ 下一步</h2>
+      <div class="card">
+        复习债 7 项 + 专项 ×3（综合现场**独立**指挥补考 / 收尾混入自陈 / push
+        被拒病根自陈），10-18 起可清；另有 aliases 工作流逾期 3 天。
+        说「复习」即可。
+      </div>
+    </div>
+  </body>
+</html>

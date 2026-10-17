@@ -1,0 +1,42 @@
+# Session: 远程协作（fetch / pull / 远程分支 / 追踪关系）
+
+## Learner Profile
+
+- Level: 高起点（rebase 7/7、cherry-pick 7/7、急救箱 7/7、merge 5/5；重放/便利贴/两态/三方模型全部可迁移；aliases 课已含本地 topic 工作流，远程仅零星接触）
+- Language: 中文
+- Started: 2026-10-17
+- Prior Topics: [[git-aliases]]（6/6）、[[git-rebase]]（7/7）、[[cherry-pick]]（7/7）、[[git-first-aid]]（7/7）、[[merge-conflicts]]（5/5）
+
+## Concept Map
+
+| #   | Concept                                      | Prerequisites | Status      | Score | Last Reviewed | Review Interval |
+| --- | -------------------------------------------- | ------------- | ----------- | ----- | ------------- | --------------- |
+| 1   | 远程库模型（origin、remote -v、两本账）      | -             | mastered    | 85%   | 2026-10-17    | 1d              |
+| 2   | 远程跟踪分支（origin/main：快照便签）        | 1             | mastered    | 90%   | 2026-10-17    | 1d              |
+| 3   | fetch vs pull（pull = fetch + 合并）         | 2             | mastered    | 90%   | 2026-10-17    | 1d              |
+| 4   | push 与追踪关系（-u、branch -vv）            | 1, 2          | mastered    | 90%   | 2026-10-17    | 1d              |
+| 5   | 同步中的冲突（pull 撞冲突 = 收尾跟整合方式走） | 3           | mastered    | 85%   | 2026-10-17    | 1d              |
+| 6   | push 被拒与落后处理（fetch → 整合 → push）   | 3, 4          | mastered    | 85%   | 2026-10-17    | 1d              |
+| 7   | 多人协作流整合（口诀落地 + 强推边界）        | 5, 6          | mastered    | 90%   | 2026-10-17    | 1d              |
+
+## Misconceptions
+
+| #   | Concept       | Misconception                                     | Root Cause                                                                                | Status   | Counter-Example Used                                                                                                                          |
+| --- | ------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2   | push 被拒处理 | 「被拒 = 文件冲突现场，走 手动编辑 → add → commit → push」（序列里连 pull 都没有） | 把「快进校验失败」（账不齐，文件层无事）与「冲突停车」（文件等裁决）两类故障混为一谈——押注时他明明说了「提示先 pull」，落笔却写成裁决序列 | resolved | 我方讲解病根（快进校验 vs 文件冲突）→ 三格梯子 ✓（git pull / 一条直线 / git push）→ 照单执行一次过；**自陈欠**，1d 复习时让他复述病根 | 
+| 1   | fetch vs pull | 「pull 比 fetch 多做的一步 = **更新了工作目录**」 | 下载文件模型：把 pull 当成拷文件进工作区；自评「fetch/pull 我会」与实测不符——**流利错觉** | resolved | 站 topic 上 pull：实测「已经是最新的」、工作目录零变化 → 梯子双填空 ✓（merge / 两边账一模一样）→ 销账问 ✓ 自陈「把 merge 当作更新工作目录了」 |
+
+## Session Log
+
+- [2026-10-17] 新课开张：远程协作（三选一第 1 项，推荐项）。前置：同日清完 5 组复习债（rebase 复制重放误解连胜 2/2 **销账**；first-aid 对象库误解 resolved；收尾混入首过；cherry-pick 名单/源不动 8d/4d；merge 快进条件实测翻案自纠 → 原定 10-18 补考）
+- [2026-10-17] 诊断：自评会「fetch/pull 区别 + push -u 追踪」两块 → Q1 押注 ✓ **B**（origin/main = 远程位置、没跟着本地动）——「服务器上的位置」含实时/快照歧义，留双克隆实测辨析；Q2 机制 ✗「多做的一步=**更新工作目录**」→ 误解 #1 active（下载文件模型 + 流利错觉：自评会、机制答错）→ 出反例：站在 topic 上 pull
+- [2026-10-17] 反例实测（误解 #1 结案）：双克隆现场——远程 main 领先 5、topic 相同、人站 topic → 押 a/b ✓✓（topic 历史不进 main 的 commit、工作目录不碰）→ 实测「已经是最新的」+ base.txt 原样 → 梯子双填空 ✓（**merge** / 两边账一模一样）→ 销账问 ✓ 自陈「把 merge 当作更新工作目录了」→ **resolved**；旁支：场景路由题他先填标签（fetch/push）而非地点，重问后 ✓（原作者的仓库 / 我的 fork / 无权限 → 拒绝）
+- [2026-10-17] 概念 2：服务器推 main6 → 学习者本地不动（服务器 08bc723 / origin/main 02afbd1）→ 押 ✓「不会」→ 机制追问：Q1 ◐ 复述现象 → 矛盾反问（服务器明明动了你怎么没被刷新）→ ✓「**用户**按刷新键」；Q2 ✓「远程分支的本地镜像，不是普通分支」（git branch -v 里没它为证）→ **mastered 90%**
+- [2026-10-17] 概念 3 实操：自写 `git fetch; git pull` → 实测 fetch 只刷便签（02afbd1..08bc723 直播）、pull = **Fast-forward** 单父 → **押注「快进」命中 = merge 概念 1 提前补考通过**（1d → 2d，10-18 补考取消）→ **mastered 90%**
+- [2026-10-17] 概念 1：Q1「origin 哪来的」**不知道** → 梯子留格 → 他填标签而非地点 → 场景路由题重问 ✓ → **mastered 85%**（origin = clone 时默认名；remote -v = fetch/push 两列地址）
+- [2026-10-17] 概念 4：Q1 ✓ `git push -u origin feature-x`；Q2 ◐「记了地址」→ 押注实验：feature-x（-u 过）裸 push ✓ 顺利 / hotfix（没 -u）裸 push ✓ 报「没有对应的上游分支」→ 真身 `git config --get-regexp ^branch` 两行（remote=origin / merge=refs/heads/feature-x）→ 格 1 他填 origin/feature-x **串格自纠 → origin** → **mastered 90%**
+- [2026-10-17] 概念 5：双押「不知道」→ 梯子三格：格1 ✓ merge、格2 ✗「本地repo、工作repo」（把两边说成 repo）、格3 ✗「自动完成」→ 实测停车打脸 → **彩蛋：本机 pull.rebase=true，pull 走 rebase**（他自己 dotfiles 配的）+ conflictStyle=diff3 → 机制自答 ✓（③同行冲突、两边=本地 topic↔origin/topic 引用）→ 收尾 ✓ `git rebase --continue`（今早复习零混入）→ 裁决实操（继续时 nvim 编辑器挂起超时 → GIT_EDITOR=true 短路重跑）→ 成功变基，新父=08811f6 → 站队理由梯子 ✓「问 commit 作者 / 看需求文档与 task」→ **mastered 85%**
+- [2026-10-17] 概念 6：布景（远程再推一个 commit）→ 押 ✓「被拒，提示先 pull」→ 实测 `! [rejected] (fetch first)` ✓（status 仍显[领先1]——陈旧快照算账，顺手教了）→ **但操作序列写成裁决四步（误解 #2）**→ 追问两问（哪个文件要编辑？第二次 push 会成吗）→ 「不知道，你来写」→ 病根讲解 + 三格梯子 ✓✓✓ → 照单执行：pull(变基1/1)→一条直线→push 成功，终局账平 → **mastered 85%**
+- [2026-10-17] 概念 7：场景押注 ✓✓（未推→rebase 整理安全、判据=没人持有旧线；已推→拒绝、**绝不 force**）→ force 下场自答 ✓（远程旧线掉出、同事手里对不上号——用今早「指针离开≠对象删除」精准表述 ✓）→ 时机梯子 ✓✓（push **之前** / 新 commit / **merge** 只加不改）→ **mastered 90%**
+- [2026-10-17] 综合实操（同事冲突现场全程指挥）：布景一波三折（同事仓自己撞停车，顺手演示了「落后+冲突」双重现场）→ 押 a「发生冲突」✓ 停车一字不差（1/2 c1 过、2/2 c2 撞）→ **押 b/c 连续跳过 3 次**，四连套押注把人问乱（「我已经混乱了」——**教法侧事故**：疲劳段一次只问一步）→ 慢速档：读提示抄命令时 **收尾混入第 4 次复发**（屏上原文 `rebase --continue` 写成 `merge --continue`）→ 对照原文自纠 `rebase` → 裁决 learner-v2 → continue → 一条直线领先 2 → 下一步（先误答 continue、过度纠正）→ `git push` ✓ 上线，终局账平 → **带导走完，独立版挂 10-18 补考**
+- [2026-10-17] 自评「基本掌握」= rubric 一致（单点全过、综合卡壳）→ **校准准确，无流利错觉** → **🎓 远程协作 结课：7/7**（同日）。复习债：7 项 10-18 起 + 专项×3（综合独立补考 / 收尾混入自陈 / 误解 #2 病根自陈）
