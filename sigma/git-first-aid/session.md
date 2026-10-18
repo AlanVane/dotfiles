@@ -11,13 +11,13 @@
 
 | #   | Concept                                              | Prerequisites | Status   | Score | Last Reviewed | Review Interval |
 | --- | ---------------------------------------------------- | ------------- | -------- | ----- | ------------- | --------------- |
-| 1   | 目的与分诊（急救的三条路）                           | -             | mastered | 85%   | 2026-10-14    | 1d              |
+| 1   | 目的与分诊（急救的三条路）                           | -             | mastered | 85%   | 2026-10-18    | 2d              |
 | 2   | reset 三态（指针 + 暂存区 + 工作目录）               | 1             | mastered | 85%   | 2026-10-17    | 2d              |
-| 3   | reflog（操作日志 = 安全网）                          | 2             | mastered | 85%   | 2026-10-14    | 1d              |
-| 4   | reflog 急救实操（找回丢失 commit）                   | 3             | mastered | 90%   | 2026-10-14    | 1d              |
-| 5   | stash 解剖（WIP 的真实形态）                         | 2             | mastered | 90%   | 2026-10-14    | 1d              |
-| 6   | stash 的坑（pop 冲突 / 未跟踪 / 栈序）               | 5             | mastered | 90%   | 2026-10-15    | 1d              |
-| 7   | 综合分诊演练（reset / stash / revert / reflog 选路） | 2, 4, 6       | mastered | 90%   | 2026-10-15    | 1d              |
+| 3   | reflog（操作日志 = 安全网）                          | 2             | mastered | 85%   | 2026-10-18    | 2d              |
+| 4   | reflog 急救实操（找回丢失 commit）                   | 3             | mastered | 90%   | 2026-10-18    | 2d              |
+| 5   | stash 解剖（WIP 的真实形态）                         | 2             | mastered | 90%   | 2026-10-18    | 2d              |
+| 6   | stash 的坑（pop 冲突 / 未跟踪 / 栈序）               | 5             | mastered | 90%   | 2026-10-18    | 2d              |
+| 7   | 综合分诊演练（reset / stash / revert / reflog 选路） | 2, 4, 6       | mastered | 90%   | 2026-10-18    | 2d              |
 
 ## Misconceptions
 
@@ -42,3 +42,5 @@
 - [2026-10-14] **继续上课**（同日，间隔期内免复习）→ 概念 5 押注题重出 → 他押 **B「stash 就是 commit + 特殊位置」** ✓ → 实测验尸：stash-lab（app.txt 改一半 + 未跟踪 wip.txt）→ `cat-file -t stash` → **commit**，B 胜 → 剖内脏：**两行 parent**（e1f3fd7=C1 基线 + 6434d7f=index 快照）+ tree=WIP 现场；`git log stash` 三行谱系 → 同时发现 **wip.txt 未被收走**（未跟踪默认不 stash，呼应概念 2 的 add-A 绕法）→ 出两问 → ◐ Q1「两种状态记录：暂存区、工作目录」（方向对、未指认哪个 parent）→ 降梯三格填空 → ✓「父 2 = 暂存区；tree = 工作目录」→ **完整解剖模型成立**：双父特殊 commit（父 1=基线、父 2=暂存区现场、tree=工作目录现场）挂 refs/stash，升级他诊断课的原话 → Q2「没必要收走」✗ 理由猜测 → 补规则「默认只收已跟踪文件的改动」（与铁律「不擅动未跟踪」同源，add-A 绕法的根因）→ **三兄弟实操题**：Q1 ✓ 语义对（`apply 0` 居然也被 git 收了，裸数字编号；稳妥写法 stash@{0}）Q2 ✓ `pop` Q3 ✗「同一个命令」→ 实测拆穿：apply 后列表还在（留账），pop 后「丢弃了 refs/stash@{0}」（删账）→ **pop = apply + drop** 定案（merge 彩蛋「pop 发现内容一致直接丢弃」即 drop 步骤）→ 他押 **B ✓**（第三次躲过「彻底消失」直觉）+「用 reflog」◐ → 实测：对象在（cat-file=commit）、`log -g stash` 致命错误（便利贴撕了账本一起走）、`fsck --unreachable` 两具 commit 全翻出（连父 2 暂存区快照都在）→ 补实战两招：当场抄 SHA / fsck 翻尸 → `stash apply <SHA>` 实测又踩小坑：**全数字短 SHA 被当 stash 编号**（refs/stash@{6425094}）→ 完整 SHA（带字母）施用成功，WIP 归位且不重建列表 → 集成考核 ✓ 三步全对（对象库 / fsck --unreachable / stash apply 完整 SHA）→ 自评「扎实」= rubric 3.75-4/4 校准一致 → **概念 5 掌握（90%）**（解剖/施用全程实操）→ **概念 6 开场（stash 的坑）**：押注题「pop 撞冲突时 stash 记录在不在」→ 他押 **B（先删账再施用，WIP 危险）** ✗ → 实测：冲突现场 + git 原话「储藏条目被保留以备您再次需要」→ **A 胜**（pop = 先施用、成功才删账；冲突 = 不执行 drop）→ **新误解 #3 候选：「pop 先删记录再施用」**（危险方向直觉再证）→ 出总结题 → ✓「先施用后删账，冲突不马上删账」——**误解 #3 resolved** → 坑 2：填空 ✓ `u`（untracked）→ 演示 `-u` 一锅端缺陷（wip+junk 全收）+ 彩蛋：全局忽略 `*.log`（~/.config/git/ignore）生效，**stash 遵守忽略规则** → 口诀定案：精确制导=先 add 目标文件再普通 stash；图省事=-u 一锅端 → 两问 ✓「pop 默认取 {0}（最新，LIFO）」「push 不会带走 stash」→ **收口三连**：✓1「先 add 设计稿再 stash」✓2「drop 掉」（补命令 `git stash drop`，默认 {0}）✓3「开新分支 apply 后 push 分支给同事」——**比标准答案更显本质**（把 WIP 转正成分支上的 commit，戳穿「stash 共享不了 = 不在分支名单」）→ 自评「扎实」= rubric 3.75/4 校准一致 → **概念 6 掌握（90%）**→ 四题全过：✓1 revert ✓2 `stash push -u`（补注：stash 全局列表，救完火回来 pop）✓3 reflog+reset --hard 完整链 ✓4 `add` + `commit --amend`（**课外工具，用对场景**；补 --no-edit 与 reset --soft 同款替代路线）→ 自评「**基本掌握**」**低于 rubric 3.75/4**——本场首次 under-confidence，用证据校准（rebase 铁律隔场直调 / -u 即时迁移 / amend 边界判断准）→ **概念 7 掌握（90%）**
 - [2026-10-15] **🎓 全课完结：7/7**。误解战报 3 战 3 胜（hard「彻底消失」/ reflog 随 clone / pop 先删账——全部实测翻案，均属「危险/否定」直觉家族，三次全部由押注题触发、实测销账）。间隔复习债：7 项，10-16 起可复习
 - [2026-10-15] 元观察：概念 7 当场自评「基本掌握」→ 听完教师证据后改评「扎实」——档案保留当场值（原始信号）+ 注明事后修订；「注脚级细节导致自低估」的特点以当场值入册
+- [2026-10-18] 复习债（第一批 2 项，逾期 3 天）：概念 1 分诊 ✓ 选 revert + 拆开排他理由（reset→push 被拒 / rebase drop→同事历史对不上号）→ 1d→**2d**；概念 3 reflog ◐ **半梯过**——题面（找回 SHA 去哪行）他先「没看懂」→ 降格问「reset 前 HEAD 站哪」+ 送半句结构规则 → ✓ def5678 → 末格一提示 ✓ `reset --hard def5678`（补贴标签稳招 branch rescue）→ 1d→**2d**，备注半梯：结构规则是被送回来的，非自主调出，10-20 复查再看
+- [2026-10-18] 复习债·第二批（4 项，逾期 2-3 天）全过：概念 4 reflog 实操 ✓ 三步独立复述（--no-abbrev / reset 上一行 / reset --hard SHA——**结构规则自主调出**，C3 半梯撤销）→ 2d；概念 5 stash 解剖 ✓ 三格全对（特殊 commit / 双父 / refs/stash）→ 2d；概念 6 stash 坑 ✓ 「stash 本地账，双向都看不到，push 带不走」→ 2d；概念 7 综合分诊 ✓ Q1 amend + Q2 方向对但替代招忘 → 拼图组装 ✓（reword/amend → push --force，仅无人 pull 时允许）→ 2d。急救箱 4/7 项已升 2d，剩概念 2（10-19 到期）+ 概念 3（10-20）

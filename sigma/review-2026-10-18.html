@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma 复习战报 · 2026-10-18</title>
+    <style>
+      :root {
+        --bg: #0f1419;
+        --card: #1a2129;
+        --accent: #4fc3f7;
+        --ok: #66bb6a;
+        --bad: #ef5350;
+        --warn: #ffa726;
+        --text: #e6edf3;
+        --muted: #8b98a5;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 32px 16px;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 26px;
+        margin-bottom: 4px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        color: var(--accent);
+      }
+      .sub {
+        color: var(--muted);
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+      .stat {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+      }
+      .stat .num {
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .stat .lbl {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .warn {
+        color: var(--warn);
+      }
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 12px;
+      }
+      .card h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 8px 10px;
+        text-align: left;
+        border-bottom: 1px solid #2a3340;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .b-ok {
+        background: rgba(102, 187, 106, 0.15);
+        color: var(--ok);
+      }
+      .b-bad {
+        background: rgba(239, 83, 80, 0.15);
+        color: var(--bad);
+      }
+      .b-warn {
+        background: rgba(255, 167, 38, 0.15);
+        color: var(--warn);
+      }
+      .b-pass {
+        background: rgba(79, 195, 247, 0.15);
+        color: var(--accent);
+      }
+      .flag {
+        border-left: 3px solid var(--bad);
+        padding-left: 12px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      .flag2 {
+        border-left: 3px solid var(--warn);
+        padding-left: 12px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      footer {
+        margin-top: 32px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>🎓 复习 + 补考战报</h1>
+      <div class="sub">
+        2026-10-18 · Sigma 多会话综合（远程协作补考 + 三批复习债）
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num ok">✅</div>
+          <div class="lbl">综合独立补考<br />通过 · 3 专项全清</div>
+        </div>
+        <div class="stat">
+          <div class="num">15</div>
+          <div class="lbl">复习债清账</div>
+        </div>
+        <div class="stat">
+          <div class="num ok">12</div>
+          <div class="lbl">干净通过</div>
+        </div>
+        <div class="stat">
+          <div class="num warn">2</div>
+          <div class="lbl">降档处理</div>
+        </div>
+        <div class="stat">
+          <div class="num bad">1</div>
+          <div class="lbl">误解复发回炉</div>
+        </div>
+      </div>
+
+      <h2>🎯 综合独立补考（远程协作 · 零提示）</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>检验项</th>
+            <th>结果</th>
+          </tr>
+          <tr>
+            <td>押注① push 被拒 = 账层打架、文件层无事</td>
+            <td><span class="badge b-ok">✓ B 胜</span></td>
+          </tr>
+          <tr>
+            <td>押注② pull.rebase=true → 重放 L1 撞停车</td>
+            <td><span class="badge b-ok">✓ C 胜</span></td>
+          </tr>
+          <tr>
+            <td>裁决 → add → rebase --continue（屏上原文）</td>
+            <td>
+              <span class="badge b-ok">✓ 一次到位 · 无混入无过度纠正</span>
+            </td>
+          </tr>
+          <tr>
+            <td>验收题：两层故障辨析（病根自陈）</td>
+            <td><span class="badge b-ok">✓ 误解 #2 销账</span></td>
+          </tr>
+          <tr>
+            <td>验收题：站队依据</td>
+            <td><span class="badge b-ok">✓ 找本人对齐 + 合成思路</span></td>
+          </tr>
+          <tr>
+            <td>收尾纪律自陈（四次复发的终验）</td>
+            <td>
+              <span class="badge b-pass">✓ 命令从提示来，不从记忆来</span>
+            </td>
+          </tr>
+          <tr>
+            <td>自评「扎实」 vs rubric 4/4</td>
+            <td><span class="badge b-pass">校准一致</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>📚 三批复习账（15 项）</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>概念</th>
+            <th>结果</th>
+            <th>新间隔</th>
+          </tr>
+          <tr>
+            <td>aliases · tn/tnr</td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td>8d → 10-26</td>
+          </tr>
+          <tr>
+            <td>aliases · tmg --no-ff</td>
+            <td><span class="badge b-ok">✓ 与 merge 课串通</span></td>
+            <td>8d → 10-26</td>
+          </tr>
+          <tr>
+            <td>aliases · td 安全网</td>
+            <td><span class="badge b-bad">✗ 三段梯才到底</span></td>
+            <td><b>重置 1d</b>（10-19）</td>
+          </tr>
+          <tr>
+            <td>急救箱 · 分诊选路</td>
+            <td><span class="badge b-ok">✓ 排他理由拆开</span></td>
+            <td>2d → 10-20</td>
+          </tr>
+          <tr>
+            <td>急救箱 · reflog 实操</td>
+            <td>
+              <span class="badge b-ok">✓ 三步独立 · 结构规则自主调出</span>
+            </td>
+            <td>2d → 10-20</td>
+          </tr>
+          <tr>
+            <td>急救箱 · stash 解剖</td>
+            <td><span class="badge b-ok">✓ 三格全对</span></td>
+            <td>2d → 10-20</td>
+          </tr>
+          <tr>
+            <td>急救箱 · stash 坑</td>
+            <td><span class="badge b-ok">✓ 本地账双向隔离</span></td>
+            <td>2d → 10-20</td>
+          </tr>
+          <tr>
+            <td>急救箱 · 综合分诊</td>
+            <td><span class="badge b-ok">✓ amend/force 组装</span></td>
+            <td>2d → 10-20</td>
+          </tr>
+          <tr>
+            <td>rebase · 目的判据</td>
+            <td><span class="badge b-warn">◐ 复述空·讲解后应用对</span></td>
+            <td>维持 4d（10-22 独立复述）</td>
+          </tr>
+          <tr>
+            <td>rebase · 复制重放</td>
+            <td>
+              <span class="badge b-bad">✗ 初押错 → 矛盾自纠 + tag 实测</span>
+            </td>
+            <td><b>回炉 active · 1d</b></td>
+          </tr>
+          <tr>
+            <td>rebase · 历史形状</td>
+            <td><span class="badge b-ok">✓ 菱形双父 vs 直线</span></td>
+            <td>8d → 10-26</td>
+          </tr>
+          <tr>
+            <td>rebase · 危险面</td>
+            <td><span class="badge b-ok">✓ 三连全对</span></td>
+            <td>8d → 10-26</td>
+          </tr>
+          <tr>
+            <td>merge · 冲突标记</td>
+            <td><span class="badge b-ok">✓ diff3 中段价值</span></td>
+            <td>2d → 10-20</td>
+          </tr>
+          <tr>
+            <td>merge · 三方预测</td>
+            <td><span class="badge b-ok">✓ UU/AA/自动</span></td>
+            <td>2d → 10-20</td>
+          </tr>
+          <tr>
+            <td>急救箱 · reflog（半梯项）</td>
+            <td><span class="badge b-warn">◐ 半梯过</span></td>
+            <td>2d（当日批内实操三步独立全对，半梯已撤销）</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>⚠️ 头号事件：误解 #1 复发</h2>
+      <div class="card">
+        <div class="flag">
+          <b>「rebase 把原 commit 原样搬运」——销账次日第 3 次复发。</b><br />
+          三格押注第 1 格初押「原 C、D 挂 E 后面」✗ → 被指「第 1 格 vs 第 2
+          格自相矛盾」后秒自纠 → tag 实测钉死（原装挂分家点 B=f77ca65，topic
+          顶端全新）。<br />
+          <b
+            >处置：连胜清零、标回 active、间隔重置 1d。10-19
+            回炉押注，需再连续两次押对才重开销账。</b
+          >
+        </div>
+        <div class="flag2">
+          <b>降档：</b>aliases·td 安全网速答失忆（-d 拦未合并，10-05
+          实测过全忘）→ 10-19 重点；rebase 判据复述空 → 10-22 要求独立复述。
+        </div>
+      </div>
+
+      <h2>📌 10-19 待办</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>优先级</th>
+            <th>事项</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><b>rebase 误解 #1 回炉押注</b>（连胜清零后第一押）</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>aliases·td 安全网 1d 复查（-d 拦截机制）</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>merge 快进条件 2d 再验（10-17 悬账）</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>远程协作 1/2/3/4 首轮复习到期</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>剩余逾期：cherry-pick 1/5/6 · rebase 5/7 · aliases 1/2/3</td>
+          </tr>
+        </table>
+      </div>
+
+      <footer>sigma · 复习战报 2026-10-18 · 下次会话从「回炉押注」开始</footer>
+    </div>
+  </body>
+</html>
