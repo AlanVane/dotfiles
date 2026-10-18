@@ -27,7 +27,7 @@
     quotepath = false
 
     pager = "{                                                       \
-    COLUMNS=$(tput cols 2>/dev/null || echo 80)                      \
+    COLUMNS=$(tput cols 2>/dev/null || echo 80);                     \
     if [ $COLUMNS -ge 80 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then      \
         pager_width=$(($COLUMNS-4));                                 \
         delta --side-by-side -w $pager_width;                        \
