@@ -6,10 +6,7 @@ ARCHLINUX=$HOME'/projects/private/dotfiles/scripts/archlinux'
 TARGETS=(
     aspell/.aspell.conf
     bat/.config/bat/config
-    bin/.local/bin/ec
-    bin/.local/bin/es
-    bin/.local/bin/et
-    bin/.local/bin/st
+    bin/.local/bin/startup-app
     bin/.local/bin/trash
     bin/.local/bin/trashctl
     bin/.local/bin/test-fonts.pl
@@ -36,20 +33,20 @@ TARGETS=(
     font/.config/fontconfig/web-ui-fonts.conf
     font/.config/fontconfig/win-replacements.conf
     gemini/.gemini/.env
-    gemini/.gemini/GEMINI.md
+    gemini/.gemini/AGENTS.md
+    gemini/.gemini/settings.json
     ghostty/.config/ghostty/config
     git/.config/git/config
     git/.config/git/ignore
-    git/.config/git/.gitmessage
+    git/.config/git/gitattributes
+    git/.config/git/gitmessage
     git/.config/git/conf/aliases.gitconfig
     git/.config/git/conf/colors.gitconfig
     git/.config/git/conf/settings.gitconfig
     git/.config/git/conf/urls.gitconfig
-    git/.config/git/conf/user.gitconfig
     # gpg/.gnupg/gpg.conf
     # gpg/.gnupg/gpg-agent.conf
     i3wm/.config/i3/config
-    i3wm/.config/i3/startup_apps.sh
     # i3wm/.config/i3/screenlayout/dual-screen
     # i3wm/.config/i3/screenlayout/monitor-toggle.sh
     # i3wm/.config/i3/screenlayout/single
@@ -79,7 +76,6 @@ TARGETS=(
     PipeWire/.config/pipewire/pipewire.conf.d/sink-eq11.conf
     PipeWire/.config/pipewire/pipewire-pulse.conf.d/20-upmix.conf
     PipeWire/.config/pipewire/pipewire-pulse.conf.d/switch-on-connect.conf
-    PipeWire/.config/wireplumber/main.lua
     PipeWire/.config/wireplumber/wireplumber.conf.d/51-bluez-config.conf
     podman/.config/containers/registries.conf
     polybar/.config/polybar/launch.sh
@@ -90,18 +86,17 @@ TARGETS=(
     #polybar/.config/polybar/scripts/dnsmasq/dnsmasq
     polybar/.config/polybar/scripts/info-trash/info-trash.sh
     polybar/.config/polybar/scripts/pipewire-wireplumber/headphones_acpi_handler.sh
-    polybar/.config/polybar/scripts/pipewire-wireplumber/pipewire.sh
     polybar/.config/polybar/scripts/pipewire-wireplumber/pipewire-volume.sh
     polybar/.config/polybar/scripts/pipewire-wireplumber/pipewire-microphone.sh
     polybar/.config/polybar/scripts/playerctl/polyplayer.sh
     polybar/.config/polybar/scripts/popup-calendar/popup-calendar.sh
-    polybar/.config/polybar/scripts/pulseaudio-control/pulseaudio-control.bash
     polybar/.config/polybar/scripts/redshift/redshift.sh
     #polybar/.config/polybar/scripts/release/release.sh
     polybar/.config/polybar/scripts/system-cpu-temppercore/tempcores.sh
     #polybar/.config/polybar/scripts/system-fan-speed/system-fan-speed.sh
     polybar/.config/polybar/scripts/system-uptime-pretty/system-uptime-pretty.sh
     #polybar/.config/polybar/scripts/updates-arch-aur/updates-arch-aur.sh
+    polybar/.config/polybar/scripts/env.sh
     polybar/.config/polybar/scripts/alerts.sh
     proxychains/.proxychains/proxychains.conf
     python/.config/pip/pip.conf
@@ -129,10 +124,11 @@ TARGETS=(
     rofi/.config/rofi/scripts/rofi-media/media.rasi
     rofi/.config/rofi/scripts/rofi-media/players.rasi
     rofi/.config/rofi/scripts/rofi-power-menu/rofi-power-menu
+    rofi/.config/rofi/scripts/rofi-power-menu/rofi-power-menu.sh
     shell/.zshrc
-    shell/.oh-my-zsh/custom/zsh-theme.zsh
-    shell/.oh-my-zsh/custom/shell-aliases.sh
-    shell/.oh-my-zsh/custom/path.zsh
+    shell/.zshenv
+    shell/.oh-my-zsh/custom/aliases.zsh
+    shell/.oh-my-zsh/custom/theme.zsh
     shell/.oh-my-zsh/custom/functions.zsh
     shell/.oh-my-zsh/custom/emacs-functions.sh
     #shell/.oh-my-zsh/custom/completion/_ag
@@ -150,13 +146,6 @@ TARGETS=(
     #terminator/.config/terminator/config
     #terminator/.config/terminator/plugins/logger.py
     #terminator/.config/terminator/plugins/searchplugin.py
-    tmux/.config/tmux/tmux.conf
-    tmux/.config/tmux/settings.tmux
-    tmux/.config/tmux/plugins.tmux
-    tmux/.config/tmux/style.tmux
-    tmux/.config/tmux/mappings/copy-mode-vi.tmux
-    tmux/.config/tmux/mappings/prefix.tmux
-    tmux/.config/tmux/mappings/root.tmux
     #tor/.arm/torrc
     #urlview/.urlview
     urxvt/.Xdefaults
@@ -169,7 +158,6 @@ TARGETS=(
     urxvt/.urxvt/ext/config-reload
     vscode/.config/Code/User/settings.json
     #wget/.wgetrc
-    xorg/.profile
     #xorg/.xinitrc
     xorg/.xprofile
     xorg/.Xresources
