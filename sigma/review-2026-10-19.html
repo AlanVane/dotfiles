@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma 复习战报 · 2026-10-19</title>
+    <style>
+      :root {
+        --bg: #0f1419;
+        --card: #1a2129;
+        --accent: #4fc3f7;
+        --ok: #66bb6a;
+        --bad: #ef5350;
+        --warn: #ffa726;
+        --text: #e6edf3;
+        --muted: #8b98a5;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 32px 16px;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 26px;
+        margin-bottom: 4px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        color: var(--accent);
+      }
+      .sub {
+        color: var(--muted);
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+      .stat {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+      }
+      .stat .num {
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .stat .lbl {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .warn {
+        color: var(--warn);
+      }
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 8px 10px;
+        text-align: left;
+        border-bottom: 1px solid #2a3340;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .b-ok {
+        background: rgba(102, 187, 106, 0.15);
+        color: var(--ok);
+      }
+      .b-warn {
+        background: rgba(255, 167, 38, 0.15);
+        color: var(--warn);
+      }
+      .b-pass {
+        background: rgba(79, 195, 247, 0.15);
+        color: var(--accent);
+      }
+      .flag {
+        border-left: 3px solid var(--ok);
+        padding-left: 12px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      .flag2 {
+        border-left: 3px solid var(--warn);
+        padding-left: 12px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      pre {
+        background: #0b0f14;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 13px;
+        overflow-x: auto;
+        line-height: 1.5;
+      }
+      footer {
+        margin-top: 32px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>🎓 复习战报</h1>
+      <div class="sub">
+        2026-10-19 · 到期复习债 19/19 三批全清（含 2 起换形复发均实测击破）
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num ok">19/19</div>
+          <div class="lbl">到期债全过<br />（三批 · 清零）</div>
+        </div>
+        <div class="stat">
+          <div class="num ok">1/2</div>
+          <div class="lbl">rebase 押注连胜<br />（再过一次销账）</div>
+        </div>
+        <div class="stat">
+          <div class="num warn">2</div>
+          <div class="lbl">换形复发<br />（均实测击破）</div>
+        </div>
+        <div class="stat">
+          <div class="num">0</div>
+          <div class="lbl">剩余逾期<br />（清零）</div>
+        </div>
+      </div>
+
+      <h2>🔥 头号事件：回炉押注① 全中</h2>
+      <div class="card">
+        <div class="flag">
+          <b>「rebase 把原 commit 原样搬运」——回炉第一押通过。</b><br />
+          实测前押中两格：原件不挂任何分支、仍在对象库；topic 顶端全新
+          SHA。追问机制「原 C/D 父指针 = B」一字未差。<br />
+          scratch 实测一字不差：
+          <pre>
+* afa8ef2 D   ← topic 顶端，全新
+* 93d3fbb C   ← 重放副本，全新
+* 1dd5103 E
+| * dfcc14e D  ← 原件（tag 钉死）
+| * 6b90d27 C  ← 原件
+|/
+* 3bc30c3 B    ← 原 C 的父指针</pre>
+          <b>连胜 1/2：10-21 押②再过，误解销账。</b>
+        </div>
+      </div>
+
+      <h2>📚 复习账（5 项）</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>概念</th>
+            <th>结果</th>
+            <th>新间隔</th>
+          </tr>
+          <tr>
+            <td>rebase · 复制重放（回炉押注①）</td>
+            <td>
+              <span class="badge b-ok">✓ 两格 + 父指针全中 · 实测吻合</span>
+            </td>
+            <td>1d → 2d（押② 10-21）</td>
+          </tr>
+          <tr>
+            <td>aliases · td 安全网</td>
+            <td>
+              <span class="badge b-ok">✓ branch -d 拒删未合并</span>
+              <span class="badge b-warn">初答误归因「服务器」被反问自纠</span>
+            </td>
+            <td>1d → 2d（销账）</td>
+          </tr>
+          <tr>
+            <td>merge · 快进条件（两次押错后再验）</td>
+            <td>
+              <span class="badge b-ok">✓ 方向 + 边界（同位=已是最新）</span>
+            </td>
+            <td>2d → 4d</td>
+          </tr>
+          <tr>
+            <td>aliases · base branch（逾期 9d）</td>
+            <td><span class="badge b-ok">✓ 决定 topic 分支起点</span></td>
+            <td>8d → 16d</td>
+          </tr>
+          <tr>
+            <td>cherry-pick · 目的（逾期 5d）</td>
+            <td>
+              <span class="badge b-ok"
+                >✓ 临时挑选若干 commit 整合到当前分支</span
+              >
+            </td>
+            <td>2d → 4d</td>
+          </tr>
+          <tr>
+            <td>aliases · 五探针（逾期 9d）</td>
+            <td>
+              <span class="badge b-ok"
+                >✓ 四个直答（ahead/behind=本地 vs 远程同名）</span
+              >
+              <span class="badge b-warn"
+                >working-dir-dirty 带提示 · base-branch 误列自纠</span
+              >
+            </td>
+            <td>8d → 16d</td>
+          </tr>
+          <tr>
+            <td>aliases · save 保护</td>
+            <td>
+              <span class="badge b-ok"
+                >✓ 降阶场景直答（异版本+脏 → checkout 拒绝）</span
+              >
+            </td>
+            <td>8d → 16d</td>
+          </tr>
+          <tr>
+            <td>cherry-pick · 冲突收尾</td>
+            <td>
+              <span class="badge b-ok"
+                >✓ add → cherry-pick --continue · 零混入</span
+              >
+            </td>
+            <td>2d → 4d</td>
+          </tr>
+          <tr>
+            <td>cherry-pick · 三条路辨析</td>
+            <td>
+              <span class="badge b-ok"
+                >✓ 只搬 1 个用 pick，rebase 管整条线</span
+              >
+            </td>
+            <td>2d → 4d</td>
+          </tr>
+          <tr>
+            <td>rebase · 交互式（逾期 5d）</td>
+            <td><span class="badge b-ok">✓ -i + reword 改消息</span></td>
+            <td>4d → 8d</td>
+          </tr>
+          <tr>
+            <td>远程协作 · origin 两本账</td>
+            <td>
+              <span class="badge b-ok">✓ config 登记 + 两本账</span>
+              <span class="badge b-warn">初答「本地镜像」经追问自纠</span>
+            </td>
+            <td>1d → 2d</td>
+          </tr>
+          <tr>
+            <td>远程协作 · 快照便签</td>
+            <td><span class="badge b-ok">✓ 没动 · 指着旧顶端</span></td>
+            <td>1d → 2d</td>
+          </tr>
+          <tr>
+            <td>远程协作 · fetch vs pull</td>
+            <td>
+              <span class="badge b-warn"
+                >◐ 换形复发「fetch 更新当前分支」→ 实测翻案 + 病根自陈</span
+              >
+            </td>
+            <td><b>维持 1d（10-20 再押）</b></td>
+          </tr>
+          <tr>
+            <td>远程协作 · push -u</td>
+            <td><span class="badge b-ok">✓ 写追踪配置、裸跑即可</span></td>
+            <td>1d → 2d</td>
+          </tr>
+          <tr>
+            <td>merge · 裁决流程</td>
+            <td><span class="badge b-ok">✓ 四步一字不差</span></td>
+            <td>2d → 4d</td>
+          </tr>
+          <tr>
+            <td>merge · rebase 辨析</td>
+            <td><span class="badge b-ok">✓ 分叉 vs 直线</span></td>
+            <td>2d → 4d</td>
+          </tr>
+          <tr>
+            <td>rebase · 两态规则</td>
+            <td>
+              <span class="badge b-ok">✓ 暂存区那侧的账（梯子后落地）</span>
+              <span class="badge b-warn">实测 --continue 不放过未 add</span>
+            </td>
+            <td>2d → 4d</td>
+          </tr>
+          <tr>
+            <td>rebase · 工作流交付</td>
+            <td>
+              <span class="badge b-ok">✓ 站 topic 上 rebase main</span>
+              <span class="badge b-warn"
+                >--no-ff 速答失忆（机制自推、命令梯到）</span
+              >
+            </td>
+            <td><b>维持 4d（10-23 原格）</b></td>
+          </tr>
+          <tr>
+            <td>cherry-pick · 重复摘危险面</td>
+            <td>
+              <span class="badge b-warn"
+                >◐ 初押「会被拒绝」✗ → 空提交网实测 + 自解</span
+              >
+            </td>
+            <td><b>维持 4d（10-23 原格）</b></td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>📌 接下来</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>优先级</th>
+            <th>事项</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>fetch 边界再押一格（10-20，换形复发后把关）</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><b>rebase 误解 #1 回炉押注②</b>（10-21，再过即销账）</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>rebase 判据独立复述（10-22 悬账）</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>原格两枚：rebase 交付 --no-ff · cherry-pick 重复摘（10-23）</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><b>到期债 19/19 清零</b>，无遗留（下轮从日程债起步）</td>
+          </tr>
+        </table>
+        <div class="flag2">
+          教学观察：初答归因滑动（「服务器」）被一问即自纠——自纠通道依然最快；快进这个两次押错的点方向、边界今天都站住了；fetch
+          机制换形复发第 2 次但双克隆实测一步翻案、病根自己说出；「猜 git
+          会拒绝」老模式再现（重复摘），空提交网实测后一步自解。
+        </div>
+      </div>
+
+      <footer>
+        sigma · 复习战报 2026-10-19 · 下次会话从「fetch 边界把关（10-20）」开始
+      </footer>
+    </div>
+  </body>
+</html>
