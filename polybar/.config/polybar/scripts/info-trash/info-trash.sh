@@ -1,33 +1,22 @@
 #!/bin/bash
 
+# 显示回收站状态，只读展示，绝不删除任何文件
+
 path="$HOME/.local/share/Trash/files"
-if [ ! -d "$path" ]; then mkdir -p "$path"; fi
+limit_kb=5000000 # 超过约 4.8GiB 视为 Very Full
 
-get_trash() {
-    CHECK=$(du -a $path | wc -l );
-    TRASH=$(expr "$CHECK" - 1);
-    SIZE=$(du -sh $path | awk '{ printf $1}');
-    EFFECTIVE_SIZE=$(du -s $path | awk '{ printf $1}');
-    ALLERT=$(printf 5000000);
-}
+[ -d "$path" ] || mkdir -p "$path"
 
-get_trash
-
-
-if (("$EFFECTIVE_SIZE" > "$ALLERT" )); then
-    echo "%{F#f2f2f2}Very Full %{F#77f2f2}$SIZE""B"
-elif (("$TRASH" > 0)); then
-    echo "%{F#f2f2f2}Full %{F#77f2f2}$SIZE""B"
-else
+if [ -z "$(ls -A "$path" 2>/dev/null)" ]; then
     echo "%{F#77f2f2}Empty"
+    exit 0
 fi
 
-clean_trash(){
-    TRASHSIZE=$( du -s $path | awk '{ printf $1}' );
-    LIMIT_TRASH=$(printf 8000000);
-}
+size_kb=$(du -sk "$path" | cut -f1)
+size_h=$(numfmt --to=iec --suffix=B $((size_kb * 1024)))
 
-clean_trash
-if (("$TRASHSIZE" > "$LIMIT_TRASH")); then
-    rm -rf $path/*
+if [ "$size_kb" -gt "$limit_kb" ]; then
+    echo "%{F#f2f2f2}Very Full %{F#77f2f2}$size_h"
+else
+    echo "%{F#f2f2f2}Full %{F#77f2f2}$size_h"
 fi
