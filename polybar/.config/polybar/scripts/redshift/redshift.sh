@@ -1,47 +1,58 @@
 #!/bin/sh
+# 红移开关与色温的持久化状态存放在 stateFile（机器本地，不进 dotfiles 仓库），
+# envFile 只提供出厂默认值，二者均缺失时使用内置默认。
 
 envFile=~/.config/polybar/scripts/env.sh
+stateFile=${XDG_STATE_HOME:-$HOME/.local/state}/redshift
 changeValue=300
 
-changeMode() {
-  sed -i "s/REDSHIFT=$1/REDSHIFT=$2/g" $envFile 
-  REDSHIFT=$2
-  echo $REDSHIFT
+REDSHIFT=on
+REDSHIFT_TEMP=6500
+[ -r "$envFile" ] && . "$envFile"
+[ -r "$stateFile" ] && . "$stateFile"
+
+save_state() {
+    mkdir -p "$(dirname "$stateFile")"
+    printf 'REDSHIFT=%s\nREDSHIFT_TEMP=%s\n' "$REDSHIFT" "$REDSHIFT_TEMP" >"$stateFile"
 }
 
-changeTemp() {
-  if [ "$2" -gt 1000 ] && [ "$2" -lt 25000 ]
-  then
-    sed -i "s/REDSHIFT_TEMP=$1/REDSHIFT_TEMP=$2/g" $envFile 
-    redshift -P -O $((REDSHIFT_TEMP+changeValue))
-  fi
+change_mode() {
+    REDSHIFT=$1
+    save_state
 }
 
-case $1 in 
-  toggle) 
-    if [ "$REDSHIFT" = on ];
-    then
-      changeMode "$REDSHIFT" off
-      redshift -x
-    else
-      changeMode "$REDSHIFT" on
-      redshift -O "$REDSHIFT_TEMP"
+change_temp() {
+    if [ "$1" -gt 1000 ] && [ "$1" -lt 25000 ]; then
+        REDSHIFT_TEMP=$1
+        save_state
+        redshift -P -O "$REDSHIFT_TEMP"
     fi
-    ;;
-  increase)
-    changeTemp $((REDSHIFT_TEMP)) $((REDSHIFT_TEMP+changeValue))
-    ;;
-  decrease)
-    changeTemp $((REDSHIFT_TEMP)) $((REDSHIFT_TEMP-changeValue));
-    ;;
-  temperature)
-    case $REDSHIFT in
-      on)
-        echo "$REDSHIFT_TEMP""K"
+}
+
+case $1 in
+    toggle)
+        if [ "$REDSHIFT" = on ]; then
+            change_mode off
+            redshift -x
+        else
+            change_mode on
+            redshift -O "$REDSHIFT_TEMP"
+        fi
         ;;
-      off)
-        echo "off"
+    increase)
+        change_temp $((REDSHIFT_TEMP + changeValue))
         ;;
-    esac
-    ;;
+    decrease)
+        change_temp $((REDSHIFT_TEMP - changeValue))
+        ;;
+    temperature)
+        case $REDSHIFT in
+            on)
+                echo "${REDSHIFT_TEMP}K"
+                ;;
+            off)
+                echo "off"
+                ;;
+        esac
+        ;;
 esac

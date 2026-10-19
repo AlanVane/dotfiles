@@ -28,11 +28,4 @@ for m in $outputs; do
     fi
 done
 
-for m in $outputs; do
-    export TRAY_POSITION=none
-    if [[ $m == $tray_output ]]; then
-        TRAY_POSITION=right
-    fi
-done
-
 echo "Bars launched..."
