@@ -39,15 +39,15 @@ super + Tab
 
 # description: Rofi show applications
 super + d
-    rofi -show drun -columns 3
+    $HOME/.config/rofi/scripts/rofi-drun.sh
 
 # description: Rofi show command
 #super + shift + d
-#    rofi -show run -columns 3
+#    rofi -show run -theme-str 'listview { columns: 3; }'
 
 # description: System Menu
 super + shift + p
-    $HOME/.config/rofi/scripts/menuz/show-system-menu.sh
+    $HOME/.config/rofi/scripts/rofi-power-menu/rofi-power-menu.sh
 
 # description: display keybindings + descriptions for sxhkd
 super + shift + k

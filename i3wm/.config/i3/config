@@ -92,7 +92,7 @@ bindsym $super+shift+Ctrl+m  $exec  alacritty -e 'alsamixer'
 ###############################################################################
 
 # Rofi show applications
-bindsym $super+d  $exec  rofi -show drun -columns 3
+bindsym $super+d  $exec  $HOME/.config/rofi/scripts/rofi-drun.sh
 
 # Power Menu
 # Repo: https://github.com/jluttine/rofi-power-menu

@@ -7,8 +7,6 @@ configuration {
     threads:                        0;
     scroll-method:                  0;
     disable-history:                false;
-    fullscreen:                     false;
-	hide-scrollbar: 				true;
 	sidebar-mode: 					false;
 }
 

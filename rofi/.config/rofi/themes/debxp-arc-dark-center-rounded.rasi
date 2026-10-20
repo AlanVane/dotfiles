@@ -4,19 +4,15 @@
  */
  
 configuration {
-    columns:         1;
-    lines:           10;
-    
     show-icons:      true;
-    drun-icon-theme: "Numix-Circle";
+    icon-theme:      "Numix-Circle";
                      
-    modi:            "drun,window,run";
+    modes:           "drun,window,run";
     display-drun:    "Run";
     display-window:  "Window";
     display-run:     "Command";
                      
     sidebar-mode:    false;
-    fullscreen:      false;
 }
 * {
     font-generic: "Open Sans 11";
@@ -96,6 +92,8 @@ configuration {
     background-color: @normal-background;
 }
 #listview {
+    columns:      1;
+    lines:        10;
     fixed-height: false;
     dynamic:      true;
     border:       0;

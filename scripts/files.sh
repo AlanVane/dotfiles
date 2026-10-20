@@ -107,7 +107,6 @@ TARGETS=(
     redshift/.config/redshift/redshift.sh
     redshift/.config/systemd/user/geoclue-agent.service
     ripgrep/.config/ripgrep/.ripgreprc
-    rofi/.config/rofi/config
     rofi/.config/rofi/config.rasi
     #rofi/.config/rofi/scripts/monitor-settings/monitor_layout.sh
     #rofi/.config/rofi/scripts/monitor-settings/rofi-randr.sh

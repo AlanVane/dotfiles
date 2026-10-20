@@ -2,4 +2,8 @@
 /*@import "~/.config/rofi/themes/debxp-dark-center-rounded.rasi"*/
 
 /* repo: https://github.com/dracula/rofi */
-@import "~/.config/rofi/themes/dracula-dark-1.rasi"
+@import "~/.config/rofi/themes/dracula-dark-on-purple.rasi"
+
+configuration {
+	terminal: "alacritty";
+}

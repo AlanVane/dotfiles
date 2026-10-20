@@ -11,17 +11,15 @@ previous=" Prev"
 
 
 playing_status="$(playerctl status)"
-echo $playing_status
 if [[ $playing_status == "" ]]; then
-    echo "IN LAUNCHER"
     #players="vlc\n"
-    spotify=" Spotify"
+    mpv="📺 mpv"
     vlc=" vlc"
-    options="$spotify\n$vlc\n"
+    options="$mpv\n$vlc\n"
     chosen="$(echo -e "$options" | $launcher -p " Available Players:" -dmenu)"
     case $chosen in
-        $spotify)
-            exec spotify
+        $mpv)
+            exec mpv --player-operation-mode=pseudo-gui
             ;;
         $vlc)
             exec vlc
