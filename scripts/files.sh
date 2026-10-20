@@ -11,6 +11,7 @@ TARGETS=(
     bin/.local/bin/trashctl
     bin/.local/bin/test-fonts.pl
     bin/.local/bin/serena-project-index.sh
+    bin/.local/bin/media-title.sh
     claude/.claude/CLAUDE.md
     claude/.claude/statusline.sh
     codex/.codex/AGENTS.md

@@ -2,7 +2,17 @@
 
 status_function () {
 	if playerctl status > /dev/null; then
-			echo "$(playerctl status -f "{{playerName}}"): $(playerctl metadata -f "{{trunc(default(title, \"[Unknown]\"), 25)}} by {{trunc(default(artist, \"[Unknown]\"), 25)}}") ($(playerctl status))"
+			title=$(media-title.sh)
+			title=${title:-"[Unknown]"}
+			artist=$(playerctl metadata artist 2> /dev/null)
+			artist=${artist:-"[Unknown]"}
+			(( ${#title} > 25 )) && title="${title:0:25}…"
+			(( ${#artist} > 25 )) && artist="${artist:0:25}…"
+			if [[ $artist == "[Unknown]" ]]; then
+				echo "$(playerctl status -f "{{playerName}}"): $title ($(playerctl status))"
+			else
+				echo "$(playerctl status -f "{{playerName}}"): $title by $artist ($(playerctl status))"
+			fi
 	else
 		echo "Nothing is playing"
 	fi

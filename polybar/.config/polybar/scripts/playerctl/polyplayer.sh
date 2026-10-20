@@ -10,8 +10,8 @@ MUSIC_ICON="󰌳"
 if [ "$(playerctl status 2> /dev/null)" == "Playing" ];
 then
     PLAYER=$(echo $(playerctl metadata) |  awk '{print $1}')
-    ARTIST=$(playerctl metadata artist)
-    TITLE=$(playerctl metadata title)
+    ARTIST=$(playerctl metadata artist 2> /dev/null)
+    TITLE=$(media-title.sh)
 
     # If either artist or title length is > 15, Then cut and add ellipsis
     if [ "${#ARTIST}" -ge "16" ];

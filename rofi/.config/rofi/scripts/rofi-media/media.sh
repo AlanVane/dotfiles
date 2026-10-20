@@ -27,7 +27,9 @@ if [[ $playing_status == "" ]]; then
     esac
 
 else
-    title=$(playerctl metadata --format '{{artist}} - {{title}}')
+    title=$(media-title.sh)
+    artist=$(playerctl metadata artist 2> /dev/null)
+    title="${artist:+$artist - }$title"
 
     # Defines the Play / Pause option content
     if [[ $playing_status == "Paused" ]]; then
