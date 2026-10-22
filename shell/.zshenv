@@ -246,6 +246,15 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=($HOME/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 
+#################
+# opencode      #
+#################
+
+# >>> oh-my-opencode-slim background subagents >>>
+export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
+export OPENCODE_ENABLE_EXA=1
+# <<< oh-my-opencode-slim background subagents <<<
+
 # ripgrep
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/.ripgreprc
 
