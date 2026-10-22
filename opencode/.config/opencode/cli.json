@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "plugins": [
+    {
+      "package": "opencode-visual-cache@latest",
+      "options": {
+        "enabled": true
+      }
+    }
+  ]
+}

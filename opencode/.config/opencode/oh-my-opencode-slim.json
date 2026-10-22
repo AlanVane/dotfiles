@@ -1,0 +1,74 @@
+{
+    "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+    "preset": "opencode-go",
+    "presets": {
+        "openai": {
+            "orchestrator": {
+                "model": "openai/gpt-6-sol",
+                "variant": "high",
+                "skills": ["*"]
+            },
+            "oracle": {
+                "model": "openai/gpt-6-astra",
+                "variant": "high",
+                "skills": ["simplify"]
+            },
+            "explorer": {
+                "model": "openai/gpt-6-luna",
+                "variant": "low",
+                "skills": []
+            },
+            "designer": {
+                "model": "openai/gpt-6-luna",
+                "variant": "medium",
+                "skills": []
+            },
+            "fixer": {
+                "model": "openai/gpt-6-luna",
+                "variant": "high",
+                "skills": []
+            }
+        },
+        "opencode-go": {
+            "orchestrator": {
+                "model": "opencode/glm-5.2",
+                "variant": "high",
+                "skills": ["*"]
+            },
+            "oracle": {
+                "model": "opencode-go/qwen3.8-max",
+                "variant": "xhigh",
+                "skills": ["simplify"]
+            },
+            "explorer": {
+                "model": "opencode/deepseek-v4.1-flash-free",
+                "variant": "high",
+                "skills": []
+            },
+            "designer": {
+                "model": "google/gemini-3.8-flash",
+                "skills": []
+            },
+            "fixer": {
+                "model": "opencode-go/mimo-v2.6-pro",
+                "variant": "high",
+                "skills": []
+            },
+            "observer": {
+                "model": "opencode/mimo-v2.6-flash-free",
+                "skills": []
+            }
+        }
+    },
+    "disabled_agents": [],
+    "companion": {
+        "enabled": true,
+        "binaryPath": "$HOME/.config/opencode/bin/oh-my-opencode-slim-companion",
+        "position": "bottom-right",
+        "size": "medium",
+        "gifPack": "default",
+        "loopStyle": "classic",
+        "speed": 1,
+        "debug": false
+    }
+}
