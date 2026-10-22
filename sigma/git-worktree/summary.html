@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>课程总结 · git worktree</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --green: #34d399;
+        --blue: #60a5fa;
+        --amber: #fbbf24;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, var(--green), var(--blue));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-align: center;
+        margin-bottom: 8px;
+      }
+      .sub {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin-bottom: 28px;
+      }
+      h2 {
+        font-size: 1rem;
+        color: var(--green);
+        margin: 28px 0 12px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        margin-bottom: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.75rem;
+      }
+      td.mono {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+      }
+      .ok {
+        color: var(--green);
+      }
+      .warn {
+        color: var(--amber);
+      }
+      ul {
+        padding-left: 18px;
+        font-size: 0.88rem;
+        line-height: 1.7;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 4px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        text-align: center;
+      }
+      .stat b {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 1.3rem;
+        color: var(--blue);
+        margin-bottom: 4px;
+      }
+      .stat span {
+        font-size: 0.72rem;
+        color: var(--text-secondary);
+      }
+      .footer {
+        margin-top: 32px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.78rem;
+        font-family: var(--font-mono);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>git worktree · 课程完结</h1>
+      <div class="sub">
+        多工作目录并行 · 2026-10-20 开课 · 2026-10-22 完结（4/4）
+      </div>
+
+      <h2>掌握总览</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>概念</th>
+            <th>得分</th>
+            <th>下次复习</th>
+          </tr>
+          <tr>
+            <td>共享账本模型</td>
+            <td class="mono ok">85%</td>
+            <td class="mono">10-24</td>
+          </tr>
+          <tr>
+            <td>两态并行与分支锁</td>
+            <td class="mono ok">85%</td>
+            <td class="mono">10-24</td>
+          </tr>
+          <tr>
+            <td>生命周期（add / remove / prune）</td>
+            <td class="mono ok">80%</td>
+            <td class="mono">10-24</td>
+          </tr>
+          <tr>
+            <td>与 topic 工作流整合</td>
+            <td class="mono ok">80%</td>
+            <td class="mono">10-24 首验</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>关键领悟</h2>
+      <div class="card">
+        <ul>
+          <li>一个 .git：对象库和分支账全仓库共用，HEAD / 暂存区各目录专属</li>
+          <li>同一分支不可两处签出——分支锁防「同行改动被静默盖掉」的哑事故</li>
+          <li>
+            手动 rm 留下尸登记，需
+            <span class="mono">prune</span> 清；登记被删后 checkout /
+            重建都会被拦
+          </li>
+          <li>
+            按任务寿命分派：分钟级活用 stash（欠一笔 apply 的债），天级并行开
+            worktree（切换需求消失，不切、并行）
+          </li>
+        </ul>
+      </div>
+
+      <h2>误解战绩</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>误解</th>
+            <th>过程</th>
+            <th>结局</th>
+          </tr>
+          <tr>
+            <td>「git 会拦 / 会自愈」直觉 ×3</td>
+            <td class="mono">拆锁哑事故 + prune 实测击破</td>
+            <td class="ok">10-22 换形再押 2/2 收官</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>课堂统计</h2>
+      <div class="stats">
+        <div class="stat"><b>4/4</b><span>概念掌握</span></div>
+        <div class="stat"><b>1</b><span>误解销账</span></div>
+        <div class="stat"><b>2/2</b><span>换形押注</span></div>
+        <div class="stat"><b>3</b><span>上课天数</span></div>
+      </div>
+
+      <div class="footer">下一步：10-24 复习（概念 1-4 + fetch 换形格）</div>
+    </div>
+  </body>
+</html>

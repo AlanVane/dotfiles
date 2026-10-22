@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>学习路线图 · git worktree</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --green: #34d399;
+        --blue: #60a5fa;
+        --gray: rgba(255, 255, 255, 0.35);
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, var(--green), var(--blue));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      .sub {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin-bottom: 28px;
+      }
+      .node {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .node.mastered {
+        border-color: rgba(52, 211, 153, 0.35);
+      }
+      .node.current {
+        border-color: rgba(96, 165, 250, 0.5);
+        box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.25);
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: var(--gray);
+      }
+      .node.mastered .dot {
+        background: var(--green);
+      }
+      .node.current .dot {
+        background: var(--blue);
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 7px rgba(96, 165, 250, 0);
+        }
+      }
+      .num {
+        font-family: var(--font-mono);
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+      .name {
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+      .meta {
+        margin-left: auto;
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .badge {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-family: var(--font-mono);
+      }
+      .badge.done {
+        background: rgba(52, 211, 153, 0.12);
+        color: var(--green);
+      }
+      .badge.todo {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--gray);
+      }
+      .score {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--text-secondary);
+        margin-top: 4px;
+      }
+      .arrow {
+        text-align: center;
+        color: var(--text-secondary);
+        margin: -6px 0 8px;
+        font-size: 0.9rem;
+      }
+      .footer {
+        margin-top: 28px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        font-family: var(--font-mono);
+      }
+      .bar {
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        margin: 10px auto 0;
+        max-width: 400px;
+        overflow: hidden;
+      }
+      .bar > div {
+        height: 100%;
+        width: 75%;
+        background: linear-gradient(90deg, var(--green), var(--blue));
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>git worktree</h1>
+      <div class="sub">多工作目录并行 · 2026-10-20 开课</div>
+
+      <div class="node mastered">
+        <div class="dot"></div>
+        <div>
+          <span class="num">01</span> <span class="name">共享账本模型</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            一个 .git：对象库/分支账全仓库共用，HEAD/暂存区各隔间专属
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge done">mastered</span
+          ><span class="score">85% · 2d</span>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="node mastered">
+        <div class="dot"></div>
+        <div>
+          <span class="num">02</span> <span class="name">两态并行与分支锁</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            同一分支不可两处签出——锁防「同行改动被静默盖掉」的哑事故
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge done">mastered</span
+          ><span class="score">85% · 2d</span>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="node mastered">
+        <div class="dot"></div>
+        <div>
+          <span class="num">03</span> <span class="name">生命周期</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            add / list / remove 不删分支便签；手动 rm 留尸登记 → prune
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge done">mastered</span
+          ><span class="score">80% · 2d</span>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="node mastered">
+        <div class="dot"></div>
+        <div>
+          <span class="num">04</span>
+          <span class="name">与 topic 工作流整合</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            按任务寿命分派：分钟级活用 stash，天级并行开 worktree
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge done">mastered</span
+          ><span class="score">80% · 2d</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        掌握进度 4/4（100%）· 课程完结 · 下次复习 10-24
+        <div class="bar"><div style="width: 100%"></div></div>
+      </div>
+    </div>
+  </body>
+</html>
