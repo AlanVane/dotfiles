@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>学习小结 · git submodule</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --accent-1: #fbbf24;
+        --accent-2: #34d399;
+        --accent-gradient: linear-gradient(
+          135deg,
+          var(--accent-1),
+          var(--accent-2)
+        );
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+        background-image:
+          radial-gradient(
+            ellipse 50% 40% at 20% 0%,
+            rgba(251, 191, 36, 0.06),
+            transparent
+          ),
+          radial-gradient(
+            ellipse 50% 40% at 80% 100%,
+            rgba(52, 211, 153, 0.05),
+            transparent
+          );
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.7rem;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .sub {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin-bottom: 24px;
+      }
+      .badge-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+      }
+      .chip.ok {
+        color: var(--green);
+        border-color: rgba(52, 211, 153, 0.35);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      @media (max-width: 480px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 12px;
+        text-align: center;
+        backdrop-filter: blur(12px);
+      }
+      .stat .num {
+        font-family: var(--font-mono);
+        font-size: 1.3rem;
+        color: var(--text);
+        display: block;
+      }
+      .stat .lbl {
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        margin-top: 4px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        margin-bottom: 14px;
+        backdrop-filter: blur(12px);
+      }
+      .card h2 {
+        font-size: 0.95rem;
+        margin-bottom: 14px;
+        color: var(--text);
+      }
+      .bar-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 0.8rem;
+      }
+      .bar-row .name {
+        width: 130px;
+        flex-shrink: 0;
+        color: var(--text-secondary);
+      }
+      .bar-track {
+        flex: 1;
+        height: 7px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      }
+      .bar-fill.dim {
+        background: rgba(255, 255, 255, 0.14);
+      }
+      .bar-row .pct {
+        width: 38px;
+        text-align: right;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--text-secondary);
+      }
+      ul {
+        list-style: none;
+      }
+      li {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        padding: 6px 0 6px 20px;
+        position: relative;
+        line-height: 1.55;
+      }
+      li::before {
+        content: "▸";
+        position: absolute;
+        left: 2px;
+        color: var(--accent-1);
+      }
+      li b {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .tag {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.66rem;
+        padding: 1px 8px;
+        border-radius: 999px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+      .tag.done {
+        background: rgba(52, 211, 153, 0.12);
+        color: var(--green);
+      }
+      .tag.open {
+        background: rgba(251, 191, 36, 0.12);
+        color: var(--amber);
+      }
+      .foot {
+        text-align: center;
+        color: var(--text-tertiary, rgba(255, 255, 255, 0.3));
+        font-size: 0.72rem;
+        font-family: var(--font-mono);
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>git submodule · 学习小结</h1>
+      <div class="sub">2026-10-22 开课 · 10-23 第三次课收课 · 进度 3/5</div>
+
+      <div class="badge-row">
+        <span class="chip ok">概念 1 · 指针模型 mastered</span>
+        <span class="chip ok">概念 2 · 嵌套独立账本 mastered</span>
+        <span class="chip ok">概念 3 · 生命周期 mastered</span>
+        <span class="chip">概念 4-5 待开</span>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="num">3/5</span><span class="lbl">概念 mastered</span>
+        </div>
+        <div class="stat">
+          <span class="num">3</span><span class="lbl">误解识别</span>
+        </div>
+        <div class="stat">
+          <span class="num">2/3</span><span class="lbl">换形/复述把关过</span>
+        </div>
+        <div class="stat">
+          <span class="num">1</span><span class="lbl">本次新通关</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>概念进度</h2>
+        <div class="bar-row">
+          <span class="name">01 指针模型</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 85%"></div>
+          </div>
+          <span class="pct">85%</span>
+        </div>
+        <div class="bar-row">
+          <span class="name">02 嵌套独立账本</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 80%"></div>
+          </div>
+          <span class="pct">80%</span>
+        </div>
+        <div class="bar-row">
+          <span class="name">03 生命周期</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 85%"></div>
+          </div>
+          <span class="pct">85%</span>
+        </div>
+        <div class="bar-row">
+          <span class="name">04 两层提交流</span>
+          <div class="bar-track">
+            <div class="bar-fill dim" style="width: 0%"></div>
+          </div>
+          <span class="pct">—</span>
+        </div>
+        <div class="bar-row">
+          <span class="name">05 常见坑与移除</span>
+          <div class="bar-track">
+            <div class="bar-fill dim" style="width: 0%"></div>
+          </div>
+          <span class="pct">—</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>本次亮点</h2>
+        <ul>
+          <li>
+            <b>三态前缀全部落地</b>：<code>-</code> 未初始化 / 空格 已对齐 /
+            <code>+</code> 已偏离，每一态都配了一个亲手实测的场景
+          </li>
+          <li>
+            <b>自己推出「pull 只取对象、不动签出」</b>：从 origin/main
+            已指向新提交、而 HEAD 仍停在旧 SHA 的矛盾里读出这一层机制
+          </li>
+          <li>
+            <b>误解 #3 反证链销账</b
+            >：子仓库内部「无文件要提交，工作区干净」却仍被 add
+            改写便签——一击拆除「add = 记录本地修改」模型
+          </li>
+          <li>
+            <b>自相矛盾自查</b>：两格填空互相打架（一边说钦定是 d26c1e2、一边说
+            update 后停在 ae030b6），点名后一秒自纠
+          </li>
+          <li>
+            <b>自评首次偏低</b>：自评「基本会」，rubric 85%
+            过关且换形一次命中——校准后可直接采信
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>误解记档</h2>
+        <ul>
+          <li>
+            「子模块登记 = 一包文件」<span class="tag open"
+              >active · 换形两连不过，需第三次</span
+            >
+          </li>
+          <li>
+            「status 没显示 SHA → 账变了」（摘要当账本读）<span class="tag done"
+              >10-23 换形通过 · 关口关闭</span
+            >
+          </li>
+          <li>
+            「<code>M awesome-ui</code> 一律 add+commit 修」（gitlink
+            当普通文件）<span class="tag done">10-23 反证链 + 换形销账</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>遗留尾巴</h2>
+        <ul>
+          <li>
+            <b>方向判断</b>：见到 gitlink 先比对两个 SHA（index 钦定 vs
+            工作区实际）再动手，别让普通文件反射先跑
+          </li>
+          <li>
+            <b>160000「钦定便签」独立复述忘</b>：讲解后现学现测过，10-25
+            复述把关
+          </li>
+          <li>
+            <b>命令标签召回弱</b>：双 config 文件名、update 方向——靠拆字 +
+            读提示原文纠
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>下次课（概念 4 起）</h2>
+        <ul>
+          <li>
+            复习债（10-24）：fetch 换形再验一格 + worktree 概念 1-3（2d）+
+            submodule 概念 2（重测 160000 独立复述）+
+            <b>概念 3（重测方向判断）</b>
+          </li>
+          <li>
+            复习债（10-25）：submodule 概念 1（2d）+ 误解
+            #1「一包文件」换形（第三次）
+          </li>
+          <li>
+            新课：<b>概念 4 两层提交流</b>——子仓库 commit+push → 主仓库
+            add+commit；顺序反了 = 便签指向别人 fetch 不到的提交（与今晚的
+            add/update 方向直接咬合）
+          </li>
+        </ul>
+      </div>
+
+      <div class="foot">
+        sigma · summary · 沙盘 /tmp/opencode/submodule-lab · roadmap.html /
+        session.md 已同步
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>学习路线图 · git submodule</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.06);
+        --text: #ededef;
+        --text-secondary: rgba(255, 255, 255, 0.55);
+        --green: #34d399;
+        --amber: #fbbf24;
+        --gray: rgba(255, 255, 255, 0.35);
+        --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --font-sans: -apple-system, "Inter", system-ui, sans-serif;
+        --radius: 12px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        padding: 48px 20px;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, var(--amber), var(--green));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      .sub {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin-bottom: 28px;
+      }
+      .node {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        opacity: 0.45;
+      }
+      .node.mastered {
+        border-color: rgba(52, 211, 153, 0.35);
+        opacity: 1;
+      }
+      .node.current {
+        border-color: rgba(251, 191, 36, 0.5);
+        box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.25);
+        opacity: 1;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: var(--gray);
+      }
+      .node.mastered .dot {
+        background: var(--green);
+      }
+      .node.current .dot {
+        background: var(--amber);
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 7px rgba(251, 191, 36, 0);
+        }
+      }
+      .num {
+        font-family: var(--font-mono);
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+      .name {
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+      .meta {
+        margin-left: auto;
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .badge {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-family: var(--font-mono);
+      }
+      .badge.done {
+        background: rgba(52, 211, 153, 0.12);
+        color: var(--green);
+      }
+      .badge.wip {
+        background: rgba(251, 191, 36, 0.12);
+        color: var(--amber);
+      }
+      .badge.todo {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--gray);
+      }
+      .score {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--text-secondary);
+        margin-top: 4px;
+      }
+      .arrow {
+        text-align: center;
+        color: var(--text-secondary);
+        margin: -6px 0 8px;
+        font-size: 0.9rem;
+        opacity: 0.5;
+      }
+      .footer {
+        margin-top: 28px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        font-family: var(--font-mono);
+      }
+      .bar {
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        margin: 10px auto 0;
+        max-width: 400px;
+        overflow: hidden;
+      }
+      .bar > div {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--amber), var(--green));
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>git submodule</h1>
+      <div class="sub">子模块嵌套 · 2026-10-22 开课</div>
+
+      <div class="node mastered">
+        <div class="dot"></div>
+        <div>
+          <span class="num">01</span> <span class="name">指针模型</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            主仓库只存「子仓库地址 + SHA 便签」，不存子仓库的代码
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge done">mastered</span
+          ><span class="score">85% · 2d</span>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="node mastered">
+        <div class="dot"></div>
+        <div>
+          <span class="num">02</span> <span class="name">嵌套独立账本</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            子模块是独立仓库：自己的 .git、HEAD、暂存区；.gitmodules 是共享配置
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge done">mastered</span
+          ><span class="score">80% · 1d</span>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="node mastered">
+        <div class="dot"></div>
+        <div>
+          <span class="num">03</span> <span class="name">生命周期</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            clone --recurse / update --init / status 两处对账
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge done">mastered</span
+          ><span class="score">85% · 1d</span>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="node current">
+        <div class="dot"></div>
+        <div>
+          <span class="num">04</span> <span class="name">两层提交流</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            子仓库 commit → 主仓库指针更新——漏第二层 = 提交了个「查无此人」的
+            SHA
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge wip">next</span>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="node">
+        <div class="dot"></div>
+        <div>
+          <span class="num">05</span> <span class="name">常见坑与移除</span>
+          <div
+            class="meta-inline"
+            style="font-size: 0.78rem; color: var(--text-secondary)"
+          >
+            detached HEAD / 忘 update / deinit / git rm
+          </div>
+        </div>
+        <div class="meta">
+          <span class="badge todo">not-started</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        掌握进度 3/5（60%）· 概念 3 已通关 · 下次开概念 4（两层提交流）
+        <div class="bar"><div style="width: 60%"></div></div>
+      </div>
+    </div>
+  </body>
+</html>
