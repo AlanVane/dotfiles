@@ -214,27 +214,30 @@
   <body>
     <div class="container">
       <h1>git submodule · 学习小结</h1>
-      <div class="sub">2026-10-22 开课 · 10-23 第三次课收课 · 进度 3/5</div>
+      <div class="sub">
+        2026-10-22 开课 · 10-23 第四次课收官 · 进度 5/5 全课通关 🎉
+      </div>
 
       <div class="badge-row">
-        <span class="chip ok">概念 1 · 指针模型 mastered</span>
-        <span class="chip ok">概念 2 · 嵌套独立账本 mastered</span>
-        <span class="chip ok">概念 3 · 生命周期 mastered</span>
-        <span class="chip">概念 4-5 待开</span>
+        <span class="chip ok">概念 1 · 指针模型</span>
+        <span class="chip ok">概念 2 · 嵌套独立账本</span>
+        <span class="chip ok">概念 3 · 生命周期</span>
+        <span class="chip ok">概念 4 · 两层提交流</span>
+        <span class="chip ok">概念 5 · 常见坑与移除</span>
       </div>
 
       <div class="stats">
         <div class="stat">
-          <span class="num">3/5</span><span class="lbl">概念 mastered</span>
+          <span class="num">5/5</span><span class="lbl">概念 mastered</span>
         </div>
         <div class="stat">
-          <span class="num">3</span><span class="lbl">误解识别</span>
+          <span class="num">4</span><span class="lbl">误解识别</span>
         </div>
         <div class="stat">
-          <span class="num">2/3</span><span class="lbl">换形/复述把关过</span>
+          <span class="num">3/4</span><span class="lbl">误解销账</span>
         </div>
         <div class="stat">
-          <span class="num">1</span><span class="lbl">本次新通关</span>
+          <span class="num">2</span><span class="lbl">本次新通关</span>
         </div>
       </div>
 
@@ -264,101 +267,112 @@
         <div class="bar-row">
           <span class="name">04 两层提交流</span>
           <div class="bar-track">
-            <div class="bar-fill dim" style="width: 0%"></div>
+            <div class="bar-fill" style="width: 80%"></div>
           </div>
-          <span class="pct">—</span>
+          <span class="pct">80%</span>
         </div>
         <div class="bar-row">
           <span class="name">05 常见坑与移除</span>
           <div class="bar-track">
-            <div class="bar-fill dim" style="width: 0%"></div>
+            <div class="bar-fill" style="width: 85%"></div>
           </div>
-          <span class="pct">—</span>
+          <span class="pct">85%</span>
         </div>
       </div>
 
       <div class="card">
-        <h2>本次亮点</h2>
+        <h2>收官日（概念 4-5）亮点</h2>
         <ul>
           <li>
-            <b>三态前缀全部落地</b>：<code>-</code> 未初始化 / 空格 已对齐 /
-            <code>+</code> 已偏离，每一态都配了一个亲手实测的场景
+            <b>「M 的本质」自己推出来了</b>：主仓库不碰源文件、只比对两个
+            SHA——ls-files -s 推理链完整（便签 a936c14 vs 顶端 7b9c5f4）
           </li>
           <li>
-            <b>自己推出「pull 只取对象、不动签出」</b>：从 origin/main
-            已指向新提交、而 HEAD 仍停在旧 SHA 的矛盾里读出这一层机制
+            <b>主动说出推送顺序</b>：「子仓库先
+            push」——而且能说清为什么报错对团队是好事（git
+            不替用户做决策、不掩盖问题）
           </li>
           <li>
-            <b>误解 #3 反证链销账</b
-            >：子仓库内部「无文件要提交，工作区干净」却仍被 add
-            改写便签——一击拆除「add = 记录本地修改」模型
+            <b>两层全流程独立敲完</b>：card.js 从子仓库 commit 到同事 clone
+            验证，唯一提醒点是第二层（主仓库 add+commit）
           </li>
           <li>
-            <b>自相矛盾自查</b>：两格填空互相打架（一边说钦定是 d26c1e2、一边说
-            update 后停在 ae030b6），点名后一秒自纠
+            <b>detached HEAD 三格梯子收口</b
+            >：假脏场景预测正确，落到「停下即干净」的保证
           </li>
           <li>
-            <b>自评首次偏低</b>：自评「基本会」，rubric 85%
-            过关且换形一次命中——校准后可直接采信
+            <b>移除四刀分工零混淆</b>：deinit 清配置 / git rm 销账本 / rm -rf
+            清对象库 / commit 记账——辨析题两边全对
+          </li>
+          <li>
+            <b>re-add 对称练习</b>：从「不知道 add 命令」到填空推出
+            <code>git submodule add &lt;url&gt; &lt;path&gt;</code>，全新 clone
+            同事侧一次到位
           </li>
         </ul>
       </div>
 
       <div class="card">
-        <h2>误解记档</h2>
+        <h2>误解记档（4 起）</h2>
         <ul>
           <li>
             「子模块登记 = 一包文件」<span class="tag open"
-              >active · 换形两连不过，需第三次</span
+              >active · 换形两连不过，10-25 需第三次</span
             >
           </li>
           <li>
             「status 没显示 SHA → 账变了」（摘要当账本读）<span class="tag done"
-              >10-23 换形通过 · 关口关闭</span
+              >10-23 换形通过 · 关闭</span
             >
           </li>
           <li>
             「<code>M awesome-ui</code> 一律 add+commit 修」（gitlink
             当普通文件）<span class="tag done">10-23 反证链 + 换形销账</span>
           </li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h2>遗留尾巴</h2>
-        <ul>
           <li>
-            <b>方向判断</b>：见到 gitlink 先比对两个 SHA（index 钦定 vs
-            工作区实际）再动手，别让普通文件反射先跑
-          </li>
-          <li>
-            <b>160000「钦定便签」独立复述忘</b>：讲解后现学现测过，10-25
-            复述把关
-          </li>
-          <li>
-            <b>命令标签召回弱</b>：双 config 文件名、update 方向——靠拆字 +
-            读提示原文纠
+            「update 拿不到钦定 SHA 会静默退回旧版本」<span class="tag done"
+              >10-23 实测硬报错击破 · 销账</span
+            >
           </li>
         </ul>
       </div>
 
       <div class="card">
-        <h2>下次课（概念 4 起）</h2>
+        <h2>遗留尾巴（记入复习债）</h2>
         <ul>
           <li>
-            复习债（10-24）：fetch 换形再验一格 + worktree 概念 1-3（2d）+
-            submodule 概念 2（重测 160000 独立复述）+
-            <b>概念 3（重测方向判断）</b>
+            <b>「两层」是最大风险点</b>：概念 4
+            练习时推完子仓库就停，主仓库层要提醒——两层提交流的肌肉记忆要单独固化
           </li>
           <li>
-            复习债（10-25）：submodule 概念 1（2d）+ 误解
+            <b>「Solid」自评存疑</b>：概念 5 硬题全对，但 detached 的 why
+            是梯子扶着走完、收口句表述糊（分支浮动/SHA 钉死没说准）
+          </li>
+          <li>
+            <b>方向判断尾巴</b>：见到 gitlink 先比对两个 SHA
+            再动手，别让普通文件反射先跑
+          </li>
+          <li><b>160000「钦定便签」独立复述</b>：10-25 复测</li>
+          <li>
+            <b>命令标签召回弱</b>：<code>submodule add</code>
+            当场不知——靠拆字 + 读提示原文纠的路子继续用
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>复习日程</h2>
+        <ul>
+          <li>
+            <b>10-24</b>：submodule 概念 2-3（1d）+ fetch 换形再验 + worktree
+            概念 1-3（2d）
+          </li>
+          <li>
+            <b>10-25</b>：submodule 概念 1（2d）+ 概念
+            4-5（1d，重测「两层」独立复述 + detached why）+ 误解
             #1「一包文件」换形（第三次）
           </li>
-          <li>
-            新课：<b>概念 4 两层提交流</b>——子仓库 commit+push → 主仓库
-            add+commit；顺序反了 = 便签指向别人 fetch 不到的提交（与今晚的
-            add/update 方向直接咬合）
-          </li>
+          <li><b>10-30</b>：rebase 判据 8d 复验</li>
         </ul>
       </div>
 
