@@ -31,27 +31,27 @@
         },
         "opencode-go": {
             "orchestrator": {
-                "model": "opencode/glm-5.2",
-                "variant": "high",
+                "model": "opencode/gpt-6.1-sol",
+                "variant": "max",
                 "skills": ["*"]
             },
             "oracle": {
-                "model": "opencode-go/qwen3.8-max",
-                "variant": "xhigh",
+                "model": "opencode-go/glm-5.3",
+                "variant": "max",
                 "skills": ["simplify"]
             },
             "explorer": {
                 "model": "opencode/deepseek-v4.1-flash-free",
-                "variant": "high",
+                "variant": "max",
                 "skills": []
             },
             "designer": {
                 "model": "google/gemini-3.8-flash",
+                "variant": "high",
                 "skills": []
             },
             "fixer": {
                 "model": "opencode-go/mimo-v2.6-pro",
-                "variant": "high",
                 "skills": []
             },
             "observer": {
