@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma 复习战报 · 2026-10-25</title>
+    <style>
+      :root {
+        --bg: #0f1419;
+        --card: #1a2129;
+        --accent: #4fc3f7;
+        --ok: #66bb6a;
+        --bad: #ef5350;
+        --warn: #ffa726;
+        --text: #e6edf3;
+        --muted: #8b98a5;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 32px 16px;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 26px;
+        margin-bottom: 4px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        color: var(--accent);
+      }
+      .sub {
+        color: var(--muted);
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+      .stat {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+      }
+      .stat .num {
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .stat .lbl {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .warn {
+        color: var(--warn);
+      }
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-top: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th {
+        text-align: left;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #263039;
+      }
+      td {
+        padding: 8px 0;
+        border-bottom: 1px solid #222b34;
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .b-ok {
+        background: rgba(102, 187, 106, 0.15);
+        color: var(--ok);
+      }
+      .b-warn {
+        background: rgba(255, 167, 38, 0.15);
+        color: var(--warn);
+      }
+      .b-pass {
+        background: rgba(79, 195, 247, 0.15);
+        color: var(--accent);
+      }
+      .flag {
+        border-left: 3px solid var(--ok);
+        padding-left: 12px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      .flag2 {
+        border-left: 3px solid var(--warn);
+        padding-left: 12px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      pre {
+        background: #0b0f14;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 13px;
+        overflow-x: auto;
+        line-height: 1.5;
+        margin: 8px 0;
+      }
+      footer {
+        margin-top: 32px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>🎓 复习战报</h1>
+      <div class="sub">
+        2026-10-24 深夜 → 10-25 凌晨 · 三笔到期债，2 过 1 半 · 误解 #1 收官
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num ok">2</div>
+          <div class="lbl">概念过关<br />（fetch / submodule 3）</div>
+        </div>
+        <div class="stat">
+          <div class="num warn">1</div>
+          <div class="lbl">维持原间隔<br />（submodule 2 · 160000）</div>
+        </div>
+        <div class="stat">
+          <div class="num ok">1</div>
+          <div class="lbl">旧误解关闭<br />（「一包文件」第三次换形）</div>
+        </div>
+        <div class="stat">
+          <div class="num bad">1</div>
+          <div class="lbl">新误解登记<br />（便签 SHA 住哪）</div>
+        </div>
+      </div>
+
+      <h2>🏁 头号事件：「一包文件」第三次换形通过，关口关闭</h2>
+      <div class="card">
+        <div class="flag">
+          <b>换形题：普通 clone 之后，<code>awesome-ui/</code> 目录里有什么？</b
+          ><br />
+          押 <b>C（目录存在但空）</b>，推理链自己走完：<i
+            >「clone
+            时主仓库有了地址与挂载名，还没取回子模块对象库，也没有释放工作区」</i
+          >。
+          <pre>
+ls awesome-ui/          → 空目录
+git submodule status    → -a936c14... awesome-ui
+cat .gitmodules         → path + url（无内容）
+git cat-file -t a936c14 → 致命错误：Not a valid object name</pre>
+          收尾自述：<i>「原以为是完整仓库，实际只是地址与挂载名」</i> →
+          补上末格「还有钦定 SHA 便签」。 <br /><b
+            >10-22 首押 ✗、10-23 二押 ✗、10-25 三押 ✓ + 自述病根 → resolved。</b
+          >
+        </div>
+      </div>
+
+      <h2>⚠️ 今日最大风险：add 会把便签「降级」</h2>
+      <div class="card">
+        <div class="flag2">
+          布景：index 钦定 <code>553b8d1</code>，子仓库 HEAD 被 checkout 回
+          <code>a936c14</code>，status 显 <code>M awesome-ui</code>。<br />
+          问第一动作 → 答「不知道判断逻辑」→ 三格梯子（<code>X..Y</code> 定义 →
+          方向 → 命令）走通，判对「落后」+ 敲对
+          <code>submodule update</code>。<br />
+          押「直接 add 会怎样」→ <b>A ✓</b>。副本实测：
+          <pre>
+add 前便签: 553b8d1
+add 后便签: a936c14      ← 静默降级
+主仓库 status: 0 行改动
+同事按新便签 update → 落到 v2「新增按钮组件」</pre>
+          <b
+            >落规则：见 gitlink <code>M</code> 先比两个 SHA —— 超前 = 两层提交 /
+            落后 = <code>submodule update</code>，绝不 add。</b
+          >
+        </div>
+      </div>
+
+      <h2>📚 复习账（3 项）</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>概念</th>
+            <th>结果</th>
+            <th>新间隔</th>
+          </tr>
+          <tr>
+            <td>远程协作 · fetch（第三次换形，新分支 <code>blog</code>）</td>
+            <td>
+              <span class="badge b-ok">✓</span> 押 C
+              命中、分支名零串线；「便签住谁磁盘」先答错，反证后自纠
+            </td>
+            <td>2d → <b>4d</b>（10-28）</td>
+          </tr>
+          <tr>
+            <td>submodule · 概念 2（嵌套独立账本）</td>
+            <td>
+              <span class="badge b-warn">◐</span> 160000 独立复述 ✗（「SHA 在
+              my-site 对象库」）→ 双查反证 + 讲解后对照填空 ✓
+            </td>
+            <td>维持 <b>1d</b>（10-26 重测复述）</td>
+          </tr>
+          <tr>
+            <td>submodule · 概念 3（生命周期）</td>
+            <td>
+              <span class="badge b-ok">✓</span> update --init 后 HEAD
+              落点答对（便签指向的 commit），零梯子
+            </td>
+            <td>1d → <b>2d</b>（10-27）</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>🧾 新登记误解</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>#</th>
+            <th>错误模型</th>
+            <th>病根</th>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>「gitlink 上写的 SHA，是主仓库对象库里的对象」</td>
+            <td>
+              10-23 误解 #3（两层 SHA 混淆）销账次日复发；「账上写着 =
+              东西在我这儿」反射 —— 与 10-20「看不到 = 不存在」互为镜像
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>⏭ 顺延（本次未做）</h2>
+      <div class="card">
+        <table>
+          <tr>
+            <th>项目</th>
+            <th>原到期</th>
+            <th>状态</th>
+          </tr>
+          <tr>
+            <td>worktree 概念 1-3</td>
+            <td>10-24（2d）</td>
+            <td><span class="badge b-warn">逾期 1d</span></td>
+          </tr>
+          <tr>
+            <td>submodule 概念 1</td>
+            <td>10-25（2d）</td>
+            <td><span class="badge b-pass">今日到期</span></td>
+          </tr>
+          <tr>
+            <td>submodule 概念 4-5</td>
+            <td>10-25（1d）</td>
+            <td><span class="badge b-pass">今日到期</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <footer>sigma · git 系列第 8 课复习 · 存档于 2026-10-25</footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma 复习战报 · 2026-10-26</title>
+    <style>
+      :root {
+        --bg: #0f1419;
+        --card: #1a2129;
+        --accent: #4fc3f7;
+        --ok: #66bb6a;
+        --bad: #ef5350;
+        --warn: #ffa726;
+        --text: #e6edf3;
+        --muted: #8b98a5;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 32px 16px;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 26px;
+        margin-bottom: 4px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        color: var(--accent);
+      }
+      .sub {
+        color: var(--muted);
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+      .stat {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+      }
+      .stat .num {
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .stat .lbl {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .warn {
+        color: var(--warn);
+      }
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-top: 12px;
+      }
+      .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th {
+        text-align: left;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #263039;
+      }
+      td {
+        padding: 8px 0;
+        border-bottom: 1px solid #222b34;
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .b-ok {
+        background: rgba(102, 187, 106, 0.15);
+        color: var(--ok);
+      }
+      .b-warn {
+        background: rgba(255, 167, 38, 0.15);
+        color: var(--warn);
+      }
+      .b-pass {
+        background: rgba(79, 195, 247, 0.15);
+        color: var(--accent);
+      }
+      .flag {
+        border-left: 3px solid var(--ok);
+        padding-left: 12px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      .flag2 {
+        border-left: 3px solid var(--warn);
+        padding-left: 12px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      pre {
+        background: #0b0f14;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 13px;
+        overflow-x: auto;
+        line-height: 1.5;
+        margin: 8px 0;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      ul.due {
+        margin: 8px 0 0 20px;
+      }
+      ul.due li {
+        margin-bottom: 8px;
+      }
+      footer {
+        margin-top: 32px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+      @media (max-width: 560px) {
+        h1 {
+          font-size: 22px;
+        }
+        table {
+          font-size: 13px;
+          min-width: 560px;
+        }
+        pre {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Sigma 复习战报 · 2026-10-26</h1>
+      <div class="sub">夜间跨零点复习（10-25→26）· 5 笔逾期债一次清偿</div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num">5</div>
+          <div class="lbl">清偿 5 笔</div>
+        </div>
+        <div class="stat">
+          <div class="num bad">3</div>
+          <div class="lbl">押注翻车 3</div>
+        </div>
+        <div class="stat">
+          <div class="num ok">2</div>
+          <div class="lbl">通过 2</div>
+        </div>
+        <div class="stat">
+          <div class="num warn">3</div>
+          <div class="lbl">
+            重置间隔 3<br />（worktree 概念 1、submodule 概念 4、概念 5）
+          </div>
+        </div>
+      </div>
+
+      <h2>📋 逐笔结果</h2>
+      <div class="card">
+        <div class="table-scroll">
+          <table>
+            <tr>
+              <th>项目</th>
+              <th>押注</th>
+              <th>结果</th>
+              <th>间隔变化</th>
+            </tr>
+            <tr>
+              <td>worktree 概念 1<br />共享账本</td>
+              <td>
+                <span class="badge b-warn">押 A</span>「删副目录 →
+                对象跟着没了」<b class="bad">✗</b>
+              </td>
+              <td>实测击破后讲解补上（同病灶第 2 次复发）</td>
+              <td>2d → 重置 <b>1d</b>（10-26）</td>
+            </tr>
+            <tr>
+              <td>worktree 概念 2<br />两态并行</td>
+              <td>
+                <span class="badge b-warn">押 B</span>「两份暂存区互不干涉」<b
+                  class="ok"
+                  >✓</b
+                >
+              </td>
+              <td>index 专属 / objects·refs 共享，界线说清</td>
+              <td>2d → <b>10-27</b></td>
+            </tr>
+            <tr>
+              <td>worktree 概念 3<br />生命周期</td>
+              <td>
+                <span class="badge b-pass">顺带验</span>（prune 语义、remove vs
+                rm -rf）<b class="ok">✓</b>
+              </td>
+              <td>「prunable = 登记里那个目录找不到」自纠到位</td>
+              <td>2d → <b>10-27</b>（锁未测）</td>
+            </tr>
+            <tr>
+              <td>submodule 概念 4<br />两层提交</td>
+              <td>
+                <span class="badge b-warn">押 A</span
+                >「只推子仓库，便签自动跟随」<b class="bad">✗</b>
+              </td>
+              <td>
+                实测：主仓库 <code>M ui</code>、便签仍旧、同事
+                <code>comp.js</code> 仍 v1
+              </td>
+              <td>重置 <b>1d</b>（10-27）</td>
+            </tr>
+            <tr>
+              <td>submodule 概念 5<br />detached HEAD</td>
+              <td>
+                <span class="badge b-warn">押 A</span>「detached
+                里提交被拒绝」<b class="bad">✗</b>
+              </td>
+              <td>实测提交成功 35cd076、无分支认领、reflog 记走位</td>
+              <td>重置 <b>1d</b>（10-27）</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <h2>🔍 关键证据</h2>
+      <div class="card">
+        <div class="flag">
+          <b>① 删 worktree 后：对象还在</b>
+          <pre>
+git show 843061e            → 仍成功
+对象位置                     → repo/.git/objects/84/3061e5a…
+git worktree list           → 只剩一行，标 prunable</pre>
+        </div>
+        <div class="flag">
+          <b>② 只推子仓库后：便签不动</b>
+          <pre>
+主仓库 status               →  M ui
+便签                        → 2584eb4
+同事 pull 后                → HEAD 未动，comp.js 仍 v1
+补 add（主仓库）后便签       → 0a6ed07
+同事 update                 → 拿到 v2</pre>
+        </div>
+        <div class="flag">
+          <b>③ detached 提交后：无人认领</b>
+          <pre>
+detached 里 commit          → 35cd076 提交成功
+git branch --contains 35cd076 → 无分支
+再 git submodule update     → HEAD 回 0a6ed07
+git reflog                  → moving from 35cd076… to 0a6ed07…</pre>
+        </div>
+      </div>
+
+      <h2>🩺 三条翻车的共同病根</h2>
+      <div class="card">
+        <div class="flag2">
+          押注前把 git 想成<b>门卫</b>（会拦：detached
+          提交被拒）或<b>保姆</b>（会自愈：便签自动跟随、对象随目录消失），而它其实只是一本<b>只记账的账本</b>——对象活不活看<b>可达性</b>，便签改不改看你有没有
+          <code>add</code>。
+        </div>
+      </div>
+
+      <h2>⏭ 今日到期（顺延）</h2>
+      <div class="card">
+        <ul class="due">
+          <li><b>worktree 概念 1 复述</b>（引用 vs 签出）</li>
+          <li><b>submodule 概念 2</b>（160000 独立复述 + 方向判据）</li>
+        </ul>
+        <div class="flag2" style="margin-top: 12px">
+          疲劳段连续 3 次押错 → 按纪律收课，不恋战
+        </div>
+      </div>
+
+      <footer>下次开场 10-27，先清这两笔再进新内容。</footer>
+    </div>
+  </body>
+</html>
