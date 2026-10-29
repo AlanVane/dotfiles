@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma 复习战报 · 2026-10-30</title>
+    <style>
+      :root {
+        --bg: #0b0f10;
+        --surface: rgba(255, 255, 255, 0.035);
+        --border: rgba(255, 255, 255, 0.07);
+        --text: #e8edee;
+        --muted: rgba(255, 255, 255, 0.52);
+        --accent-1: #06b6d4;
+        --accent-2: #34d399;
+        --ok: #34d399;
+        --warn: #fbbf24;
+        --bad: #f87171;
+        --mono: "SF Mono", "JetBrains Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        background:
+          radial-gradient(
+            900px 500px at 15% -10%,
+            rgba(6, 182, 212, 0.14),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px 400px at 90% 10%,
+            rgba(52, 211, 153, 0.1),
+            transparent 60%
+          ),
+          var(--bg);
+        color: var(--text);
+        padding: 36px 16px 64px;
+        line-height: 1.65;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 25px;
+        letter-spacing: -0.4px;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+        margin: 6px 0 26px;
+        font-family: var(--mono);
+      }
+      h2 {
+        font-size: 15px;
+        color: var(--accent-1);
+        margin: 34px 0 12px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        backdrop-filter: blur(12px);
+      }
+      .stat .num {
+        font-family: var(--mono);
+        font-size: 22px;
+        font-weight: 600;
+      }
+      .stat .lbl {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .warn {
+        color: var(--warn);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px 18px;
+        backdrop-filter: blur(12px);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+        font-size: 14px;
+      }
+      .row:last-child {
+        border-bottom: 0;
+      }
+      .row .name {
+        flex: 0 0 150px;
+        font-weight: 600;
+      }
+      .bar {
+        flex: 1;
+        height: 7px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.07);
+        overflow: hidden;
+      }
+      .bar > i {
+        display: block;
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      }
+      .row .val {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+        flex: 0 0 92px;
+        text-align: right;
+      }
+      ul {
+        padding-left: 18px;
+        font-size: 14px;
+      }
+      li {
+        margin: 7px 0;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        background: rgba(255, 255, 255, 0.07);
+        padding: 1px 6px;
+        border-radius: 5px;
+      }
+      pre {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        background: rgba(0, 0, 0, 0.42);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent-1);
+        border-radius: 10px;
+        padding: 12px 14px;
+        overflow-x: auto;
+        color: #cfd8da;
+        margin: 10px 0;
+      }
+      .tag {
+        font-family: var(--mono);
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .quote {
+        border-left: 3px solid var(--accent-2);
+        padding: 2px 0 2px 12px;
+        margin: 10px 0;
+        color: #cfe9e1;
+        font-size: 14px;
+      }
+      .footer {
+        margin-top: 34px;
+        text-align: center;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>复习战报 · git submodule</h1>
+      <div class="sub">
+        2026-10-30 ｜ 4 笔全清（1 逾期补测）｜ 沙盘 /tmp/opencode/two-layer
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num ok">2</div>
+          <div class="lbl">间隔翻倍（概念 1、5）</div>
+        </div>
+        <div class="stat">
+          <div class="num warn">2</div>
+          <div class="lbl">押注首答翻车（概念 3、4）</div>
+        </div>
+        <div class="stat">
+          <div class="num ok">3</div>
+          <div class="lbl">机制追问零梯子命中</div>
+        </div>
+        <div class="stat">
+          <div class="num">0</div>
+          <div class="lbl">新增误解</div>
+        </div>
+      </div>
+
+      <h2>概念状态</h2>
+      <div class="card">
+        <div class="row">
+          <span class="name">1 指针模型</span>
+          <span class="bar"><i style="width: 90%"></i></span>
+          <span class="val">90% · 8d ✓</span>
+        </div>
+        <div class="row">
+          <span class="name">2 嵌套独立账本</span>
+          <span class="bar"><i style="width: 80%"></i></span>
+          <span class="val">80% · 2d</span>
+        </div>
+        <div class="row">
+          <span class="name">3 生命周期</span>
+          <span class="bar"><i style="width: 80%"></i></span>
+          <span class="val">80% · 1d ◐</span>
+        </div>
+        <div class="row">
+          <span class="name">4 两层提交流</span>
+          <span class="bar"><i style="width: 75%"></i></span>
+          <span class="val">75% · 1d ◐</span>
+        </div>
+        <div class="row">
+          <span class="name">5 detached / reflog</span>
+          <span class="bar"><i style="width: 85%"></i></span>
+          <span class="val">85% · 2d ✓</span>
+        </div>
+      </div>
+
+      <h2>本轮真正的发现：首答与机制是两条线</h2>
+      <div class="card">
+        <ul>
+          <li>
+            <b>概念 3</b>：裸 <code>git submodule update</code> →
+            押「会报错」✗。实测 <code>exit=0</code>、零输出。
+            但追问「它凭什么跳过」→ 「没登记 = 无事可做，顺利收工」✓。
+          </li>
+          <li>
+            <b>概念 4</b>：主仓库 push（便签指向未推的 SHA）→ 押「推不动、应先推
+            ui」✗。 追问「这个 commit 里关于 ui
+            存了什么」→「没有源码，只有锁定的 commit sha」✓。
+          </li>
+          <li>
+            <b>结论</b>：不是不懂，是<b>落选项前不建模</b>。
+            两步动作已定为纪律：先答「这一步 git
+            手里有什么／账在哪本」，再落选项。
+          </li>
+        </ul>
+      </div>
+
+      <h2>同一病根，两种翻车</h2>
+      <div class="card">
+        <div class="quote">「会报错」——把 git 当门卫，以为它会拦你。</div>
+        <div class="quote">
+          「推不动」——把两本账当一条依赖链，以为谁得等谁。
+        </div>
+        <ul>
+          <li>
+            两者都指向同一句：<b>git 只做它被要求做的那一件事</b>。
+            没登记就没有循环；push 只搬字符串——它不会替你想，也不会替你拦。
+          </li>
+        </ul>
+      </div>
+
+      <h2>实测留证</h2>
+      <pre>
+== 未 init 的克隆，裸 update：
+$ git submodule update
+exit=0            ← 零输出、零报错、ui 仍空、.git/modules 不存在
+
+== 补 --init 之后：
+已对路径 'ui' 注册 / 正克隆到 '.../ui' / 检出 '0a6ed07'
+ 0a6ed07 ui (heads/dev)        ← 前缀从 "-" 变空格，HEAD 是非分支
+
+== 主仓库 push（便签指向远端不存在的 cff0887）：
+$ git push origin HEAD:review1029
+ * [new branch]      HEAD -> review1029      exit=0   ← 只搬字符串
+
+== 同事 clone 后 update --init：
+致命错误：upload-pack: not our ref cff0887...
+致命错误：...没有包含 cff0887。直接获取该提交失败
+exit=128                                     ← 零静默降级，ui 只剩 .git</pre>
+
+      <h2>下次</h2>
+      <div class="card">
+        <ul>
+          <li><b>10-31</b>：概念 2（2d）、概念 3（1d）、概念 4（1d）。</li>
+          <li>
+            <b>11-01</b>：概念 5（2d）— 反向陷阱题：给一个「HEAD
+            指着它」的假锚点。
+          </li>
+          <li><b>11-07</b>：概念 1（8d）。</li>
+          <li><b>纪律</b>：所有押注题先说「账在哪本 / 手里有什么」，再选。</li>
+        </ul>
+      </div>
+
+      <div class="footer">
+        sigma · 账本 vs 实物 族谱：<span class="tag">归属</span>
+        <span class="tag">依赖</span> <span class="tag">锚点</span>
+        <span class="tag">门卫</span>
+      </div>
+    </div>
+  </body>
+</html>
