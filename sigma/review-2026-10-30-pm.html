@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma 复习战报 · 2026-10-30</title>
+    <style>
+      :root {
+        --bg: #0b0f10;
+        --surface: rgba(255, 255, 255, 0.035);
+        --border: rgba(255, 255, 255, 0.07);
+        --text: #e8edee;
+        --muted: rgba(255, 255, 255, 0.52);
+        --accent-1: #06b6d4;
+        --accent-2: #34d399;
+        --ok: #34d399;
+        --warn: #fbbf24;
+        --bad: #f87171;
+        --mono: "SF Mono", "JetBrains Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        background:
+          radial-gradient(
+            900px 500px at 15% -10%,
+            rgba(6, 182, 212, 0.14),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px 400px at 90% 10%,
+            rgba(52, 211, 153, 0.1),
+            transparent 60%
+          ),
+          var(--bg);
+        color: var(--text);
+        padding: 36px 16px 64px;
+        line-height: 1.65;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 25px;
+        letter-spacing: -0.4px;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+        margin: 6px 0 26px;
+        font-family: var(--mono);
+      }
+      h2 {
+        font-size: 15px;
+        color: var(--accent-1);
+        margin: 34px 0 12px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        backdrop-filter: blur(12px);
+      }
+      .stat .num {
+        font-family: var(--mono);
+        font-size: 22px;
+        font-weight: 600;
+      }
+      .stat .lbl {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .warn {
+        color: var(--warn);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px 18px;
+        backdrop-filter: blur(12px);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+        font-size: 14px;
+      }
+      .row:last-child {
+        border-bottom: 0;
+      }
+      .row .name {
+        flex: 0 0 150px;
+        font-weight: 600;
+      }
+      .bar {
+        flex: 1;
+        height: 7px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.07);
+        overflow: hidden;
+      }
+      .bar > i {
+        display: block;
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      }
+      .row .val {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+        flex: 0 0 92px;
+        text-align: right;
+      }
+      ul {
+        padding-left: 18px;
+        font-size: 14px;
+      }
+      li {
+        margin: 7px 0;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        background: rgba(255, 255, 255, 0.07);
+        padding: 1px 6px;
+        border-radius: 5px;
+      }
+      pre {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        background: rgba(0, 0, 0, 0.42);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent-1);
+        border-radius: 10px;
+        padding: 12px 14px;
+        overflow-x: auto;
+        color: #cfd8da;
+        margin: 10px 0;
+      }
+      .tag {
+        font-family: var(--mono);
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .quote {
+        border-left: 3px solid var(--accent-2);
+        padding: 2px 0 2px 12px;
+        margin: 10px 0;
+        color: #cfe9e1;
+        font-size: 14px;
+      }
+      .footer {
+        margin-top: 34px;
+        text-align: center;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>复习战报 · git submodule（下午场）</h1>
+      <div class="sub">
+        2026-10-30 PM ｜ 3 笔债提前清（原定 10-31）｜ 沙盘 /tmp/opencode/two-layer
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num ok">3/3</div>
+          <div class="lbl">债清完</div>
+        </div>
+        <div class="stat">
+          <div class="num ok">2</div>
+          <div class="lbl">依据+结论双给（概念 2、3）</div>
+        </div>
+        <div class="stat">
+          <div class="num warn">1</div>
+          <div class="lbl">依据靠梯子（概念 4）</div>
+        </div>
+        <div class="stat">
+          <div class="num">0</div>
+          <div class="lbl">新增误解</div>
+        </div>
+      </div>
+
+      <h2>概念状态</h2>
+      <div class="card">
+        <div class="row">
+          <span class="name">1 指针模型</span>
+          <span class="bar"><i style="width: 90%"></i></span>
+          <span class="val">90% · 8d ✓</span>
+        </div>
+        <div class="row">
+          <span class="name">2 嵌套独立账本</span>
+          <span class="bar"><i style="width: 85%"></i></span>
+          <span class="val">85% · 4d ✓</span>
+        </div>
+        <div class="row">
+          <span class="name">3 生命周期</span>
+          <span class="bar"><i style="width: 85%"></i></span>
+          <span class="val">85% · 2d ✓</span>
+        </div>
+        <div class="row">
+          <span class="name">4 两层提交流</span>
+          <span class="bar"><i style="width: 80%"></i></span>
+          <span class="val">80% · 2d ◐</span>
+        </div>
+        <div class="row">
+          <span class="name">5 detached / reflog</span>
+          <span class="bar"><i style="width: 85%"></i></span>
+          <span class="val">85% · 2d</span>
+        </div>
+      </div>
+
+      <h2>本轮真正的进展：押注首答终于建模了</h2>
+      <div class="card">
+        <ul>
+          <li>
+            <b>概念 2</b>：160000 装什么类型 → <code>commit</code> ✓；
+            追问「对象住哪儿 + 主仓库 cat-file 会怎样」→ 先给依据
+            「躺在 ui 对象库」再落「找不到对象」✓ — <b>依据与结论首次合成一条线</b>。
+          </li>
+          <li>
+            <b>概念 3</b>：<code>rm -rf ui</code> 后裸 update → 依据
+            「有注册配置 + 有对象库」→ 结论「会重新拿出来」✓。
+            <b>没有任何一格梯子</b>，10-30 凌晨的「会报错」门卫直觉未复发。
+          </li>
+          <li>
+            <b>概念 4</b>：本地 update（便签指 cff0887、远端没有）→ 押
+            <b>「成功」✓ 首次命中</b>（前两次都押「推不动」）；
+            但「为什么成功」答不上，靠两格梯子才落到「对象的<b>有/无</b>」。
+          </li>
+        </ul>
+      </div>
+
+      <h2>剩下的唯一缺口</h2>
+      <div class="card">
+        <div class="quote">
+          结论能押对，机制那句还得人扶——「对象的<b>有/无</b>」这一格，11-01 要零梯子自己吐出来。
+        </div>
+        <ul>
+          <li>
+            顺带钉死一句：<b>先推子仓库不是 push 的前置条件</b>，
+            它只是保证远端对象先到位的纪律。push 只搬字符串（exit=0 已两证）。
+          </li>
+          <li>
+            撞墙点永远在 <code>update</code> 取对象那一刻，因为那是唯一需要
+            <b>实物</b>的步骤。
+          </li>
+        </ul>
+      </div>
+
+      <h2>实测留证</h2>
+      <pre>
+== 概念 2：两层对象库对照
+主仓库  git cat-file -t cff0887  → 致命错误: Not a valid object name   exit=128
+子仓库  git cat-file -t cff0887  → commit                            exit=0
+主仓库  git cat-file -t HEAD     → commit    （证明命令/仓库本身正常）
+
+== 概念 3：删掉工作区，裸 update 复原（无 --init、无网络）
+$ rm -rf ui
+$ git submodule update
+子模组路径 'ui'：检出 '0a6ed07caddb349f624996e80582465fabce6c6a'   exit=0
+ 0a6ed07 ui (heads/dev)      ← 前缀空格（与便签一致）
+$ git status --short        → 空
+
+== 概念 4：本地有对象 vs 远端没对象
+dev-site 本地：ui HEAD 停在 cff0887 → 对象必在本地 → update 成功
+proof-1029 ：subsrc.git 无 cff0887 → 本地对象库无此物 → not our ref / exit 128</pre>
+
+      <h2>下次</h2>
+      <div class="card">
+        <ul>
+          <li><b>11-01</b>：概念 3（2d）、概念 4（2d）、概念 5（2d）。</li>
+          <li>
+            <b>概念 4 硬指标</b>：不给梯子，自己说出「那边<b>没有这个对象</b>」。
+          </li>
+          <li><b>11-03</b>：概念 2（4d）。</li>
+          <li><b>11-07</b>：概念 1（8d）。</li>
+        </ul>
+      </div>
+
+      <div class="footer">
+        Sigma · Bloom 2-Sigma · git submodule · 2026-10-30 PM
+      </div>
+    </div>
+  </body>
+</html>
