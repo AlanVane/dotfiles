@@ -63,7 +63,6 @@
     "disabled_agents": [],
     "companion": {
         "enabled": true,
-        "binaryPath": "$HOME/.config/opencode/bin/oh-my-opencode-slim-companion",
         "position": "bottom-right",
         "size": "medium",
         "gifPack": "default",
