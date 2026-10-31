@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma 路线图 · git hooks</title>
+    <style>
+      :root {
+        --bg: #0a0908;
+        --surface: rgba(255, 255, 255, 0.035);
+        --border: rgba(255, 255, 255, 0.07);
+        --text: #ece9e6;
+        --muted: rgba(255, 255, 255, 0.5);
+        --dim: rgba(255, 255, 255, 0.28);
+        --accent-1: #f59e0b;
+        --accent-2: #f43f5e;
+        --green: #34d399;
+        --mono: "SF Mono", "JetBrains Mono", monospace;
+        --mastered-pct: 0%;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        background:
+          radial-gradient(
+            900px 520px at 12% -8%,
+            rgba(245, 158, 11, 0.13),
+            transparent 60%
+          ),
+          radial-gradient(
+            760px 420px at 92% 4%,
+            rgba(244, 63, 94, 0.1),
+            transparent 62%
+          ),
+          var(--bg);
+        color: var(--text);
+        padding: 40px 16px 64px;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      h1 {
+        font-size: 26px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 12.5px;
+        font-family: var(--mono);
+        margin-top: 6px;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        border-radius: 999px;
+        padding: 3px 10px;
+      }
+      .ring {
+        position: relative;
+        width: 84px;
+        height: 84px;
+        flex: 0 0 84px;
+      }
+      .ring svg {
+        transform: rotate(-90deg);
+      }
+      .ring .pct {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font-family: var(--mono);
+        font-size: 15px;
+        color: var(--text);
+      }
+      h2 {
+        font-size: 12.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent-1);
+        margin: 36px 0 14px;
+      }
+      .timeline {
+        position: relative;
+        padding-left: 26px;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--accent-1) 0 var(--mastered-pct),
+          var(--border) var(--mastered-pct) 100%
+        );
+      }
+      .node {
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+        backdrop-filter: blur(12px);
+        transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .node::before {
+        content: "";
+        position: absolute;
+        left: -23px;
+        top: 22px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 2px solid var(--dim);
+      }
+      .node.active {
+        border-color: rgba(245, 158, 11, 0.45);
+        box-shadow:
+          0 0 0 1px rgba(245, 158, 11, 0.12),
+          0 12px 34px -18px rgba(245, 158, 11, 0.55);
+      }
+      .node.active::before {
+        border-color: var(--accent-1);
+        animation: pulse 2s infinite ease-in-out;
+      }
+      .node.mastered::before {
+        border-color: var(--green);
+        background: var(--green);
+      }
+      .node.mastered {
+        border-color: rgba(52, 211, 153, 0.3);
+      }
+      .node.upcoming {
+        opacity: 0.5;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.45);
+        }
+        50% {
+          box-shadow: 0 0 0 7px rgba(245, 158, 11, 0);
+        }
+      }
+      .node .top {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .node .idx {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--dim);
+      }
+      .node .name {
+        font-size: 14.5px;
+        font-weight: 600;
+      }
+      .badge {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .badge.now {
+        color: var(--accent-1);
+        border-color: rgba(245, 158, 11, 0.4);
+        background: rgba(245, 158, 11, 0.08);
+      }
+      .badge.done {
+        color: var(--green);
+        border-color: rgba(52, 211, 153, 0.35);
+        background: rgba(52, 211, 153, 0.08);
+      }
+      .node p {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      .bar {
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        margin-top: 10px;
+        overflow: hidden;
+      }
+      .bar span {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .deps {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        color: var(--dim);
+        margin-top: 6px;
+      }
+      footer {
+        margin-top: 30px;
+        border-top: 1px solid var(--border);
+        padding-top: 16px;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--dim);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      @media (max-width: 480px) {
+        header {
+          align-items: flex-start;
+        }
+        .ring {
+          width: 64px;
+          height: 64px;
+          flex-basis: 64px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>git hooks · 钩子</h1>
+          <div class="sub">Sigma · Bloom 2-Sigma · 2026-10-31</div>
+          <div class="chips">
+            <span class="chip">6 concepts</span>
+            <span class="chip">6 mastered</span>
+            <span class="chip">诊断：仅概念层听过</span>
+          </div>
+        </div>
+        <div class="ring">
+          <svg width="84" height="84" viewBox="0 0 84 84">
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#f43f5e" />
+              </linearGradient>
+            </defs>
+            <circle
+              cx="42"
+              cy="42"
+              r="36"
+              stroke="rgba(255,255,255,0.07)"
+              stroke-width="6"
+              fill="none"
+            />
+            <circle
+              cx="42"
+              cy="42"
+              r="36"
+              stroke="url(#gradient)"
+              stroke-width="6"
+              fill="none"
+              stroke-linecap="round"
+              stroke-dasharray="226"
+              stroke-dashoffset="0"
+            />
+          </svg>
+          <div class="pct">100%</div>
+        </div>
+      </header>
+
+      <h2>学习路径</h2>
+      <div class="timeline" style="--mastered-pct: 100%">
+        <div class="node mastered">
+          <div class="top">
+            <span class="idx">01</span>
+            <span class="name">钩子模型：谁在做决定</span>
+            <span class="badge done">掌握 85%</span>
+          </div>
+          <p>
+            git 在固定时点执行你本机的脚本，只看退出码：0 放行，非 0
+            拦下。钩子的权力不是 git 内建的，是你写的。
+          </p>
+          <div class="deps">prereq: —</div>
+          <div class="bar"><span style="width: 85%"></span></div>
+        </div>
+
+        <div class="node mastered">
+          <div class="top">
+            <span class="idx">02</span>
+            <span class="name">清单与时序：pre 能拦，post 只能看</span>
+            <span class="badge done">掌握 85%</span>
+          </div>
+          <p>
+            客户端 /
+            服务端两栏；每个钩子卡在账本的哪一步之前或之后，能改什么、不能改什么。
+          </p>
+          <div class="deps">prereq: 01</div>
+          <div class="bar"><span style="width: 85%"></span></div>
+        </div>
+
+        <div class="node mastered">
+          <div class="top">
+            <span class="idx">03</span>
+            <span class="name">存放与分享：hook 是你本机的物件</span>
+            <span class="badge done">掌握 90%</span>
+          </div>
+          <p>
+            .git/hooks 不入库、不随 clone 走；.sample 只是样品。同事 clone
+            后拿不到你的钩子。
+          </p>
+          <div class="deps">prereq: 01</div>
+          <div class="bar"><span style="width: 90%"></span></div>
+        </div>
+
+        <div class="node mastered">
+          <div class="top">
+            <span class="idx">04</span>
+            <span class="name">工程化：core.hooksPath</span>
+            <span class="badge done">掌握 85%</span>
+          </div>
+          <p>
+            把钩子搬进受版本管理的目录，husky / lefthook
+            的本质就是这一步加一层封装。
+          </p>
+          <div class="deps">prereq: 03</div>
+          <div class="bar"><span style="width: 85%"></span></div>
+        </div>
+
+        <div class="node mastered">
+          <div class="top">
+            <span class="idx">05</span>
+            <span class="name">执行环境与踩坑</span>
+            <span class="badge done">掌握 85%</span>
+          </div>
+          <p>
+            cwd、在钩子里调 git、改 index 的坑、--no-verify、pre-push 的 stdin
+            协议。
+          </p>
+          <div class="deps">prereq: 01, 02</div>
+          <div class="bar"><span style="width: 85%"></span></div>
+        </div>
+
+        <div class="node mastered">
+          <div class="top">
+            <span class="idx">06</span>
+            <span class="name">实战：挡调试语句 + 校验提交信息</span>
+            <span class="badge done">掌握 85%</span>
+          </div>
+          <p>
+            写 pre-commit 挡 console.log / debugger，写 commit-msg
+            校验格式，跑通拦截、放行、绕过三条路径。
+          </p>
+          <div class="deps">prereq: 02, 04, 05</div>
+          <div class="bar"><span style="width: 85%"></span></div>
+        </div>
+      </div>
+
+      <footer>
+        <span>overall 0 / 6 mastered</span>
+        <span>下次复习：11-01（submodule 概念 3/4/5）</span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma 结课 · git hooks</title>
+    <style>
+      :root {
+        --bg: #0a0908;
+        --surface: rgba(255, 255, 255, 0.035);
+        --border: rgba(255, 255, 255, 0.07);
+        --text: #ece9e6;
+        --muted: rgba(255, 255, 255, 0.52);
+        --dim: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #f43f5e;
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --mono: "SF Mono", "JetBrains Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        background:
+          radial-gradient(
+            900px 520px at 12% -8%,
+            rgba(245, 158, 11, 0.13),
+            transparent 60%
+          ),
+          radial-gradient(
+            760px 420px at 92% 4%,
+            rgba(244, 63, 94, 0.1),
+            transparent 62%
+          ),
+          var(--bg);
+        color: var(--text);
+        padding: 40px 16px 64px;
+        line-height: 1.65;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 26px;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 12.5px;
+        font-family: var(--mono);
+        margin-top: 6px;
+      }
+      .badge {
+        display: inline-block;
+        margin-top: 14px;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--green);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        background: rgba(52, 211, 153, 0.08);
+        border-radius: 999px;
+        padding: 3px 12px;
+      }
+      h2 {
+        font-size: 12.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent-1);
+        margin: 34px 0 12px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        backdrop-filter: blur(12px);
+      }
+      .stat .num {
+        font-family: var(--mono);
+        font-size: 22px;
+        font-weight: 600;
+      }
+      .stat .lbl {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px 18px;
+        backdrop-filter: blur(12px);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+        font-size: 14px;
+      }
+      .row:last-child {
+        border-bottom: 0;
+      }
+      .row .name {
+        flex: 0 0 190px;
+      }
+      .row .track {
+        flex: 1;
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.07);
+        overflow: hidden;
+      }
+      .row .fill {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      }
+      .row .pct {
+        flex: 0 0 42px;
+        text-align: right;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      ul {
+        list-style: none;
+      }
+      li {
+        position: relative;
+        padding: 7px 0 7px 18px;
+        font-size: 13.5px;
+        color: var(--muted);
+      }
+      li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: var(--accent-1);
+        font-size: 11px;
+        top: 9px;
+      }
+      li b {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .warn li::before {
+        content: "!";
+        color: var(--amber);
+        font-weight: 700;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.92em;
+        background: rgba(255, 255, 255, 0.06);
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+      footer {
+        margin-top: 36px;
+        border-top: 1px solid var(--border);
+        padding-top: 16px;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--dim);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      @media (max-width: 480px) {
+        .row .name {
+          flex-basis: 130px;
+          font-size: 13px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>git hooks · 结课</h1>
+      <div class="sub">2026-10-31 · Bloom 2-Sigma · 6/6 mastered</div>
+      <span class="badge">全课收官 · 均分 86%</span>
+
+      <h2>数据</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="num">6 / 6</div>
+          <div class="lbl">概念掌握</div>
+        </div>
+        <div class="stat">
+          <div class="num">86%</div>
+          <div class="lbl">平均分</div>
+        </div>
+        <div class="stat">
+          <div class="num">1</div>
+          <div class="lbl">新增误解（待换形）</div>
+        </div>
+        <div class="stat">
+          <div class="num">1 天</div>
+          <div class="lbl">从诊断到结课</div>
+        </div>
+      </div>
+
+      <h2>概念评分</h2>
+      <div class="card">
+        <div class="row">
+          <span class="name">01 谁在做决定</span>
+          <span class="track"
+            ><span class="fill" style="width: 85%"></span
+          ></span>
+          <span class="pct">85%</span>
+        </div>
+        <div class="row">
+          <span class="name">02 清单与时序</span>
+          <span class="track"
+            ><span class="fill" style="width: 85%"></span
+          ></span>
+          <span class="pct">85%</span>
+        </div>
+        <div class="row">
+          <span class="name">03 本机物件</span>
+          <span class="track"
+            ><span class="fill" style="width: 90%"></span
+          ></span>
+          <span class="pct">90%</span>
+        </div>
+        <div class="row">
+          <span class="name">04 core.hooksPath</span>
+          <span class="track"
+            ><span class="fill" style="width: 85%"></span
+          ></span>
+          <span class="pct">85%</span>
+        </div>
+        <div class="row">
+          <span class="name">05 执行环境与坑</span>
+          <span class="track"
+            ><span class="fill" style="width: 85%"></span
+          ></span>
+          <span class="pct">85%</span>
+        </div>
+        <div class="row">
+          <span class="name">06 实战</span>
+          <span class="track"
+            ><span class="fill" style="width: 85%"></span
+          ></span>
+          <span class="pct">85%</span>
+        </div>
+      </div>
+
+      <h2>你自己说出来的六条</h2>
+      <div class="card">
+        <ul>
+          <li>
+            hook 的权力来自<b>你写的退出码</b>，git
+            只是执行者；打印什么不影响判决。
+          </li>
+          <li>
+            <b>pre- 能拦，post- 只能看</b>：<code>post-commit</code> 里
+            <code>exit 1</code> 时账已经记完。
+          </li>
+          <li>
+            <code>commit-msg</code>
+            是唯一能碰消息的关卡，它拿到的是消息文件路径。
+          </li>
+          <li>
+            hook <b>不在任何一本账上</b>——不在对象库、不在引用、不在工作区，所以
+            clone 带不走它。
+          </li>
+          <li>
+            <code>core.hooksPath</code> 只解决「内容不漂」，那行 config
+            仍要每人一次；husky 用 <code>npm prepare</code> 补后半。
+          </li>
+          <li>
+            本地永远有缺口（不装依赖 / 不跑脚本 / <code>--no-verify</code>），<b
+              >只有服务端 pre-receive 是强制</b
+            >。
+          </li>
+        </ul>
+      </div>
+
+      <h2>要点：钩子的真实位置</h2>
+      <div class="card">
+        <ul>
+          <li>
+            git
+            不查账本找钩子，只<b>按固定路径看一眼</b>：有可执行文件就跑，没有就跳过（提示是贴心，不是关卡）。
+          </li>
+          <li>
+            钩子的 cwd 永远是<b>仓库根</b>，跟你敲命令时在哪个子目录无关。
+          </li>
+          <li>
+            提交对象生成前 index 仍可改，所以「格式化 +
+            <code>git add</code>」能进这次提交——忘了 add 就提交旧版本。
+          </li>
+        </ul>
+      </div>
+
+      <h2>留的尾巴</h2>
+      <div class="card warn">
+        <ul>
+          <li>
+            <b>误解 #1（待换形）</b>：以为 hook 没执行位时 git
+            会报错拦你——实测是「提示 + 放行」，且提示可关。
+          </li>
+          <li>
+            <b>新变体</b>：把 husky
+            当强制。首答「存在即生效」，靠与前两答对账自破。
+          </li>
+          <li>
+            <b>标签弱项</b>：<code>commit-msg</code> 与
+            <code>pre-receive</code> 混过一次（客户端 / 服务端），与 submodule
+            的 160000 同型。
+          </li>
+          <li>
+            未覆盖：<code>pre-push</code> 的 stdin 协议、服务端
+            <code>update</code> 逐 ref 调用。
+          </li>
+        </ul>
+      </div>
+
+      <h2>复习与下一步</h2>
+      <div class="card">
+        <ul>
+          <li>
+            <b>11-01</b>（9 笔到期，取 5）：submodule 3/4/5（含硬指标：概念 4
+            零梯子说出「那边没有这个对象」）+ hooks
+            1/2（无执行位换形、路径约定）。
+          </li>
+          <li><b>11-02</b>：hooks 3-6。</li>
+          <li>
+            <b>11-03</b>：submodule 2（4d）；<b>11-07</b>：submodule 1（8d）。
+          </li>
+          <li>
+            可选下一课：git 内部结构（objects/refs/index）——hooks
+            这课已经证明「账本 vs 实物」这条线能一次讲透，内部结构是它的终点站。
+          </li>
+        </ul>
+      </div>
+
+      <footer>
+        <span>Sigma · Bloom 2-Sigma · 2026-10-31</span>
+        <span>roadmap.html · session.md</span>
+      </footer>
+    </div>
+  </body>
+</html>
