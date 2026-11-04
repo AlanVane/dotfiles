@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gh CLI · 第一次课总结</title>
+    <style>
+      :root {
+        --bg: #08080c;
+        --surface: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.07);
+        --text: #ededef;
+        --text-2: rgba(255, 255, 255, 0.55);
+        --text-3: rgba(255, 255, 255, 0.3);
+        --accent-1: #f59e0b;
+        --accent-2: #f43f5e;
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+        --sans: -apple-system, "Inter", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 48px 20px 80px;
+        background:
+          radial-gradient(
+            900px 500px at 10% -10%,
+            rgba(245, 158, 11, 0.12),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px 400px at 100% 0%,
+            rgba(244, 63, 94, 0.1),
+            transparent 55%
+          ),
+          var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        line-height: 1.65;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      header {
+        margin-bottom: 36px;
+      }
+      .kicker {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent-1);
+      }
+      h1 {
+        font-size: clamp(1.7rem, 5vw, 2.4rem);
+        margin: 8px 0 6px;
+        letter-spacing: -0.02em;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub {
+        color: var(--text-2);
+        font-size: 0.9rem;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin: 28px 0 36px;
+      }
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px 14px;
+        backdrop-filter: blur(12px);
+      }
+      .stat b {
+        display: block;
+        font-size: 1.35rem;
+        font-family: var(--mono);
+      }
+      .stat span {
+        font-size: 0.72rem;
+        color: var(--text-3);
+      }
+      h2 {
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin: 34px 0 14px;
+        font-weight: 600;
+      }
+      .concept {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 10px;
+      }
+      .concept .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: baseline;
+      }
+      .concept .name {
+        font-size: 0.92rem;
+      }
+      .concept .pct {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--accent-1);
+      }
+      .concept .pct.todo {
+        color: var(--text-3);
+      }
+      .track {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 999px;
+        margin-top: 10px;
+        overflow: hidden;
+      }
+      .track > i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      }
+      .insight {
+        border-left: 2px solid var(--accent-1);
+        background: rgba(245, 158, 11, 0.05);
+        padding: 10px 14px;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 10px;
+        font-size: 0.88rem;
+        color: var(--text-2);
+      }
+      .insight b {
+        color: var(--text);
+        font-weight: 600;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.82em;
+        background: rgba(255, 255, 255, 0.06);
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+      footer {
+        margin-top: 44px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        color: var(--text-3);
+        font-size: 0.78rem;
+      }
+      @media (max-width: 560px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="kicker">Sigma · Bloom 2-Sigma</div>
+        <h1>gh CLI · 第一次课</h1>
+        <div class="sub">2026-11-04 · 4 / 8 概念 · 均分 85%</div>
+      </header>
+
+      <div class="stats">
+        <div class="stat"><b>4/8</b><span>概念通关</span></div>
+        <div class="stat"><b>85%</b><span>平均掌握</span></div>
+        <div class="stat"><b>1</b><span>误解当日关闭</span></div>
+        <div class="stat"><b>3</b><span>实践关</span></div>
+      </div>
+
+      <h2>概念进度</h2>
+      <div class="concept">
+        <div class="row">
+          <span class="name">01 心智模型：gh 是 API 客户端</span
+          ><span class="pct">85%</span>
+        </div>
+        <div class="track"><i style="width: 85%"></i></div>
+      </div>
+      <div class="concept">
+        <div class="row">
+          <span class="name">02 认证与凭据</span><span class="pct">85%</span>
+        </div>
+        <div class="track"><i style="width: 85%"></i></div>
+      </div>
+      <div class="concept">
+        <div class="row">
+          <span class="name">03 仓库与远程：origin / upstream</span
+          ><span class="pct">85%</span>
+        </div>
+        <div class="track"><i style="width: 85%"></i></div>
+      </div>
+      <div class="concept">
+        <div class="row">
+          <span class="name">04 PR 全流程</span><span class="pct">85%</span>
+        </div>
+        <div class="track"><i style="width: 85%"></i></div>
+      </div>
+      <div class="concept">
+        <div class="row">
+          <span class="name">05 PR 本地侧（checkout / diff / review）</span
+          ><span class="pct todo">未开</span>
+        </div>
+        <div class="track"><i style="width: 0%"></i></div>
+      </div>
+      <div class="concept">
+        <div class="row">
+          <span class="name">06 Issue → 分支 → PR</span
+          ><span class="pct todo">未开</span>
+        </div>
+        <div class="track"><i style="width: 0%"></i></div>
+      </div>
+      <div class="concept">
+        <div class="row">
+          <span class="name">07 Actions / CI</span
+          ><span class="pct todo">未开</span>
+        </div>
+        <div class="track"><i style="width: 0%"></i></div>
+      </div>
+      <div class="concept">
+        <div class="row">
+          <span class="name">08 gh api / 别名 / 脚本</span
+          ><span class="pct todo">未开</span>
+        </div>
+        <div class="track"><i style="width: 0%"></i></div>
+      </div>
+
+      <h2>本课立住的模型</h2>
+      <div class="insight">
+        <b>PR 是服务器上的记录，不是补丁包。</b>记录里只有 head/base
+        两个端点（ref + SHA）； 页面 diff 是 GitHub 拿两个 SHA 现算的。改
+        base、往 head 再 push，diff 自动变。
+      </div>
+      <div class="insight">
+        <b>git 主动执行 credential helper。</b><code>gh auth setup-git</code> 把
+        <code>!/usr/bin/gh auth git-credential</code> 写进 git 配置；git
+        要密码时调用它， 它把 gh 存的 token 当密码交出去。
+      </div>
+      <div class="insight">
+        <b>私有仓库的 404 是在掩盖 403。</b>没权限时 GitHub 不暴露仓库是否存在，
+        防止无权限者枚举私有仓库。
+      </div>
+      <div class="insight">
+        <b>跨 fork 的 PR head 要写 <code>owner:branch</code>。</b>只写分支名，
+        服务器认不出是一百个同名分支里的哪一个。
+      </div>
+      <div class="insight">
+        <b>各自绿 ≠ 合起来绿。</b>A 改名、B
+        新增旧名调用，两边单独跑都过，合并才炸（语义冲突）。 「Require branches
+        to be up to date」就是逼你先 <code>main → feature</code> 再重跑 checks。
+      </div>
+      <div class="insight">
+        <b>squash vs rebase。</b>都要线性历史：功能只留一笔用
+        <code>--squash</code>， 每笔 commit 都有意义（利于 bisect）用
+        <code>--rebase</code>。
+      </div>
+
+      <h2>下一步</h2>
+      <div class="insight">
+        11-05 复习概念 1-4（间隔 1d）；接着开 <b>概念 5：PR 本地侧</b> （<code
+          >gh pr checkout</code
+        >
+        / <code>diff</code> / review），再走一遍真实沙盘 PR。
+      </div>
+
+      <footer>
+        会话记录：<code>sigma/gh-cli/session.md</code> · 路线图：<code
+          >roadmap.html</code
+        >
+      </footer>
+    </div>
+  </body>
+</html>
