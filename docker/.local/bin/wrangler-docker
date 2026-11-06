@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Docker CLI wrapper used by wrangler container builds (WRANGLER_DOCKER_BIN).
+#
+# Why: build containers on this host have no direct egress; traffic must go
+# through the local proxy, but the docker CLI does not forward proxy settings
+# to `docker build`. This injects the proxy from ~/.docker/config.json as build
+# args, rewriting loopback addresses to the docker bridge gateway so they are
+# reachable from inside the build container.
+set -euo pipefail
+
+REAL_DOCKER="${REAL_DOCKER:-/usr/bin/docker}"
+CONFIG="${DOCKER_CONFIG:-$HOME/.docker}/config.json"
+
+# Only touch build invocations; pass everything else straight through.
+if [[ "${1:-}" != "build" ]]; then
+  exec "$REAL_DOCKER" "$@"
+fi
+
+config_value() {
+  [[ -f "$CONFIG" ]] || return 0
+  sed -n 's/.*"'"$1"'"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$CONFIG" | head -n 1
+}
+
+gateway="$("$REAL_DOCKER" network inspect bridge --format '{{range .IPAM.Config}}{{.Gateway}}{{end}}' 2>/dev/null || true)"
+gateway="${gateway:-172.17.0.1}"
+
+reachable() {
+  local value="${1/127.0.0.1/$gateway}"
+  printf '%s' "${value/localhost/$gateway}"
+}
+
+http_proxy="$(config_value http-proxy)"
+https_proxy="$(config_value https-proxy)"
+no_proxy="$(config_value no-proxy)"
+
+if [[ -z "$http_proxy" && -z "$https_proxy" ]]; then
+  exec "$REAL_DOCKER" "$@"
+fi
+
+extra=()
+if [[ -n "$http_proxy" ]]; then
+  extra+=(--build-arg "HTTP_PROXY=$(reachable "$http_proxy")" --build-arg "http_proxy=$(reachable "$http_proxy")")
+fi
+if [[ -n "$https_proxy" ]]; then
+  extra+=(--build-arg "HTTPS_PROXY=$(reachable "$https_proxy")" --build-arg "https_proxy=$(reachable "$https_proxy")")
+fi
+if [[ -n "$no_proxy" ]]; then
+  extra+=(--build-arg "NO_PROXY=$no_proxy" --build-arg "no_proxy=$no_proxy")
+fi
+
+exec "$REAL_DOCKER" build "${extra[@]}" "${@:2}"

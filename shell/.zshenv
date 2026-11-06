@@ -255,6 +255,12 @@ export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
 export OPENCODE_ENABLE_EXA=1
 # <<< oh-my-opencode-slim background subagents <<<
 
+#################
+# Cloudflare    #
+#################
+
+export WRANGLER_DOCKER_BIN="$HOME/.local/bin/wrangler-docker"
+
 # ripgrep
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/.ripgreprc
 
