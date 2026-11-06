@@ -32,22 +32,19 @@
         "opencode-go": {
             "orchestrator": {
                 "model": "opencode/gpt-6.1-sol",
-                "variant": "max",
+                "variant": "high",
                 "skills": ["*"]
             },
             "oracle": {
                 "model": "opencode-go/glm-5.3",
-                "variant": "max",
                 "skills": ["simplify"]
             },
             "explorer": {
-                "model": "opencode/deepseek-v4.1-flash-free",
-                "variant": "max",
+                "model": "opencode-go/deepseek-v4.1-flash",
                 "skills": []
             },
             "designer": {
                 "model": "google/gemini-3.8-flash",
-                "variant": "high",
                 "skills": []
             },
             "fixer": {
@@ -55,7 +52,7 @@
                 "skills": []
             },
             "observer": {
-                "model": "opencode/mimo-v2.6-flash-free",
+                "model": "opencode-go/mimo-v2.6-flash",
                 "skills": []
             }
         }
