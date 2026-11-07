@@ -44,7 +44,7 @@
                 "skills": []
             },
             "designer": {
-                "model": "google/gemini-3.8-flash",
+                "model": "opencode-go/gemini-3.8-flash",
                 "skills": []
             },
             "fixer": {

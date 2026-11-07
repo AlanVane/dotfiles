@@ -1,9 +1,24 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "plugins": [
-    "oh-my-opencode-slim",
-    "opencode-tokenwatch",
-    "opencode-wakatime"
-  ],
-  "lsp": true
+    "$schema": "https://opencode.ai/config.json",
+    "lsp": true,
+    "experimental": {
+        "subagent_depth": 2
+    },
+    "plugins": [
+        "oh-my-opencode-slim",
+        "opencode-tokenwatch",
+        "opencode-wakatime"
+    ],
+    "mcp": {
+        "anysearch": {
+            "type": "remote",
+            "url": "https://api.anysearch.com/mcp",
+            "enabled": true,
+            "oauth": false,
+            "headers": {
+                "Authorization": "Bearer {file:~/.config/opencode/secrets/anysearch.key}",
+                "X-Anysearch-Client": "mcp/1.0.0"
+            }
+        }
+    }
 }
