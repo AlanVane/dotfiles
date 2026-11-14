@@ -31,8 +31,8 @@
         },
         "opencode-go": {
             "orchestrator": {
-                "model": "opencode/gpt-6.1-sol",
-                "variant": "high",
+                "model": "opencode-go/claude-haiku-5-5",
+                "variant": "max",
                 "skills": ["*"]
             },
             "oracle": {
@@ -44,11 +44,12 @@
                 "skills": []
             },
             "designer": {
-                "model": "opencode-go/gemini-3.8-flash",
+                "model": "google/gemini-3.8-flash",
+                "variant": "high",
                 "skills": []
             },
             "fixer": {
-                "model": "opencode-go/mimo-v2.6-pro",
+                "model": "opencode-go/deepseek-v4.1-flash",
                 "skills": []
             },
             "observer": {
